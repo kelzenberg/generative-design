@@ -1,26 +1,31 @@
 function setup() {
   createCanvas(500, 500);
+  pixelDensity(1);
   console.log(`Canvas: ${width} x ${height}`);
 }
 
 let inc = 0.01;
-let start = 0;
 
 function draw() {
-  background(64);
-  stroke(255);
-  noFill();
+  let yOff = 0;
+  loadPixels();
 
-  let xOff = start;
+  for (let y = 0; y < height; y++) {
+    let xOff = 0;
 
-  beginShape();
-  for (let x = 0; x < width; x++) {
-    let y = noise(xOff) * height;
-    vertex(x, y);
+    for (let x = 0; x < width; x++) {
+      let index = (x + y * width) * 4;
+      let rand = noise(xOff, yOff) * 255;
+      pixels[index] = rand;
+      pixels[index + 1] = rand;
+      pixels[index + 2] = rand;
+      pixels[index + 3] = 255;
 
-    xOff += inc;
+      xOff += inc;
+    }
+    yOff += inc;
   }
-  endShape();
 
-  start += inc;
+  updatePixels();
+  // noLoop();
 }
