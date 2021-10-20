@@ -1,20 +1,26 @@
 function setup() {
   createCanvas(500, 500);
   console.log(`Canvas: ${width} x ${height}`);
-
-  noStroke();
 }
 
-let xOff1 = 0;
-let xOff2 = 10000;
-let yOff = 0;
+let inc = 0.01;
+let start = 0;
 
 function draw() {
   background(64);
-  const x = map(noise(xOff1), 0, 1, 0, width);
-  const y = map(noise(xOff2), 0, 1, 0, height);
-  xOff1 += 0.01;
-  xOff2 += 0.01;
+  stroke(255);
+  noFill();
 
-  ellipse(x, y, 24, 24);
+  let xOff = start;
+
+  beginShape();
+  for (let x = 0; x < width; x++) {
+    let y = noise(xOff) * height;
+    vertex(x, y);
+
+    xOff += inc;
+  }
+  endShape();
+
+  start += inc;
 }
