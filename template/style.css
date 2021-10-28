@@ -4,6 +4,15 @@ body {
   padding: 0;
 }
 
+main {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  resize: vertical;
+  overflow: auto;
+}
+
 canvas {
   display: block;
   margin: auto;
