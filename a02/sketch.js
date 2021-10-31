@@ -15,11 +15,12 @@ let particles = new Array(particleAmount).fill(null);
 // eslint-disable-next-line no-unused-vars
 function setup() {
   createCanvas(cWidth, cHeight);
+  // createCanvas(windowWidth, windowHeight);
   console.log(`Canvas: ${width} x ${height}`);
   pixelDensity(1);
   noiseDetail(64);
   colorMode(HSB, 255);
-  background(255);
+  background(12);
 
   particles = particles.map(() => new Particle(particleMaxSpeed, particleThickness));
 }
