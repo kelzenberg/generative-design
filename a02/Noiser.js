@@ -1,6 +1,4 @@
-// const gradientValue = ({ val, max = Math.min(width, height), inv = false }) =>
-// inv ? map(val, 0, max, 255, 0) : map(val, 0, max, 0, 255);
-
+// eslint-disable-next-line no-unused-vars
 class Noiser {
   constructor(image, transparency, increment) {
     this.img = image;
