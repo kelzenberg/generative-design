@@ -1,0 +1,25 @@
+{
+  "name": "generative-design",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "a01": "live-server ./a01",
+    "a02": "live-server ./a02"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kelzenberg/generative-design.git"
+  },
+  "author": "Steffen Ansorge <kelzenberg@users.noreply.github.com>",
+  "bugs": {
+    "url": "https://github.com/kelzenberg/generative-design/issues"
+  },
+  "homepage": "https://github.com/kelzenberg/generative-design#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1"
+  }
+}
