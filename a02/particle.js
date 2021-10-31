@@ -12,8 +12,8 @@ function Particle() {
     this.accel.mult(0); // reset acceleration to 0
   };
 
-  this.applyForce = function (force) {
-    this.accel.add(force);
+  this.applyForce = function (vector) {
+    this.accel.add(vector);
   };
 
   this.follow = function (vectors, scale, cols) {
@@ -25,6 +25,7 @@ function Particle() {
 
   this.show = function () {
     stroke(0);
+    strokeWeight(2);
     point(this.pos.x, this.pos.y);
   };
 

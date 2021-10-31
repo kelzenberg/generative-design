@@ -1,14 +1,16 @@
-const cWidth = 200;
-const cHeight = 200;
-const inc = 0.1;
-const scale = 10;
+const cWidth = 200; // canvas width
+const cHeight = 200; // canvas height
+const inc = 0.08; // how often the noise field should update ~[0.01 - 0.8]
+const scale = 10; // length of each vector ~[4 - 20]
+const strength = 0.1; // "gravitational" force of the vectors on dots ~[0.01 - 10]
+const chaosFactor = 1; // the higher, the more inconsistent the vector angles get ~[0.1 - 4]
+const particleAmount = 200; // amounts of particles on the canvas
 let cols, rows;
+let flowfield;
+let zOff = 0;
 let fr;
 
 const particles = [];
-const particleAmount = 100;
-
-let flowfield;
 
 // eslint-disable-next-line no-unused-vars
 function setup() {
@@ -32,19 +34,18 @@ function draw() {
   background(255);
 
   let yOff = 0;
-  let zOff = 0;
   for (let y = 0; y < rows; y++) {
     let xOff = 0;
 
     for (let x = 0; x < cols; x++) {
       const index = x + y * cols;
-      let angle = noise(xOff, yOff, zOff) * TWO_PI;
+      let angle = noise(xOff, yOff, zOff) * TWO_PI * chaosFactor;
       const vector = p5.Vector.fromAngle(angle);
-      vector.setMag(0.01);
+      vector.setMag(strength);
       flowfield[index] = vector;
       xOff += inc;
 
-      stroke(0, 100);
+      stroke(0, 50);
       strokeWeight(1);
 
       push();
@@ -55,13 +56,12 @@ function draw() {
     }
 
     yOff += inc;
-    zOff += inc / 10.0;
+    zOff += inc / 100.0;
   }
 
-  strokeWeight(2);
   particles.map(particle => {
-    particle.update();
     particle.follow(flowfield, scale, cols);
+    particle.update();
     particle.edges();
     particle.show();
   });
