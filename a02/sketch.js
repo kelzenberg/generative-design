@@ -1,15 +1,14 @@
 const cWidth = 500; // canvas width
 const cHeight = 500; // canvas height
 const inc = 0.08; // how often the noise field should update ~[0.01 - 0.8]
-const scale = 5; // length of each vector ~[4 - 20]
-const strength = 1; // "gravitational" force of the vectors on dots ~[0.01 - 10]
+const scale = 5; // flow field scaling aka. length of each vector (1 = native pixel resolution, 10 = 1/10 of native pixel resolution) ~[3 - 20]
+const strength = 0.5; // "gravitational" force of the vectors on dots ~[0.01 - 10]
 const chaosFactor = 1; // the higher, the more inconsistent the vector angles get ~[0.1 - 4]
 const particleAmount = 500; // amounts of particles on the canvas
-const particleMaxSpeed = 4; // maximum particle travel speed ~[1- 10]
+const particleMaxSpeed = 7; // maximum particle travel speed ~[1- 10]
 let cols, rows;
 let flowfield;
 let zOff = 0;
-let fr;
 
 const particles = [];
 
@@ -22,7 +21,7 @@ function setup() {
 
   cols = floor(width / scale);
   rows = floor(height / scale);
-  fr = createP('');
+  console.log(`Cells: ${cols * rows} (${cols} cols x ${rows} rows)`);
 
   flowfield = new Array(cols * rows);
 
@@ -31,6 +30,15 @@ function setup() {
   }
 
   background(255);
+}
+
+function drawFrameRate() {
+  textSize(24);
+  fill('white');
+  noStroke();
+  rect(10, height - 30, 27, 23);
+  fill('black');
+  text(frameRate().toFixed(), 10, height - 10);
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -68,5 +76,5 @@ function draw() {
     particle.show();
   });
 
-  fr.html('Framerate: ' + floor(frameRate()));
+  drawFrameRate();
 }
