@@ -1,10 +1,12 @@
 // eslint-disable-next-line no-unused-vars
-function Particle(maxSpeed) {
+function Particle(maxSpeed, thickness) {
   this.pos = createVector(random(width), random(height));
   this.velo = createVector(0, 0);
   this.accel = createVector(0, 0);
   this.maxSpeed = maxSpeed;
   this.prevPos = this.pos.copy();
+  this.hue = 0;
+  this.strokeWeight = thickness;
 
   this.update = function () {
     this.velo.add(this.accel);
@@ -17,17 +19,22 @@ function Particle(maxSpeed) {
     this.accel.add(vector);
   };
 
-  this.follow = function (vectors, scale, cols) {
-    const x = floor(this.pos.x / scale);
-    const y = floor(this.pos.y / scale);
-    const idx = x + y * cols;
-    this.applyForce(vectors[idx]);
+  this.follow = function (zOff, strength, chaosFactor) {
+    let angle = noise(this.pos.x, this.pos.y, zOff) * TWO_PI * chaosFactor;
+    const vector = p5.Vector.fromAngle(angle);
+    vector.setMag(strength);
+    this.applyForce(vector);
   };
 
   this.show = function () {
-    stroke(0, 5);
-    strokeWeight(1);
-    // point(this.pos.x, this.pos.y);
+    stroke(this.hue, 255, 255, 25);
+    strokeWeight(this.strokeWeight);
+
+    this.hue = this.hue + 1;
+    if (this.hue > 255) {
+      this.hue = 0;
+    }
+
     line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
     this.updatePrev();
   };
