@@ -1,11 +1,12 @@
 const cWidth = 500; // canvas width
 const cHeight = 500; // canvas height
-const inc = 8; // how often the noise position should update ~[1 - 15]
-const strength = 7; // "gravitational" force of the vectors on dots ~[0.1 - 10]
+const inc = 10; // how often the noise position should update ~[1 - 15]
+const strength = 0.1; // "gravitational" force of the vectors on dots ~[0.1 - 10]
 const chaosFactor = 2; // the higher, the more inconsistent the vector angles get ~[0.1 - 4]
-const particleAmount = 500; // amounts of particles on the canvas
-const particleMaxSpeed = 2; // maximum particle travel speed ~[1- 10]
-const particleThickness = 5; // line thickness of particles ~[1 - 20]
+const particleAmount = 30; // amounts of particles on the canvas
+const particleMaxSpeed = 0.5; // maximum particle travel speed ~[1- 10]
+const particleThickness = 40; // line thickness of particles ~[1 - 20]
+const particleDownforce = 1; // downforce on particles aka gravitation
 const fontSize = 16; // framerate font size
 let showFrameRate = false; // draw framerate on canvas (or stop drawing)
 
@@ -20,9 +21,8 @@ function setup() {
   pixelDensity(1);
   noiseDetail(64);
   colorMode(HSB, 255);
-  background(12);
 
-  particles = particles.map(() => new Particle(particleMaxSpeed, particleThickness));
+  particles = particles.map(() => new Particle(particleMaxSpeed, particleThickness, particleDownforce));
 }
 
 function drawFrameRate() {
@@ -38,6 +38,7 @@ function drawFrameRate() {
 
 // eslint-disable-next-line no-unused-vars
 function draw() {
+  background(12);
   zOff += inc / 1000.0;
 
   particles.map(particle => {

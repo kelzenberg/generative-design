@@ -1,8 +1,9 @@
 // eslint-disable-next-line no-unused-vars
-function Particle(maxSpeed, thickness) {
+function Particle(maxSpeed, thickness, downforce) {
   this.pos = createVector(random(width), random(height));
   this.velo = createVector(0, 0);
   this.accel = createVector(0, 0);
+  this.gravitation = p5.Vector.fromAngle(90 * (PI / 180)).setMag(downforce / 10);
   this.maxSpeed = maxSpeed;
   this.prevPos = this.pos.copy();
   this.hue = 0;
@@ -17,6 +18,7 @@ function Particle(maxSpeed, thickness) {
 
   this.applyForce = function (vector) {
     this.accel.add(vector);
+    this.accel.add(this.gravitation);
   };
 
   this.follow = function (zOff, strength, chaosFactor) {
