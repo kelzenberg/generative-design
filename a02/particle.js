@@ -28,16 +28,16 @@ function Particle(maxSpeed, thickness, downforce) {
     this.applyForce(vector);
   };
 
-  this.show = function () {
-    stroke(this.hue, 0, 255, 255);
-    strokeWeight(this.strokeWeight);
+  this.show = function (graphic) {
+    graphic.stroke(this.hue, 0, 255, 255);
+    graphic.strokeWeight(this.strokeWeight);
 
     // this.hue = this.hue + 1;
     // if (this.hue > 255) {
     //   this.hue = 0;
     // }
 
-    line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+    graphic.line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
     this.updatePrev();
   };
 
