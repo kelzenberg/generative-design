@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
-function Particle(maxSpeed, thickness, downforce) {
+function Particle(image, maxSpeed, thickness, downforce) {
+  this.image = image;
   this.pos = createVector(random(width), random(height));
   this.velo = createVector(0, 0);
   this.accel = createVector(0, 0);
@@ -29,15 +30,15 @@ function Particle(maxSpeed, thickness, downforce) {
   };
 
   this.show = function (graphic) {
-    graphic.stroke(this.hue, 0, 255, 255);
-    graphic.strokeWeight(this.strokeWeight);
+    graphic.imageMode(CORNER);
+    graphic.image(
+      this.image,
+      this.pos.x,
+      this.pos.y,
+      this.strokeWeight,
+      (this.image.height * this.strokeWeight) / this.image.width
+    );
 
-    // this.hue = this.hue + 1;
-    // if (this.hue > 255) {
-    //   this.hue = 0;
-    // }
-
-    graphic.line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
     this.updatePrev();
   };
 

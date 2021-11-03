@@ -3,7 +3,7 @@ const cHeight = 700; // canvas height
 const inc = 10; // how often the noise position should update ~[1 - 15]
 const strength = 0.1; // "gravitational" force of the vectors on dots ~[0.1 - 10]
 const chaosFactor = 2; // the higher, the more inconsistent the vector angles get ~[0.1 - 4]
-const particleAmount = 30; // amounts of particles on the canvas
+const particleAmount = 60; // amounts of particles on the canvas
 const particleMaxSpeed = 0.5; // maximum particle travel speed ~[1- 10]
 const particleThickness = 40; // line thickness of particles ~[1 - 20]
 const particleDownforce = 1; // downforce on particles aka gravitation
@@ -32,7 +32,7 @@ function setup() {
   noiseDetail(64);
   imageMode(CORNER);
 
-  particles = particles.map(() => new Particle(particleMaxSpeed, particleThickness, particleDownforce));
+  particles = particles.map(() => new Particle(leafImg, particleMaxSpeed, particleThickness, particleDownforce));
 }
 
 function drawFrameRate() {
