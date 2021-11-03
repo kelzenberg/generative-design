@@ -1,8 +1,9 @@
 // eslint-disable-next-line no-unused-vars
-function Particle({ image, size, chaosFactor, strength, downforce, maxVelocity }) {
-  this.image = image;
+function Particle({ filling, canvas, size, chaosFactor, strength, downforce, maxVelocity, colors }) {
+  this.filling = filling;
   this.size = size;
-  this.position = createVector(random(width), random(height));
+  this.canvas = canvas;
+  this.position = createVector(random(canvas.width), random(canvas.height));
   this.prevPosition = this.position.copy();
   this.velocity = createVector(0, 0);
   this.acceleration = createVector(0, 0);
@@ -34,33 +35,26 @@ function Particle({ image, size, chaosFactor, strength, downforce, maxVelocity }
   };
 
   this.edges = function () {
-    if (this.position.x > width) {
+    if (this.position.x > this.canvas.width) {
       this.position.x = 0;
       this.updatePrev();
     }
     if (this.position.x < 0) {
-      this.position.x = width;
+      this.position.x = this.canvas.width;
       this.updatePrev();
     }
-    if (this.position.y > height) {
+    if (this.position.y > this.canvas.height) {
       this.position.y = 0;
       this.updatePrev();
     }
     if (this.position.y < 0) {
-      this.position.y = height;
+      this.position.y = this.canvas.height;
       this.updatePrev();
     }
   };
 
-  this.show = function (graphic) {
-    graphic.push();
-    graphic.translate(this.position.x, this.position.y);
-    graphic.rotate(this.rotationAngle * (PI / 180));
-    this.rotationAngle += random(0, this.hasInversRotation ? -1 : 1);
-    graphic.imageMode(CENTER);
-    graphic.image(this.image, 0, 0, this.size, (this.image.height * this.size) / this.image.width);
-    graphic.pop();
-
+  this.show = function (showFunction) {
+    showFunction(this);
     this.updatePrev();
   };
 }
