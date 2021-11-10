@@ -2,7 +2,7 @@
 class Mover {
   constructor(x, y, mass) {
     this.mass = mass;
-    this.radius = sqrt(this.mass) * 2;
+    this.radius = sqrt(this.mass) * 1.5;
     this.position = createVector(x, y);
     this.velocity = p5.Vector.random2D();
     this.acceleration = createVector(0, 0);

@@ -5,9 +5,9 @@ const moverAmount = 20;
 let movers = new Array(moverAmount).fill(null);
 const attractors = [];
 const gravity = 0.1;
-const wind = 0.1;
 const mu = 0.1;
-const coefficient = 0.4;
+const wind = 5;
+const dragCoefficient = 1;
 const gravitationalC = 50; // ~[1 - 50]
 
 // eslint-disable-next-line no-unused-vars
@@ -24,13 +24,13 @@ function draw() {
   background(0, 10);
   drawFrameRate();
 
-  // const liquidStart = height / 2;
-  // fill(25, 200, 255, 75);
+  // const liquidStart = height - height * 0.2;
+  // fill(25, 200, 255, 20);
   // noStroke();
-  // rect(0, liquidStart, width, height / 2);
+  // rect(0, liquidStart, width, height * 0.2);
 
   for (const mover of movers) {
-    let relGravity = p5.Vector.mult(createVector(0, gravity), mover.mass);
+    // let relGravity = p5.Vector.mult(createVector(0, gravity), mover.mass);
     // mover.applyForce(relGravity);
 
     if (mouseIsPressed) {
@@ -38,7 +38,7 @@ function draw() {
     }
 
     // if (mover.position.y > liquidStart) {
-    //   mover.drag(coefficient);
+    //   mover.drag(dragCoefficient);
     // }
 
     mover.friction(mu);
