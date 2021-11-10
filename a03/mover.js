@@ -2,9 +2,9 @@
 class Mover {
   constructor(x, y, mass) {
     this.mass = mass;
-    this.radius = sqrt(this.mass) * 10;
+    this.radius = sqrt(this.mass) * 2;
     this.position = createVector(x, y);
-    this.velocity = createVector(0, 0);
+    this.velocity = p5.Vector.random2D();
     this.acceleration = createVector(0, 0);
   }
 
@@ -46,6 +46,10 @@ class Mover {
       // bottom border
       this.position.y = height - this.radius;
       this.velocity.y *= -1;
+    } else if (this.position.y <= this.radius) {
+      // top border
+      this.position.y = this.radius;
+      this.velocity.y *= -1;
     }
 
     if (this.position.x >= width - this.radius) {
@@ -60,10 +64,6 @@ class Mover {
   }
 
   update() {
-    // let mouse = createVector(mouseX, mouseY);
-    // this.acceleration = p5.Vector.sub(mouse, this.position);
-    // this.acceleration.setMag(0.5);
-
     this.velocity.add(this.acceleration);
     // this.velocity.limit(5);
     this.position.add(this.velocity);
@@ -71,9 +71,8 @@ class Mover {
   }
 
   show() {
-    stroke(255);
-    strokeWeight(2);
-    fill(255, 100);
+    noStroke();
+    fill(50, random(100, 255), random(150, 255), 125);
     ellipse(this.position.x, this.position.y, this.radius * 2);
   }
 }
