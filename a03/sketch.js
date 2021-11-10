@@ -1,7 +1,8 @@
 const cWidth = 600; // canvas width
 const cHeight = 600; // canvas height
 
-const movers = [];
+const moverAmount = 20;
+let movers = new Array(moverAmount).fill(null);
 const attractors = [];
 const gravity = 0.1;
 const wind = 0.1;
@@ -15,14 +16,12 @@ function setup() {
   createFrameRate(cWidth, cHeight);
 
   attractors.push(new Attractor(width / 2, height / 2, 5));
-  movers.push(new Mover(300, 100, 10));
-  movers.push(new Mover(150, 100, 20));
-  movers.push(new Mover(450, 100, 50));
+  movers = movers.map(() => new Mover(random(50, cWidth), random(50, cHeight), random(10, 100)));
 }
 
 // eslint-disable-next-line no-unused-vars
 function draw() {
-  background(0, 15);
+  background(0, 10);
   drawFrameRate();
 
   // const liquidStart = height / 2;
