@@ -8,6 +8,22 @@ class Mover {
     this.acceleration = createVector(0, 0);
   }
 
+  friction(mu) {
+    let diff = height - (this.position.y + this.radius);
+    if (diff < 1) {
+      // Direction of friction
+      let friction = this.velocity.copy();
+      friction.normalize();
+      friction.mult(-1);
+
+      // Magnitude of friction
+      let normal = this.mass;
+      friction.setMag(mu * normal);
+
+      this.applyForce(friction);
+    }
+  }
+
   applyForce(force) {
     this.acceleration.add(p5.Vector.div(force, this.mass));
   }
