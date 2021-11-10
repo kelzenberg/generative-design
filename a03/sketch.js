@@ -1,15 +1,14 @@
+const cWidth = 500; // canvas width
+const cHeight = 500; // canvas height
+
 // eslint-disable-next-line no-unused-vars
 function setup() {
-  createCanvas(500, 500);
-  noLoop();
+  createCanvas(cWidth, cHeight);
+  createFrameRate(cWidth, cHeight);
 }
 
 // eslint-disable-next-line no-unused-vars
 function draw() {
   background('blue');
-}
-
-// eslint-disable-next-line no-unused-vars
-function windowResized() {
-  resizeCanvas(500, 500);
+  drawFrameRate();
 }
