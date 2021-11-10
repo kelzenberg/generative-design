@@ -2,14 +2,32 @@
 class Mover {
   constructor(x, y) {
     this.mass = 1;
-    this.size = 32;
+    this.radius = 16;
     this.position = createVector(x, y);
-    this.velocity = p5.Vector.random2D();
-    this.velocity.mult(random(3));
+    this.velocity = createVector(0, 0);
+    this.acceleration = createVector(0, 0);
   }
 
   applyForce(force) {
-    this.acceleration = force.mult(this.mass);
+    this.acceleration.add(force);
+  }
+
+  edges() {
+    if (this.position.y >= height - this.radius) {
+      // bottom border
+      this.position.y = height - this.radius;
+      this.velocity.y *= -1;
+    }
+
+    if (this.position.x >= width - this.radius) {
+      // right border
+      this.position.x = width - this.radius;
+      this.velocity.x *= -1;
+    } else if (this.position.x <= this.radius) {
+      // left border
+      this.position.x = this.radius;
+      this.velocity.x *= -1;
+    }
   }
 
   update() {
@@ -20,12 +38,13 @@ class Mover {
     this.velocity.add(this.acceleration);
     // this.velocity.limit(5);
     this.position.add(this.velocity);
+    this.acceleration.set(0, 0);
   }
 
   show() {
     stroke(255);
     strokeWeight(2);
     fill(255, 100);
-    ellipse(this.position.x, this.position.y, this.size);
+    ellipse(this.position.x, this.position.y, this.radius * 2);
   }
 }

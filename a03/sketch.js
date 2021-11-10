@@ -16,8 +16,15 @@ function draw() {
   background(0);
   drawFrameRate();
 
-  let gravity = createVector(0, 1);
+  let gravity = createVector(0, 0.1);
   mover.applyForce(gravity);
+
+  let wind = createVector(0.1, 0);
+  if (mouseIsPressed) {
+    mover.applyForce(wind);
+  }
+
   mover.update();
+  mover.edges();
   mover.show();
 }
