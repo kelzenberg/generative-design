@@ -8,6 +8,19 @@ class Mover {
     this.acceleration = createVector(0, 0);
   }
 
+  drag(coefficient) {
+    // Direction of drag
+    let drag = this.velocity.copy();
+    drag.normalize();
+    drag.mult(-1);
+
+    // Magnitude of drag
+    let speedSquared = this.velocity.magSq();
+    drag.setMag(coefficient * speedSquared);
+
+    this.applyForce(drag);
+  }
+
   friction(mu) {
     let diff = height - (this.position.y + this.radius);
     if (diff < 1) {
