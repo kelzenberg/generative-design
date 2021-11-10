@@ -1,14 +1,15 @@
-const cWidth = 500; // canvas width
-const cHeight = 500; // canvas height
+const cWidth = 600; // canvas width
+const cHeight = 600; // canvas height
 
-let mover;
+const movers = [];
 
 // eslint-disable-next-line no-unused-vars
 function setup() {
   createCanvas(cWidth, cHeight);
   createFrameRate(cWidth, cHeight);
 
-  mover = new Mover(200, 200);
+  movers.push(new Mover(400, 200));
+  movers.push(new Mover(200, 200));
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -17,14 +18,17 @@ function draw() {
   drawFrameRate();
 
   let gravity = createVector(0, 0.1);
-  mover.applyForce(gravity);
-
   let wind = createVector(0.1, 0);
-  if (mouseIsPressed) {
-    mover.applyForce(wind);
-  }
 
-  mover.update();
-  mover.edges();
-  mover.show();
+  movers.map(mover => {
+    mover.applyForce(gravity);
+
+    if (mouseIsPressed) {
+      mover.applyForce(wind);
+    }
+
+    mover.update();
+    mover.edges();
+    mover.show();
+  });
 }
