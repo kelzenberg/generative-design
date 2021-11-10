@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "a01": "live-server ./a01",
-    "a02": "live-server ./a02"
+    "start": "live-server",
+    "new": "cp -r ./template"
   },
   "repository": {
     "type": "git",
