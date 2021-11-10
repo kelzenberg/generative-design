@@ -1,15 +1,15 @@
 // eslint-disable-next-line no-unused-vars
 class Mover {
-  constructor(x, y) {
-    this.mass = 1;
-    this.radius = 16;
+  constructor(x, y, mass) {
+    this.mass = mass;
+    this.radius = sqrt(this.mass) * 10;
     this.position = createVector(x, y);
     this.velocity = createVector(0, 0);
     this.acceleration = createVector(0, 0);
   }
 
   applyForce(force) {
-    this.acceleration.add(force);
+    this.acceleration.add(p5.Vector.div(force, this.mass));
   }
 
   edges() {
