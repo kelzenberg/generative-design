@@ -1,12 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 class Vehicle {
-  constructor(x, y) {
+  constructor(filling, x, y, size) {
+    this.filling = filling;
     this.position = createVector(random(width), random(height));
     this.target = createVector(x, y);
     this.velocity = p5.Vector.random2D();
     this.acceleration = createVector(0, 0);
-    this.radius = 4;
-    this.maxSpeed = 8;
+    this.size = size;
+    this.maxSpeed = 2;
     this.maxForce = 1;
   }
 
@@ -61,8 +62,12 @@ class Vehicle {
   }
 
   show() {
-    stroke(255);
-    strokeWeight(this.radius);
-    point(this.position.x, this.position.y);
+    image(
+      this.filling,
+      this.position.x,
+      this.position.y,
+      this.size,
+      (this.filling.height * this.size) / this.filling.width
+    );
   }
 }
