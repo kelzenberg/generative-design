@@ -10,6 +10,7 @@ const gravitationalC = 50; // ~[1 - 50]
 let fish;
 let hotdog;
 let room;
+let liquidStart;
 
 let font;
 let fontSize = 144;
@@ -29,9 +30,10 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   createFrameRate(windowWidth, windowHeight);
 
-  // attractors.push(new Attractor(width / 2 - 100, height / 2, 1));
+  attractors.push(new Attractor(hotdog, width / 2 - 100, height / 2, 1));
   // attractors.push(new Attractor(width / 2 + 100, height / 2, 3));
   // movers = movers.map(() => new Mover(random(50, cWidth), random(50, cHeight), random(10, 100)));
+  liquidStart = height - height * 0.8;
 
   const points = font.textToPoints('Nom', 0, 0, fontSize);
   const pointXs = points.map(pt => pt.x);
@@ -41,21 +43,12 @@ function setup() {
     Math.max(...pointYs) - Math.min(...pointYs),
   ];
   vehicles = points.map(
-    pt => new Vehicle(fish, pt.x + width / 2 - fontWidth / 2, pt.y + height / 2 + fontHeight / 2, vehicleSize)
+    pt =>
+      new Vehicle(fish, pt.x + width / 2 - fontWidth / 2, pt.y + height / 2 + fontHeight / 2, liquidStart, vehicleSize)
   );
 }
 
-// eslint-disable-next-line no-unused-vars
-function draw() {
-  image(room, 0, 0);
-
-  for (const vehicle of vehicles) {
-    vehicle.applyBehaviors();
-    vehicle.update();
-    vehicle.show();
-  }
-
-  const liquidStart = height - height * 0.8;
+function drawFishTank(liquidStart) {
   fill(25, 200, 255, 125);
   noStroke();
   rect(0, liquidStart, width, height - liquidStart);
@@ -64,6 +57,13 @@ function draw() {
   rect(0, 0, 25, height);
   rect(width - 25, 0, 25, height);
   rect(0, height - 25, width, 25);
+}
+
+// eslint-disable-next-line no-unused-vars
+function draw() {
+  imageMode(CENTER);
+  image(room, 0.5 * width, 0.5 * height, (room.width * height) / room.height, height);
+  imageMode(CORNER);
 
   // for (const mover of movers) {
   //   // let relGravity = p5.Vector.mult(createVector(0, gravity), mover.mass);
@@ -87,6 +87,20 @@ function draw() {
   //     attractor.show();
   //   }
   // }
+
+  for (const vehicle of vehicles) {
+    vehicle.applyBehaviors();
+    vehicle.update();
+    vehicle.show();
+
+    for (const attractor of attractors) {
+      // TODO: merge vehicle & mover
+      // attractor.attract(gravitationalC, vehicle);
+      attractor.show();
+    }
+  }
+
+  drawFishTank(liquidStart);
 
   drawFrameRate();
 }

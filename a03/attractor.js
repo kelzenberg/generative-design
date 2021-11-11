@@ -1,8 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 class Attractor {
-  constructor(x, y, mass) {
+  constructor(filling, x, y, mass) {
+    this.filling = filling;
     this.mass = mass;
-    this.radius = sqrt(this.mass) * 10;
+    this.size = sqrt(this.mass) * 75;
     this.position = createVector(x, y);
   }
 
@@ -16,8 +17,12 @@ class Attractor {
   }
 
   show() {
-    fill(255, 200, 20);
-    noStroke();
-    ellipse(this.position.x, this.position.y, this.radius * 2);
+    image(
+      this.filling,
+      this.position.x,
+      this.position.y,
+      this.size,
+      (this.filling.height * this.size) / this.filling.width
+    );
   }
 }

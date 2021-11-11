@@ -1,9 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 class Vehicle {
-  constructor(filling, x, y, size) {
+  constructor(filling, x, y, maxHeight, size) {
     this.filling = filling;
-    this.position = createVector(random(width), random(height));
-    this.target = createVector(x, y);
+    this.targetShapePosition = createVector(x, y);
+    this.startPosition = createVector(random(25, width - 50), random(maxHeight + 25, height - 50));
+    this.currentTarget = this.startPosition.copy();
     this.velocity = p5.Vector.random2D();
     this.acceleration = createVector(0, 0);
     this.size = size;
@@ -22,7 +23,7 @@ class Vehicle {
   }
 
   fleeFrom(target) {
-    const desiredVelocity = p5.Vector.sub(target, this.position); // Vector pointing from position to target
+    const desiredVelocity = p5.Vector.sub(target, this.startPosition); // Vector pointing from position to target
     const distanceToTarget = desiredVelocity.mag();
 
     if (distanceToTarget > 50) {
@@ -32,31 +33,32 @@ class Vehicle {
     desiredVelocity.setMag(this.maxSpeed);
     desiredVelocity.mult(-1);
 
-    return this.steerWith(desiredVelocity);
+    const flee = this.steerWith(desiredVelocity);
+    flee.mult(5); // force scaling
+
+    this.applyForce(flee);
   }
 
-  striveTo() {
-    const desiredVelocity = p5.Vector.sub(this.target, this.position); // Vector pointing from position to target
+  striveTo(target) {
+    const desiredVelocity = p5.Vector.sub(target, this.startPosition); // Vector pointing from position to target
     const distanceToTarget = desiredVelocity.mag();
 
     const speed = distanceToTarget > 100 ? this.maxSpeed : map(distanceToTarget, 0, 100, 0, this.maxSpeed);
     desiredVelocity.setMag(speed);
 
-    return this.steerWith(desiredVelocity);
+    const arrive = this.steerWith(desiredVelocity);
+    arrive.mult(1); // force scaling
+
+    this.applyForce(arrive);
   }
 
   applyBehaviors() {
-    const arrive = this.striveTo(this.target);
-    const flee = this.fleeFrom(createVector(mouseX, mouseY));
-    arrive.mult(1);
-    flee.mult(5);
-
-    this.applyForce(arrive);
-    this.applyForce(flee);
+    this.striveTo(this.currentTarget);
+    this.fleeFrom(createVector(mouseX, mouseY));
   }
 
   update() {
-    this.position.add(this.velocity);
+    this.startPosition.add(this.velocity);
     this.velocity.add(this.acceleration);
     this.acceleration.mult(0);
   }
@@ -64,8 +66,8 @@ class Vehicle {
   show() {
     image(
       this.filling,
-      this.position.x,
-      this.position.y,
+      this.startPosition.x,
+      this.startPosition.y,
       this.size,
       (this.filling.height * this.size) / this.filling.width
     );
