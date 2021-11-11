@@ -5,6 +5,16 @@ class Attractor {
     this.mass = mass;
     this.size = sqrt(this.mass) * 75;
     this.position = createVector(x, y);
+    this.fixedPosition = false;
+  }
+
+  fixPosition() {
+    this.fixedPosition = !this.fixedPosition;
+  }
+
+  updatePosition(x, y) {
+    if (this.fixedPosition) return;
+    this.position = createVector(x, y);
   }
 
   attract(gravitationalC, mover) {
@@ -17,6 +27,7 @@ class Attractor {
   }
 
   show() {
+    imageMode(CENTER);
     image(
       this.filling,
       this.position.x,
@@ -24,5 +35,6 @@ class Attractor {
       this.size,
       (this.filling.height * this.size) / this.filling.width
     );
+    imageMode(CORNER);
   }
 }

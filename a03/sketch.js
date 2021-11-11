@@ -11,6 +11,7 @@ let fish;
 let hotdog;
 let room;
 let liquidStart;
+let mouseClick = false;
 
 let font;
 let fontSize = 144;
@@ -59,6 +60,10 @@ function drawFishTank(liquidStart) {
   rect(0, height - 25, width, 25);
 }
 
+function mouseClicked() {
+  mouseClick = !mouseClick;
+}
+
 // eslint-disable-next-line no-unused-vars
 function draw() {
   imageMode(CENTER);
@@ -96,6 +101,13 @@ function draw() {
     for (const attractor of attractors) {
       // TODO: merge vehicle & mover
       // attractor.attract(gravitationalC, vehicle);
+
+      if (mouseClick) {
+        attractor.fixPosition();
+        mouseClicked();
+      }
+
+      attractor.updatePosition(mouseX, mouseY);
       attractor.show();
     }
   }
