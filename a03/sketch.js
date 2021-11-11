@@ -15,7 +15,8 @@ function setup() {
   createCanvas(cWidth, cHeight);
   createFrameRate(cWidth, cHeight);
 
-  attractors.push(new Attractor(width / 2, height / 2, 5));
+  attractors.push(new Attractor(width / 2 - 100, height / 2, 1));
+  attractors.push(new Attractor(width / 2 + 100, height / 2, 3));
   movers = movers.map(() => new Mover(random(50, cWidth), random(50, cHeight), random(10, 100)));
 }
 
