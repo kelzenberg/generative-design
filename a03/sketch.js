@@ -78,22 +78,6 @@ function draw() {
   imageMode(CORNER);
 
   // for (const mover of movers) {
-  //   // let relGravity = p5.Vector.mult(createVector(0, gravity), mover.mass);
-  //   // mover.applyForce(relGravity);
-
-  //   if (mouseIsPressed) {
-  //     mover.applyForce(createVector(wind, 0));
-  //   }
-
-  //   // if (mover.position.y > liquidStart) {
-  //   //   mover.drag(dragCoefficient);
-  //   // }
-
-  //   mover.friction(mu);
-  //   mover.update();
-  //   mover.edges();
-  //   mover.show();
-
   //   for (const attractor of attractors) {
   //     attractor.attract(gravitationalC, mover);
   //     attractor.show();
@@ -101,11 +85,6 @@ function draw() {
   // }
 
   for (const vehicle of vehicles) {
-    vehicle.applyBehaviors();
-    vehicle.update();
-    vehicle.edges();
-    vehicle.show();
-
     if (vehicle.position.y < liquidStart) {
       // keep vehicles below liquidStart
       let relGravity = p5.Vector.mult(createVector(0, gravity), vehicle.mass);
@@ -113,9 +92,13 @@ function draw() {
       vehicle.drag(dragCoefficient);
     }
 
+    vehicle.applyBehaviors();
+    vehicle.update();
+    vehicle.edges();
+    vehicle.show();
+
     for (const attractor of attractors) {
-      // TODO: merge vehicle & mover
-      // attractor.attract(gravitationalC, vehicle);
+      attractor.attract(gravitationalC, vehicle);
 
       if (mouseClick) {
         attractor.fixPosition();
