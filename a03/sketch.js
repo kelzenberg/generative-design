@@ -1,9 +1,4 @@
-const moverAmount = 20;
-let movers = new Array(moverAmount).fill(null);
-const attractors = [];
 const gravity = 0.1;
-const mu = 0.1;
-const wind = 5;
 const dragCoefficient = 1;
 const gravitationalC = 50; // ~[1 - 50]
 
@@ -14,9 +9,10 @@ let liquidStart;
 let mouseClick = false;
 
 let font;
-let fontSize = 144;
+let fontSize = 164;
 let vehicleSize = 20;
 let vehicles;
+let attractor;
 
 // eslint-disable-next-line no-unused-vars
 function preload() {
@@ -53,7 +49,9 @@ function setup() {
       )
   );
 
-  attractors.push(new Attractor(hotdog, 1));
+  setTimeout(() => {
+    attractor = new Attractor(hotdog, 2);
+  }, 5000);
 }
 
 function drawFishTank(liquidStart) {
@@ -71,10 +69,27 @@ function mouseClicked() {
   mouseClick = !mouseClick;
 }
 
+function drawAttractorFor(vehicle) {
+  if (attractor.mass === 0) {
+    attractor = new Attractor(hotdog, random(0.2, 6));
+    console.log(attractor.mass);
+  }
+
+  attractor.updatePosition(mouseX, mouseY);
+  attractor.attract(gravitationalC, vehicle);
+
+  if (mouseClick) {
+    attractor.toggleFixedPosition();
+    mouseClicked();
+  }
+
+  attractor.show();
+}
+
 // eslint-disable-next-line no-unused-vars
 function draw() {
   imageMode(CENTER);
-  image(room, 0.5 * width, 0.5 * height, (room.width * height) / room.height, height);
+  image(room, width / 2, height / 2, ((room.width * height) / room.height) * 2, height * 2);
   imageMode(CORNER);
 
   for (const vehicle of vehicles) {
@@ -87,19 +102,11 @@ function draw() {
 
     vehicle.applyBehaviors();
     vehicle.update();
-    vehicle.edges();
+    vehicle.avoidEdges();
     vehicle.show();
 
-    for (const attractor of attractors) {
-      attractor.updatePosition(mouseX, mouseY);
-      attractor.attract(gravitationalC, vehicle);
-
-      if (mouseClick) {
-        attractor.toggleFixedPosition();
-        mouseClicked();
-      }
-
-      attractor.show();
+    if (attractor) {
+      drawAttractorFor(vehicle);
     }
   }
 

@@ -30,23 +30,7 @@ class Vehicle {
     this.applyForce(drag);
   }
 
-  friction(mu) {
-    let diff = height - (this.position.y + this.size);
-    if (diff < 1) {
-      // Direction of friction
-      let friction = this.velocity.copy();
-      friction.normalize();
-      friction.mult(-1);
-
-      // Magnitude of friction
-      let normal = this.mass;
-      friction.setMag(mu * normal);
-
-      this.applyForce(friction);
-    }
-  }
-
-  edges() {
+  avoidEdges() {
     if (this.position.y >= height - this.size) {
       // bottom border
       this.position.y = height - this.size;
@@ -78,7 +62,7 @@ class Vehicle {
     const desiredVelocity = p5.Vector.sub(target, this.position); // Vector pointing from position to target
     const distanceToTarget = desiredVelocity.mag();
 
-    if (distanceToTarget > 50) {
+    if (distanceToTarget > 100) {
       return createVector(0, 0);
     }
 

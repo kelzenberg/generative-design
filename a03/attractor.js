@@ -3,9 +3,13 @@ class Attractor {
   constructor(filling, mass) {
     this.filling = filling;
     this.mass = mass;
-    this.size = sqrt(this.mass) * 75;
+    this.displaySize = sqrt(this.mass) * 75;
     this.position = createVector(mouseX, mouseY);
     this.fixedPosition = false;
+  }
+
+  calculateSize() {
+    this.displaySize = sqrt(this.mass) * 75;
   }
 
   toggleFixedPosition() {
@@ -18,7 +22,14 @@ class Attractor {
   }
 
   attract(gravitationalC, vehicle) {
-    if (!this.fixedPosition) return;
+    if (!this.fixedPosition) {
+      return;
+    } else if (this.mass > 0.01) {
+      this.mass -= 1 / frameRate().toFixed() / 1000;
+      this.calculateSize();
+    } else {
+      this.mass = 0;
+    }
 
     const force = p5.Vector.sub(this.position, vehicle.position);
     const distanceSquared = constrain(force.magSq(), 25, 2500);
@@ -34,8 +45,8 @@ class Attractor {
       this.filling,
       this.position.x,
       this.position.y,
-      this.size,
-      (this.filling.height * this.size) / this.filling.width
+      this.displaySize,
+      (this.filling.height * this.displaySize) / this.filling.width
     );
     imageMode(CORNER);
   }
