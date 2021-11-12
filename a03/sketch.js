@@ -45,7 +45,14 @@ function setup() {
   ];
   vehicles = points.map(
     pt =>
-      new Vehicle(fish, pt.x + width / 2 - fontWidth / 2, pt.y + height / 2 + fontHeight / 2, liquidStart, vehicleSize)
+      new Vehicle(
+        fish,
+        pt.x + width / 2 - fontWidth / 2,
+        pt.y + height / 2 + fontHeight / 2,
+        liquidStart,
+        vehicleSize,
+        random(10, 100)
+      )
   );
 }
 
@@ -96,7 +103,15 @@ function draw() {
   for (const vehicle of vehicles) {
     vehicle.applyBehaviors();
     vehicle.update();
+    vehicle.edges();
     vehicle.show();
+
+    if (vehicle.position.y < liquidStart) {
+      // keep vehicles below liquidStart
+      let relGravity = p5.Vector.mult(createVector(0, gravity), vehicle.mass);
+      vehicle.applyForce(relGravity);
+      vehicle.drag(dragCoefficient);
+    }
 
     for (const attractor of attractors) {
       // TODO: merge vehicle & mover
