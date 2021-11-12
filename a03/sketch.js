@@ -33,7 +33,7 @@ function setup() {
 
   liquidStart = height - height * 0.8;
 
-  const points = font.textToPoints('Nom', 0, 0, fontSize);
+  const points = font.textToPoints('Hungry!', 0, 0, fontSize);
   const pointXs = points.map(pt => pt.x);
   const pointYs = points.map(pt => pt.y);
   const [fontWidth, fontHeight] = [

@@ -105,7 +105,7 @@ class Vehicle {
   }
 
   applyBehaviors() {
-    this.striveTo(this.currentTarget);
+    this.striveTo(this.targetShapePosition);
     this.fleeFrom(createVector(mouseX, mouseY));
   }
 
