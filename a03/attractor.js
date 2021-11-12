@@ -23,8 +23,12 @@ class Attractor {
 
   attract(gravitationalC, vehicle) {
     if (!this.fixedPosition) {
+      // don't attract if following mouse
       return;
-    } else if (this.mass > 0.01) {
+    }
+
+    if (this.mass > 0.01) {
+      // decrease mass (& size) while attracting
       this.mass -= 1 / frameRate().toFixed() / 1000;
       this.calculateSize();
     } else {

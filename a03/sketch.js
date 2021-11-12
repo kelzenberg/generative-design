@@ -50,8 +50,9 @@ function setup() {
   );
 
   setTimeout(() => {
+    // create first attractor after vehicles had time to position
     attractor = new Attractor(hotdog, 2);
-  }, 5000);
+  }, 6000);
 }
 
 function drawFishTank(liquidStart) {
@@ -71,8 +72,8 @@ function mouseClicked() {
 
 function drawAttractorFor(vehicle) {
   if (attractor.mass === 0) {
+    // previous attractor was "eaten", create a new one
     attractor = new Attractor(hotdog, random(0.2, 6));
-    console.log(attractor.mass);
   }
 
   attractor.updatePosition(mouseX, mouseY);
