@@ -1,10 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 class Attractor {
-  constructor(filling, x, y, mass) {
+  constructor(filling, mass) {
     this.filling = filling;
     this.mass = mass;
     this.size = sqrt(this.mass) * 75;
-    this.position = createVector(x, y);
+    this.position = createVector(mouseX, mouseY);
     this.fixedPosition = false;
   }
 

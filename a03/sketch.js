@@ -31,9 +31,6 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   createFrameRate(windowWidth, windowHeight);
 
-  attractors.push(new Attractor(hotdog, width / 2 - 100, height / 2, 1));
-  // attractors.push(new Attractor(width / 2 + 100, height / 2, 3));
-  // movers = movers.map(() => new Mover(random(50, cWidth), random(50, cHeight), random(10, 100)));
   liquidStart = height - height * 0.8;
 
   const points = font.textToPoints('Nom', 0, 0, fontSize);
@@ -43,6 +40,7 @@ function setup() {
     Math.max(...pointXs) - Math.min(...pointXs),
     Math.max(...pointYs) - Math.min(...pointYs),
   ];
+
   vehicles = points.map(
     pt =>
       new Vehicle(
@@ -54,6 +52,8 @@ function setup() {
         random(10, 100)
       )
   );
+
+  attractors.push(new Attractor(hotdog, 1));
 }
 
 function drawFishTank(liquidStart) {
@@ -77,13 +77,6 @@ function draw() {
   image(room, 0.5 * width, 0.5 * height, (room.width * height) / room.height, height);
   imageMode(CORNER);
 
-  // for (const mover of movers) {
-  //   for (const attractor of attractors) {
-  //     attractor.attract(gravitationalC, mover);
-  //     attractor.show();
-  //   }
-  // }
-
   for (const vehicle of vehicles) {
     if (vehicle.position.y < liquidStart) {
       // keep vehicles below liquidStart
@@ -98,6 +91,7 @@ function draw() {
     vehicle.show();
 
     for (const attractor of attractors) {
+      attractor.updatePosition(mouseX, mouseY);
       attractor.attract(gravitationalC, vehicle);
 
       if (mouseClick) {
@@ -105,13 +99,11 @@ function draw() {
         mouseClicked();
       }
 
-      attractor.updatePosition(mouseX, mouseY);
       attractor.show();
     }
   }
 
   drawFishTank(liquidStart);
-
   drawFrameRate();
 }
 
