@@ -101,7 +101,7 @@ function draw() {
       attractor.attract(gravitationalC, vehicle);
 
       if (mouseClick) {
-        attractor.fixPosition();
+        attractor.toggleFixedPosition();
         mouseClicked();
       }
 

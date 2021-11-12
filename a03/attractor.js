@@ -8,7 +8,7 @@ class Attractor {
     this.fixedPosition = false;
   }
 
-  fixPosition() {
+  toggleFixedPosition() {
     this.fixedPosition = !this.fixedPosition;
   }
 
@@ -17,13 +17,15 @@ class Attractor {
     this.position = createVector(x, y);
   }
 
-  attract(gravitationalC, mover) {
-    const force = p5.Vector.sub(this.position, mover.position);
+  attract(gravitationalC, vehicle) {
+    if (!this.fixedPosition) return;
+
+    const force = p5.Vector.sub(this.position, vehicle.position);
     const distanceSquared = constrain(force.magSq(), 25, 2500);
-    const strength = gravitationalC * ((this.mass * mover.mass) / distanceSquared);
+    const strength = gravitationalC * ((this.mass * vehicle.mass) / distanceSquared);
     force.setMag(strength);
 
-    mover.applyForce(force);
+    vehicle.applyForce(force);
   }
 
   show() {
