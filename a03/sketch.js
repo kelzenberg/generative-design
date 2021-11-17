@@ -35,6 +35,10 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   createFrameRate(windowWidth, windowHeight);
 
+  textFont(font);
+  textSize(24);
+  textAlign(CENTER);
+
   liquidStart = height - height * 0.8;
 
   const points = font.textToPoints('Hungry!', 0, 0, fontSize);
@@ -104,6 +108,13 @@ function draw() {
   }
 
   drawFishTank(liquidStart);
+  if (attractor) {
+    fill(100);
+    textSize(24);
+    text('Here...feed them!', width / 2, 100);
+    textSize(14);
+    text('(Left click to place/pick up)', width / 2, 120);
+  }
   drawFrameRate();
 }
 
