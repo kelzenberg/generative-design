@@ -4,7 +4,7 @@ const frameRateConfig = {
 };
 
 let showFrameRate = false; // draw framerate on graphic (or stop drawing)
-console.log('Display the framerate by setting "showFrameRate: true" in the console.');
+console.log('Display the framerate by setting "showFrameRate = true" in the console.');
 
 // eslint-disable-next-line no-unused-vars
 function createFrameRate(cWidth, cHeight) {
