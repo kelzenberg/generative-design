@@ -1,3 +1,4 @@
+console.log('This was fun 😆🌭');
 const gravity = 0.1;
 const dragCoefficient = 1;
 
