@@ -80,7 +80,9 @@ function setup() {
 
 // eslint-disable-next-line no-unused-vars
 function mouseClicked() {
-  mouseClick = !mouseClick;
+  if (attractor) {
+    mouseClick = !mouseClick;
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
