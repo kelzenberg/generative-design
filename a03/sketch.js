@@ -5,6 +5,8 @@ const gravitationalC = 50; // ~[1 - 50]
 let fish;
 let hotdog;
 let room;
+let plant1;
+let plant2;
 let liquidStart;
 let mouseClick = false;
 
@@ -13,6 +15,9 @@ let fontSize = 164;
 let vehicleSize = 20;
 let vehicles;
 let attractor;
+let availableObjects;
+let waterObjects = [];
+let waterObjectAmount = 10;
 
 // eslint-disable-next-line no-unused-vars
 function preload() {
@@ -20,6 +25,10 @@ function preload() {
   fish = loadImage('./img/fish.svg');
   hotdog = loadImage('./img/hotdog.svg');
   room = loadImage('./img/room.jpg');
+  plant1 = loadImage('./img/water-plant-1.svg');
+  plant2 = loadImage('./img/water-plant-2.svg');
+  boulder = loadImage('./img/boulder.svg');
+  availableObjects = [plant1, plant2, boulder];
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -49,21 +58,49 @@ function setup() {
       )
   );
 
+  for (let idx = 0; idx < waterObjectAmount; idx++) {
+    const randomObject = availableObjects[random(0, availableObjects.length - 1).toFixed()];
+
+    waterObjects.push({
+      image: randomObject,
+      xPos: random(150, width - 150),
+      height: random(20, randomObject.height),
+    });
+  }
+
   setTimeout(() => {
     // create first attractor after vehicles had time to position
     attractor = new Attractor(hotdog, 2);
-  }, 6000);
+  }, 7000);
 }
 
 function drawFishTank(liquidStart) {
-  fill(25, 200, 255, 125);
+  fill(255, 180, 0);
+  rect(0, height - 60, width, 300, 2000); // sand
+
+  fill(25, 200, 255, 100);
   noStroke();
-  rect(0, liquidStart, width, height - liquidStart);
+  rect(0, liquidStart, width, height - liquidStart); // water
 
   fill(200, 200);
-  rect(0, 0, 25, height);
-  rect(width - 25, 0, 25, height);
-  rect(0, height - 25, width, 25);
+  rect(0, 0, 25, height); // left border
+  rect(width - 25, 0, 25, height); // right border
+  rect(0, height - 25, width, 25); // bottom border
+}
+
+function drawWaterObjects() {
+  const yAdjust = 45;
+  waterObjects.map(obj => {
+    imageMode(CORNER);
+    image(
+      obj.image,
+      obj.xPos - obj.image.width / 2,
+      height - obj.height - yAdjust,
+      (obj.image.width * obj.height) / obj.image.height,
+      obj.height
+    );
+    imageMode(CENTER);
+  });
 }
 
 function mouseClicked() {
@@ -91,6 +128,7 @@ function drawAttractorFor(vehicle) {
 function draw() {
   imageMode(CENTER);
   image(room, width / 2, height / 2, ((room.width * height) / room.height) * 2, height * 2);
+  drawWaterObjects();
   imageMode(CORNER);
 
   for (const vehicle of vehicles) {
