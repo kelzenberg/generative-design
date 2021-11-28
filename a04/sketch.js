@@ -1,9 +1,7 @@
 const cWidth = 500; // canvas width
 const cHeight = 500; // canvas height
 
-let radius = 4;
-let angles = [];
-let angleVelocities = [];
+const waves = new Array(5).fill(null);
 
 // eslint-disable-next-line no-unused-vars
 function setup() {
@@ -11,12 +9,12 @@ function setup() {
   createFrameRate(cWidth, cHeight);
   background(0);
 
-  let frequency = TWO_PI * 2;
-  let total = floor(width / (radius * 2));
-  for (let idx = 0; idx < total + 1; idx++) {
-    angles[idx] = map(idx, 0, total, 0, frequency);
-    // angleVelocities[idx] = random(-0.1, 0.1);
-    angleVelocities[idx] = idx / 100;
+  const maxAmplitude = 80; // relative to cHeight
+  const maxPeriod = cWidth; // relative to cWidth
+  const maxOffset = TWO_PI;
+
+  for (let idx = 0; idx < waves.length; idx += 1) {
+    waves[idx] = new Wave(random(20, maxAmplitude), random(100, maxPeriod), random(0, maxOffset));
   }
 }
 
@@ -25,27 +23,21 @@ function draw() {
   background(0, 0, 0);
   drawFrameRate();
 
-  translate(cWidth / 2, cHeight / 2);
+  let dotSpacing = 10;
 
-  beginShape();
-  for (let idx = 0; idx < angles.length; idx += 1) {
-    let y = map(sin(angles[idx]), -1, 1, -cHeight / 2 + radius, cHeight / 2 - radius);
-    let x = map(idx, 0, angles.length, -cWidth / 2 + radius, cWidth / 2 + radius);
+  for (let x = 0; x < cWidth; x += dotSpacing) {
+    let y = 0;
+    for (const wave of waves) {
+      y += wave.evaluate(x);
+    }
 
-    // line(x, 0, x, y);
-
-    fill('yellow');
-    circle(x, y, radius * 2);
-
-    // noFill();
-    // stroke('yellow');
-    // strokeWeight(4);
-    // vertex(x, y);
-
-    angles[idx] += 0.02;
-    // angles[idx] += angleVelocities[idx];
+    noStroke();
+    ellipse(x, y + height / 2, dotSpacing);
   }
-  endShape();
+
+  for (const wave of waves) {
+    wave.updatePhase(0.05);
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
