@@ -23,21 +23,29 @@ function draw() {
   background(0, 0, 0);
   drawFrameRate();
 
-  let dotSpacing = 10;
+  // let dotSpacing = 10;
 
-  for (let x = 0; x < cWidth; x += dotSpacing) {
-    let y = 0;
-    for (const wave of waves) {
-      y += wave.evaluate(x);
-    }
+  // for (let x = 0; x < cWidth; x += dotSpacing) {
+  //   let y = 0;
+  //   for (const wave of waves) {
+  //     y += wave.evaluate(x);
+  //   }
 
-    noStroke();
-    ellipse(x, y + height / 2, dotSpacing);
-  }
+  //   noStroke();
+  //   ellipse(x, y + height / 2, dotSpacing);
+  // }
 
-  for (const wave of waves) {
-    wave.updatePhase(0.05);
-  }
+  // for (const wave of waves) {
+  //   wave.updatePhase(0.05);
+  // }
+
+  let ho = hour();
+  let mi = minute();
+  let se = second();
+
+  fill('white');
+  noStroke();
+  text(`${ho}:${mi}:${se}`, 10, cHeight / 2);
 }
 
 // eslint-disable-next-line no-unused-vars
