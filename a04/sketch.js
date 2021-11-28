@@ -43,9 +43,23 @@ function draw() {
   let mi = minute();
   let se = second();
 
-  fill('white');
-  noStroke();
-  text(`${ho}:${mi}:${se}`, 10, cHeight / 2);
+  stroke(255, 100, 150);
+  strokeWeight(12);
+  noFill();
+  let end1 = map(se, 0, 60, 0, TWO_PI);
+  arc(cWidth / 2, cHeight / 2, cWidth / 2, cHeight / 2, 0, end1);
+
+  stroke(255, 100, 150, 150);
+  let end2 = map(mi, 0, 60, 0, TWO_PI);
+  arc(cWidth / 2, cHeight / 2, cWidth / 2 - 20, cHeight / 2 - 20, 0, end2);
+
+  stroke(255, 100, 150, 50);
+  let end3 = map(ho, 0, 24, 0, TWO_PI);
+  arc(cWidth / 2, cHeight / 2, cWidth / 2 - 40, cHeight / 2 - 40, 0, end3);
+
+  // fill('white');
+  // noStroke();
+  // text(`${ho}:${mi}:${se}`, 10, cHeight / 2);
 }
 
 // eslint-disable-next-line no-unused-vars
