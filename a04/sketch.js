@@ -32,7 +32,7 @@ function draw() {
 
   beginShape();
   for (let a = 0; a < TWO_PI; a += increment) {
-    let r1 = radius + random(-10, 10);
+    let r1 = radius * noise(a) * 2;
     let x = cos(a) * r1;
     let y = sin(a) * r1;
     vertex(x, y);
