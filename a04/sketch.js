@@ -9,40 +9,40 @@ function setup() {
   cHeight = windowHeight;
   createCanvas(cWidth, cHeight);
   createFrameRate(cWidth, cHeight);
-  background(10);
+  background(20);
 
   oceanLayer = [
     new OceanLayer({
       width: cWidth,
       height: cHeight,
       spacing: 1,
-      amplitude: { min: 1, max: 20 },
-      period: { min: cWidth - 100, max: cWidth },
+      amplitude: { min: 5, max: 5 },
+      period: { min: cWidth / 4, max: cWidth },
       xOffset: { min: 0, max: TWO_PI },
       yOffset: -200,
-      phaseUpdate: 0.02,
+      phaseUpdate: 0.01,
       color: [random(0, 255), random(0, 255), random(0, 255)],
     }),
     new OceanLayer({
       width: cWidth,
       height: cHeight,
       spacing: 1,
-      amplitude: { min: 20, max: 80 },
-      period: { min: 100, max: cWidth },
+      amplitude: { min: 10, max: 10 },
+      period: { min: -cWidth / 4, max: -cWidth },
       xOffset: { min: 0, max: TWO_PI },
-      yOffset: 0,
-      phaseUpdate: 0.05,
+      yOffset: -50,
+      phaseUpdate: 0.025,
       color: [random(0, 255), random(0, 255), random(0, 255)],
     }),
     new OceanLayer({
       width: cWidth,
       height: cHeight,
       spacing: 1,
-      amplitude: { min: 20, max: 80 },
-      period: { min: -100, max: -cWidth },
+      amplitude: { min: 15, max: 15 },
+      period: { min: cWidth / 4, max: cWidth },
       xOffset: { min: 0, max: TWO_PI },
-      yOffset: 0,
-      phaseUpdate: 0.05,
+      yOffset: 100,
+      phaseUpdate: 0.04,
       color: [random(0, 255), random(0, 255), random(0, 255)],
     }),
   ];
@@ -50,7 +50,7 @@ function setup() {
 
 // eslint-disable-next-line no-unused-vars
 function draw() {
-  background(10, 15);
+  background(20, 255);
   drawFrameRate();
 
   for (const layer of oceanLayer) {
