@@ -1,6 +1,7 @@
 const cWidth = 500; // canvas width
 const cHeight = 500; // canvas height
 
+const oceanLayer = new Array(3).fill(null);
 const waves = new Array(5).fill(null);
 
 // eslint-disable-next-line no-unused-vars
@@ -13,6 +14,18 @@ function setup() {
   const maxPeriod = cWidth; // relative to cWidth
   const maxOffset = TWO_PI;
 
+  for (let idx = 0; idx < oceanLayer.length; idx += 1) {
+    oceanLayer[idx] = new OceanLayer(
+      cWidth,
+      cHeight,
+      10,
+      { min: 20, max: 80 },
+      { min: 100, max: cWidth },
+      { min: 0, max: TWO_PI },
+      0.05,
+      [random(0, 255), random(0, 255), random(0, 255)]
+    );
+  }
   for (let idx = 0; idx < waves.length; idx += 1) {
     waves[idx] = new Wave(random(20, maxAmplitude), random(100, maxPeriod), random(0, maxOffset));
   }
