@@ -1,12 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 class OceanLayer {
-  constructor({ width, height, spacing, amplitude, period, offset, phaseUpdate, color }) {
+  constructor({ width, height, spacing, amplitude, period, xOffset, yOffset, phaseUpdate, color }) {
     this.width = width;
     this.height = height;
     this.spacing = spacing;
     this.amplitude = amplitude;
     this.period = period;
-    this.offset = offset;
+    this.xOffset = xOffset;
+    this.yOffset = yOffset;
     this.phaseUpdate = phaseUpdate;
     this.color = color;
 
@@ -17,7 +18,7 @@ class OceanLayer {
           new Wave(
             random(this.amplitude.min, this.amplitude.max),
             random(this.period.min, this.period.max),
-            random(this.offset.min, this.offset.max)
+            random(this.xOffset.min, this.xOffset.max)
           )
       );
   }
@@ -34,7 +35,7 @@ class OceanLayer {
 
       noStroke();
       fill(this.color);
-      vertex(x, y + this.height / 2); // y + this.height / 2 = height center
+      vertex(x, y + this.height / 2 + this.yOffset); // y + this.height / 2 = height center
     }
     vertex(this.width, this.height);
     endShape(CLOSE);
