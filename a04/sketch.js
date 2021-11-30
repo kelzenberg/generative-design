@@ -15,34 +15,34 @@ function setup() {
     new OceanLayer({
       width: cWidth,
       height: cHeight,
-      spacing: 1,
-      amplitude: { min: 5, max: 5 },
-      period: { min: cWidth / 4, max: cWidth },
-      xOffset: { min: 0, max: TWO_PI },
-      yOffset: -200,
-      phaseUpdate: 0.01,
+      spacing: 1, // smoothness of wave
+      amplitude: { min: 5, max: 5 }, // height +/-
+      period: { min: cWidth / 4, max: cWidth }, // spikeyness
+      xOffset: { min: 0, max: TWO_PI }, // left/right shift
+      yOffset: -200, // up/down shift
+      phaseUpdate: 0.01, // wave speed
       color: [random(0, 255), random(0, 255), random(0, 255)],
     }),
     new OceanLayer({
       width: cWidth,
       height: cHeight,
-      spacing: 1,
-      amplitude: { min: 10, max: 10 },
-      period: { min: -cWidth / 4, max: -cWidth },
-      xOffset: { min: 0, max: TWO_PI },
-      yOffset: -50,
-      phaseUpdate: 0.025,
+      spacing: 1, // smoothness of wave
+      amplitude: { min: 10, max: 10 }, // height +/-
+      period: { min: -cWidth / 4, max: -cWidth }, // spikeyness
+      xOffset: { min: 0, max: TWO_PI }, // left/right shift
+      yOffset: 0, // up/down shift
+      phaseUpdate: 0.025, // wave speed
       color: [random(0, 255), random(0, 255), random(0, 255)],
     }),
     new OceanLayer({
       width: cWidth,
       height: cHeight,
-      spacing: 1,
-      amplitude: { min: 15, max: 15 },
-      period: { min: cWidth / 4, max: cWidth },
-      xOffset: { min: 0, max: TWO_PI },
-      yOffset: 100,
-      phaseUpdate: 0.04,
+      spacing: 1, // smoothness of wave
+      amplitude: { min: 15, max: 15 }, // height +/-
+      period: { min: cWidth / 4, max: cWidth }, // spikeyness
+      xOffset: { min: 0, max: TWO_PI }, // left/right shift
+      yOffset: 300, // up/down shift
+      phaseUpdate: 0.04, // wave speed
       color: [random(0, 255), random(0, 255), random(0, 255)],
     }),
   ];
