@@ -1,35 +1,53 @@
-const cWidth = 500; // canvas width
-const cHeight = 500; // canvas height
+let cWidth = 500; // canvas width
+let cHeight = 500; // canvas height
 
-const oceanLayer = new Array(3).fill(null);
+let oceanLayer = [];
 
 // eslint-disable-next-line no-unused-vars
 function setup() {
+  cWidth = windowWidth;
+  cHeight = windowHeight;
   createCanvas(cWidth, cHeight);
   createFrameRate(cWidth, cHeight);
-  background(0);
+  background(10);
 
-  // const maxAmplitude = 80; // relative to cHeight
-  // const maxPeriod = cWidth; // relative to cWidth
-  // const maxOffset = TWO_PI;
-
-  for (let idx = 0; idx < oceanLayer.length; idx += 1) {
-    oceanLayer[idx] = new OceanLayer({
+  oceanLayer = [
+    new OceanLayer({
       width: cWidth,
       height: cHeight,
-      spacing: 10,
+      spacing: 1,
       amplitude: { min: 20, max: 80 },
       period: { min: 100, max: cWidth },
       offset: { min: 0, max: TWO_PI },
       phaseUpdate: 0.05,
       color: [random(0, 255), random(0, 255), random(0, 255)],
-    });
-  }
+    }),
+    new OceanLayer({
+      width: cWidth,
+      height: cHeight,
+      spacing: 1,
+      amplitude: { min: 20, max: 80 },
+      period: { min: -100, max: -cWidth },
+      offset: { min: 0, max: TWO_PI },
+      phaseUpdate: 0.05,
+      color: [random(0, 255), random(0, 255), random(0, 255)],
+    }),
+    new OceanLayer({
+      width: cWidth,
+      height: cHeight,
+      spacing: 1,
+      amplitude: { min: 20, max: 80 },
+      period: { min: 100, max: cWidth },
+      offset: { min: 0, max: TWO_PI },
+      phaseUpdate: 0.05,
+      color: [random(0, 255), random(0, 255), random(0, 255)],
+    }),
+  ];
 }
 
 // eslint-disable-next-line no-unused-vars
 function draw() {
-  background(0, 0, 0);
+  background(10, 15);
   drawFrameRate();
 
   for (const layer of oceanLayer) {
@@ -40,49 +58,47 @@ function draw() {
   let min = minute();
   let sec = second();
   let mil = millis();
+  let scaling = Math.min(cWidth, cHeight);
 
-  fill('white');
-  noStroke();
-  text(`${hou}:${min}:${sec}`, cWidth / 2 - 20, 100); // debug
+  // fill('white');
+  // noStroke();
+  // text(`${hou}:${min}:${sec}`, cWidth / 2 - 20, 100); // debug
 
   translate(cWidth / 2, cHeight / 2);
   rotate(-PI / 2);
 
-  strokeWeight(12);
+  strokeWeight(scaling / (12 * 5));
   noFill();
 
-  stroke(255, 100, 150, 255);
-  let milAngle = map(mil, 0, 60 * 1000, 0, TWO_PI);
-  arc(0, 0, cWidth / 2, cHeight / 2, 0, milAngle);
-
+  // seconds
+  stroke(255, 85);
+  let milAngle = map(sec, 0, 60, 0, TWO_PI);
+  arc(0, 0, cWidth / cHeight + scaling * 0.6, cHeight / cWidth + scaling * 0.6, 0, milAngle);
   push();
   rotate(milAngle);
-  stroke(255, 100, 150, 255);
-  line(0, 0, 80, 0);
+  line(0, 0, map(80, 0, 80, 0, scaling / 5), 0);
   pop();
 
-  stroke(255, 100, 150, 150);
+  // minutes
+  stroke(255, 170);
   let minAngle = map(min, 0, 60, 0, TWO_PI);
-  arc(0, 0, cWidth / 2 - 20, cHeight / 2 - 20, 0, minAngle);
-
+  arc(0, 0, cWidth / cHeight + scaling * 0.6 - 20, cHeight / cWidth + scaling * 0.6 - 20, 0, minAngle);
   push();
   rotate(minAngle);
-  stroke(255, 100, 150, 150);
-  line(0, 0, 60, 0);
+  line(0, 0, map(60, 0, 80, 0, scaling / 5), 0);
   pop();
 
-  stroke(255, 100, 150, 50);
+  // hours
+  stroke(255, 255);
   let houAngle = map(hou % 12, 0, 12, 0, TWO_PI);
-  arc(0, 0, cWidth / 2 - 40, cHeight / 2 - 40, 0, houAngle);
-
+  arc(0, 0, cWidth / cHeight + scaling * 0.6 - 40, cHeight / cWidth + scaling * 0.6 - 40, 0, houAngle);
   push();
   rotate(houAngle);
-  stroke(255, 100, 150, 50);
-  line(0, 0, 40, 0);
+  line(0, 0, map(40, 0, 80, 0, scaling / 5), 0);
   pop();
 }
 
 // eslint-disable-next-line no-unused-vars
-// function windowResized() {
-//   resizeCanvas(cWidth, cHeight);
-// }
+function windowResized() {
+  setup();
+}
