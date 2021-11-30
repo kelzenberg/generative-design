@@ -25,7 +25,7 @@ class OceanLayer {
 
   draw() {
     beginShape();
-    vertex(0, this.height);
+    vertex(0, this.height + this.yOffset); // bottom left shape corner
     for (let x = 0; x <= this.width; x += this.spacing) {
       let y = 0;
 
@@ -35,9 +35,9 @@ class OceanLayer {
 
       noStroke();
       fill(this.color);
-      vertex(x, y + this.height / 2 + this.yOffset); // y + this.height / 2 = height center
+      vertex(x, y + (this.height + this.yOffset) / 2); // center of window height + y-offset
     }
-    vertex(this.width, this.height);
+    vertex(this.width, this.height + this.yOffset); // bottom right shape corner
     endShape(CLOSE);
 
     for (const wave of this.waves) {
