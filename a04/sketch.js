@@ -36,21 +36,9 @@ function draw() {
   background(0, 0, 0);
   drawFrameRate();
 
-  // let dotSpacing = 10;
-
-  // for (let x = 0; x < cWidth; x += dotSpacing) {
-  //   let y = 0;
-  //   for (const wave of waves) {
-  //     y += wave.evaluate(x);
-  //   }
-
-  //   noStroke();
-  //   ellipse(x, y + height / 2, dotSpacing);
-  // }
-
-  // for (const wave of waves) {
-  //   wave.updatePhase(0.05);
-  // }
+  for (const layer of oceanLayer) {
+    layer.draw();
+  }
 
   let hou = hour();
   let min = minute();
