@@ -2,7 +2,6 @@ const cWidth = 500; // canvas width
 const cHeight = 500; // canvas height
 
 const oceanLayer = new Array(3).fill(null);
-const waves = new Array(5).fill(null);
 
 // eslint-disable-next-line no-unused-vars
 function setup() {
@@ -10,24 +9,21 @@ function setup() {
   createFrameRate(cWidth, cHeight);
   background(0);
 
-  const maxAmplitude = 80; // relative to cHeight
-  const maxPeriod = cWidth; // relative to cWidth
-  const maxOffset = TWO_PI;
+  // const maxAmplitude = 80; // relative to cHeight
+  // const maxPeriod = cWidth; // relative to cWidth
+  // const maxOffset = TWO_PI;
 
   for (let idx = 0; idx < oceanLayer.length; idx += 1) {
-    oceanLayer[idx] = new OceanLayer(
-      cWidth,
-      cHeight,
-      10,
-      { min: 20, max: 80 },
-      { min: 100, max: cWidth },
-      { min: 0, max: TWO_PI },
-      0.05,
-      [random(0, 255), random(0, 255), random(0, 255)]
-    );
-  }
-  for (let idx = 0; idx < waves.length; idx += 1) {
-    waves[idx] = new Wave(random(20, maxAmplitude), random(100, maxPeriod), random(0, maxOffset));
+    oceanLayer[idx] = new OceanLayer({
+      width: cWidth,
+      height: cHeight,
+      spacing: 10,
+      amplitude: { min: 20, max: 80 },
+      period: { min: 100, max: cWidth },
+      offset: { min: 0, max: TWO_PI },
+      phaseUpdate: 0.05,
+      color: [random(0, 255), random(0, 255), random(0, 255)],
+    });
   }
 }
 

@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 class OceanLayer {
-  constructor(width, height, spacing, amplitude, period, offset, phaseUpdate = 0.05, color = 'blue') {
+  constructor({ width, height, spacing, amplitude, period, offset, phaseUpdate, color }) {
     this.width = width;
     this.height = height;
     this.spacing = spacing;
