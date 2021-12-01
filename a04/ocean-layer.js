@@ -46,15 +46,15 @@ class OceanLayer {
     endShape(CLOSE);
   }
 
-  drawBoats() {
-    const currentBoatAmount = this.boatAmountFn();
-    const diff = this.boats.length - currentBoatAmount;
+  manageBoats() {
+    const diff = this.boats.length - this.boatAmountFn();
 
     if (diff > 0) {
       this.boats = this.boats
         .map(boat => {
           boat.leaveTowards(this.width + 50, boat.target.y);
-          return Math.round(boat.position.x) === Math.round(boat.target.x) ? null : boat;
+          const hasReachedTarget = Math.round(boat.position.x) === Math.round(boat.target.x);
+          return hasReachedTarget ? null : boat;
         })
         .filter(Boolean);
     } else if (diff < 0) {
@@ -81,7 +81,7 @@ class OceanLayer {
       wave.updatePhase(this.phaseUpdate);
     }
 
-    this.drawBoats();
+    this.manageBoats();
 
     for (const boat of this.boats) {
       boat.update();
