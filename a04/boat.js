@@ -46,23 +46,23 @@ class Boat {
 
     // Fock
     fill('white');
-    triangle(x, y - 5, x + 20, y - 40 - 5, x + 20, y - 5); // LB, T, RB (anti-clockwise)
+    triangle(x, y - 2.5, x + 10, y - 20 - 2.5, x + 10, y - 2.5); // LB, T, RB (anti-clockwise)
 
     // Mast
     fill('grey');
-    rect(x + 20 + 1.5, y - 45 - 5, 2, 55);
+    rect(x + 10 + 1.5, y - 22 - 2.5, 2, 25);
 
     // Großsegel
     fill('white');
-    triangle(x + 25, y - 5, x + 25, y - 40 - 5, x + 60, y - 5); // LB, T, RB (anti-clockwise)
+    triangle(x + 15, y - 2.5, x + 15, y - 20 - 2.5, x + 30, y - 2.5); // LB, T, RB (anti-clockwise)
 
     // Rumpf
     fill(this.color);
     beginShape();
-    vertex(x - 20 + 5, y);
-    vertex(x + 65 + 5, y);
-    vertex(x + 55 + 5, y + 15);
-    vertex(x + 0 + 5, y + 15);
+    vertex(x - 10 + 2.5, y);
+    vertex(x + 32 + 2.5, y);
+    vertex(x + 27 + 2.5, y + 7);
+    vertex(x + 0 + 2.5, y + 7);
     endShape(CLOSE);
   }
 }
