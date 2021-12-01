@@ -25,11 +25,10 @@ class OceanLayer {
           )
       );
 
-    console.log('boatAmountFn', this.boatAmountFn());
     this.boats = [];
   }
 
-  draw() {
+  drawWaves() {
     beginShape();
     vertex(0, this.height); // bottom left shape corner
     for (let x = 0; x <= this.width; x += this.spacing) {
@@ -45,6 +44,10 @@ class OceanLayer {
     }
     vertex(this.width, this.height); // bottom right shape corner
     endShape(CLOSE);
+  }
+
+  draw() {
+    this.drawWaves();
 
     for (const wave of this.waves) {
       wave.updatePhase(this.phaseUpdate);
