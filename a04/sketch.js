@@ -19,7 +19,7 @@ function setup() {
       amplitude: { min: 5, max: 5 }, // height +/-
       period: { min: cWidth / 4, max: cWidth }, // spikeyness
       xOffset: { min: 0, max: TWO_PI }, // left/right shift
-      yOffset: -200, // up/down shift
+      yOffset: -250, // up/down shift
       phaseUpdate: 0.01, // wave speed
       color: [random(0, 255), random(0, 255), random(0, 255)],
     }),
@@ -60,7 +60,7 @@ function draw() {
   let hou = hour();
   let min = minute();
   let sec = second();
-  let mil = millis();
+  // let mil = millis();
   let scaling = Math.min(cWidth, cHeight);
 
   // fill('white');
