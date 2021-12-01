@@ -11,9 +11,8 @@ function setup() {
   createFrameRate(cWidth, cHeight);
   background(20);
 
-  button = createButton('click me');
-  button.position(0, 0);
-  button.mousePressed(() => console.log('foo'));
+  // here the timeButtons.js to set the time would've been placed
+  // if it was finished...
 
   oceanLayer = [
     // hour
