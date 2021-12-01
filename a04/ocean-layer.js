@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 class OceanLayer {
-  constructor({ width, height, xOffset, yOffset, spacing, amplitude, period, phaseUpdate, boatAmount, color }) {
+  constructor({ width, height, xOffset, yOffset, spacing, amplitude, period, phaseUpdate, boatAmountFn, color }) {
     this.xOffset = xOffset;
     this.yOffset = yOffset;
     this.width = width;
@@ -10,10 +10,11 @@ class OceanLayer {
     this.amplitude = amplitude;
     this.period = period;
     this.phaseUpdate = phaseUpdate;
+    this.boatAmountFn = boatAmountFn;
     this.color = color;
 
-    const waveAmount = 5;
-    this.waves = new Array(waveAmount)
+    this.waveAmount = 5;
+    this.waves = new Array(this.waveAmount)
       .fill(null)
       .map(
         () =>
@@ -24,18 +25,8 @@ class OceanLayer {
           )
       );
 
-    this.boats = new Array(boatAmount)
-      .fill(null)
-      .map(
-        () =>
-          new Boat(
-            random(50, this.width - 50),
-            random(this.center - this.amplitude.max * waveAmount, this.center + this.amplitude.max * waveAmount) + 100,
-            5,
-            [random(0, 255), random(0, 255), random(0, 255)]
-          )
-      )
-      .sort((boatA, boatB) => boatA.target.y - boatB.target.y);
+    console.log('boatAmountFn', this.boatAmountFn());
+    this.boats = [];
   }
 
   draw() {
@@ -57,6 +48,25 @@ class OceanLayer {
 
     for (const wave of this.waves) {
       wave.updatePhase(this.phaseUpdate);
+    }
+
+    const currentBoatAmount = this.boatAmountFn();
+    if (currentBoatAmount !== this.boats.length) {
+      const diff = this.boats.length - currentBoatAmount;
+      diff > 0
+        ? this.boats.pop()
+        : this.boats.push(
+            new Boat(
+              random(50, this.width - 50),
+              random(
+                this.center - this.amplitude.max * this.waveAmount,
+                this.center + this.amplitude.max * this.waveAmount
+              ) + 100,
+              5,
+              [random(0, 255), random(0, 255), random(0, 255)]
+            )
+          );
+      this.boats = this.boats.sort((boatA, boatB) => boatA.target.y - boatB.target.y);
     }
 
     for (const boat of this.boats) {
