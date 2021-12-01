@@ -1,17 +1,19 @@
 // eslint-disable-next-line no-unused-vars
 class OceanLayer {
-  constructor({ width, height, spacing, amplitude, period, xOffset, yOffset, phaseUpdate, color }) {
+  constructor({ width, height, xOffset, yOffset, spacing, amplitude, period, phaseUpdate, boatAmount, color }) {
+    this.xOffset = xOffset;
+    this.yOffset = yOffset;
     this.width = width;
-    this.height = height;
+    this.height = height + this.yOffset;
+    this.center = this.height / 2;
     this.spacing = spacing;
     this.amplitude = amplitude;
     this.period = period;
-    this.xOffset = xOffset;
-    this.yOffset = yOffset;
     this.phaseUpdate = phaseUpdate;
     this.color = color;
 
-    this.waves = new Array(5)
+    const waveAmount = 5;
+    this.waves = new Array(waveAmount)
       .fill(null)
       .map(
         () =>
@@ -21,11 +23,23 @@ class OceanLayer {
             random(this.xOffset.min, this.xOffset.max)
           )
       );
+
+    this.boats = new Array(boatAmount)
+      .fill(null)
+      .map(
+        () =>
+          new Boat(
+            random(50, this.width - 50),
+            random(this.center - this.amplitude.max * waveAmount, this.center + this.amplitude.max * waveAmount) + 100,
+            5
+          )
+      )
+      .sort((boatA, boatB) => boatA.target.y - boatB.target.y);
   }
 
   draw() {
     beginShape();
-    vertex(0, this.height + this.yOffset); // bottom left shape corner
+    vertex(0, this.height); // bottom left shape corner
     for (let x = 0; x <= this.width; x += this.spacing) {
       let y = 0;
 
@@ -35,13 +49,18 @@ class OceanLayer {
 
       noStroke();
       fill(this.color);
-      vertex(x, y + (this.height + this.yOffset) / 2); // center of window height + y-offset
+      vertex(x, y + this.center); // half of window height + y-offset
     }
-    vertex(this.width, this.height + this.yOffset); // bottom right shape corner
+    vertex(this.width, this.height); // bottom right shape corner
     endShape(CLOSE);
 
     for (const wave of this.waves) {
       wave.updatePhase(this.phaseUpdate);
+    }
+
+    for (const boat of this.boats) {
+      boat.update();
+      boat.draw();
     }
   }
 }
