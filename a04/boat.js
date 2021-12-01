@@ -1,11 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 class Boat {
-  constructor(x, y, maxVelocity) {
+  constructor(x, y, maxVelocity, color) {
     this.target = createVector(x, y);
     this.position = createVector(0, y);
     this.velocity = createVector(0, 0);
     this.acceleration = createVector(0, 0);
     this.maxVelocity = maxVelocity;
+    this.color = color;
   }
 
   applyForce(force) {
@@ -41,31 +42,27 @@ class Boat {
   draw() {
     const x = this.position.x;
     const y = this.position.y;
-    push();
-    // translate(width / 2, 0); // temp
-    // scale(-1, 1);
     noStroke();
 
-    fill('white');
     // Fock
+    fill('white');
     triangle(x, y - 5, x + 20, y - 40 - 5, x + 20, y - 5); // LB, T, RB (anti-clockwise)
 
-    fill('red');
     // Mast
-    rect(x + 20 + 1, y - 45 - 5, 3, 55);
+    fill('grey');
+    rect(x + 20 + 1.5, y - 45 - 5, 2, 55);
 
-    fill('yellow');
     // Großsegel
+    fill('white');
     triangle(x + 25, y - 5, x + 25, y - 40 - 5, x + 60, y - 5); // LB, T, RB (anti-clockwise)
 
-    fill('blue');
     // Rumpf
+    fill(this.color);
     beginShape();
     vertex(x - 20 + 5, y);
     vertex(x + 65 + 5, y);
     vertex(x + 55 + 5, y + 15);
     vertex(x + 0 + 5, y + 15);
     endShape(CLOSE);
-    pop();
   }
 }

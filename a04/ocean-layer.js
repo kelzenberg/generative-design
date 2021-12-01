@@ -31,7 +31,8 @@ class OceanLayer {
           new Boat(
             random(50, this.width - 50),
             random(this.center - this.amplitude.max * waveAmount, this.center + this.amplitude.max * waveAmount) + 100,
-            5
+            5,
+            [random(0, 255), random(0, 255), random(0, 255)]
           )
       )
       .sort((boatA, boatB) => boatA.target.y - boatB.target.y);
