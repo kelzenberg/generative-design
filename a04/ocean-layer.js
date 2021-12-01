@@ -46,13 +46,7 @@ class OceanLayer {
     endShape(CLOSE);
   }
 
-  draw() {
-    this.drawWaves();
-
-    for (const wave of this.waves) {
-      wave.updatePhase(this.phaseUpdate);
-    }
-
+  drawBoats() {
     const currentBoatAmount = this.boatAmountFn();
     const diff = this.boats.length - currentBoatAmount;
 
@@ -78,6 +72,16 @@ class OceanLayer {
     }
 
     this.boats = this.boats.sort((boatA, boatB) => boatA.target.y - boatB.target.y);
+  }
+
+  draw() {
+    this.drawWaves();
+
+    for (const wave of this.waves) {
+      wave.updatePhase(this.phaseUpdate);
+    }
+
+    this.drawBoats();
 
     for (const boat of this.boats) {
       boat.update();
