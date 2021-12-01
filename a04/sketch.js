@@ -13,31 +13,31 @@ function setup() {
 
   oceanLayer = [
     // hour
-    // new OceanLayer({
-    //   width: cWidth,
-    //   height: cHeight,
-    //   xOffset: { min: 0, max: TWO_PI }, // left/right shift
-    //   yOffset: -400, // up/down shift
-    //   spacing: 1, // smoothness of wave
-    //   amplitude: { min: 5, max: 5 }, // height +/-
-    //   period: { min: cWidth / 4, max: cWidth }, // spikeyness
-    //   phaseUpdate: 0.01, // wave speed
-    //   boatAmountFn: () => hour() % 12,
-    //   color: [random(0, 255), random(0, 255), random(0, 255)],
-    // }),
-    // // minute
-    // new OceanLayer({
-    //   width: cWidth,
-    //   height: cHeight,
-    //   xOffset: { min: 0, max: TWO_PI }, // left/right shift
-    //   yOffset: 50, // up/down shift
-    //   spacing: 1, // smoothness of wave
-    //   amplitude: { min: 10, max: 10 }, // height +/-
-    //   period: { min: -cWidth / 4, max: -cWidth }, // spikeyness
-    //   phaseUpdate: 0.025, // wave speed
-    //   boatAmountFn: () => Math.floor(minute() / 10),
-    //   color: [random(0, 255), random(0, 255), random(0, 255)],
-    // }),
+    new OceanLayer({
+      width: cWidth,
+      height: cHeight,
+      xOffset: { min: 0, max: TWO_PI }, // left/right shift
+      yOffset: -400, // up/down shift
+      spacing: 1, // smoothness of wave
+      amplitude: { min: 5, max: 5 }, // height +/-
+      period: { min: cWidth / 4, max: cWidth }, // spikeyness
+      phaseUpdate: 0.01, // wave speed
+      boatAmountFn: () => hour() % 12,
+      color: [random(0, 255), random(0, 255), random(0, 255)],
+    }),
+    // minute
+    new OceanLayer({
+      width: cWidth,
+      height: cHeight,
+      xOffset: { min: 0, max: TWO_PI }, // left/right shift
+      yOffset: 50, // up/down shift
+      spacing: 1, // smoothness of wave
+      amplitude: { min: 10, max: 10 }, // height +/-
+      period: { min: -cWidth / 4, max: -cWidth }, // spikeyness
+      phaseUpdate: 0.025, // wave speed
+      boatAmountFn: () => Math.floor(minute() / 5),
+      color: [random(0, 255), random(0, 255), random(0, 255)],
+    }),
     // second
     new OceanLayer({
       width: cWidth,
