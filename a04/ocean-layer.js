@@ -4,8 +4,8 @@ class OceanLayer {
     this.xOffset = xOffset;
     this.yOffset = yOffset;
     this.width = width;
-    this.height = height + this.yOffset;
-    this.center = this.height / 2;
+    this.height = height;
+    this.center = (this.height + this.yOffset) / 2;
     this.spacing = spacing;
     this.amplitude = amplitude;
     this.period = period;

@@ -16,7 +16,7 @@ function setup() {
       width: cWidth,
       height: cHeight,
       xOffset: { min: 0, max: TWO_PI }, // left/right shift
-      yOffset: -250, // up/down shift
+      yOffset: -400, // up/down shift
       spacing: 1, // smoothness of wave
       amplitude: { min: 5, max: 5 }, // height +/-
       period: { min: cWidth / 4, max: cWidth }, // spikeyness
@@ -40,9 +40,9 @@ function setup() {
       width: cWidth,
       height: cHeight,
       xOffset: { min: 0, max: TWO_PI }, // left/right shift
-      yOffset: 300, // up/down shift
+      yOffset: 500, // up/down shift
       spacing: 1, // smoothness of wave
-      amplitude: { min: 15, max: 15 }, // height +/-
+      amplitude: { min: 10, max: 10 }, // height +/-
       period: { min: cWidth / 4, max: cWidth }, // spikeyness
       phaseUpdate: 0.04, // wave speed
       boatAmount: 5,
