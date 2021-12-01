@@ -32,6 +32,11 @@ class Boat {
     this.applyForce(arrive);
   }
 
+  leaveTowards(x, y) {
+    this.target = createVector(x, y);
+    this.update();
+  }
+
   update() {
     this.striveTo(this.target);
     this.position.add(this.velocity);

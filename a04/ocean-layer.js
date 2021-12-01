@@ -51,23 +51,30 @@ class OceanLayer {
     }
 
     const currentBoatAmount = this.boatAmountFn();
-    if (currentBoatAmount !== this.boats.length) {
-      const diff = this.boats.length - currentBoatAmount;
-      diff > 0
-        ? this.boats.pop()
-        : this.boats.push(
-            new Boat(
-              random(50, this.width - 50),
-              random(
-                this.center - this.amplitude.max * this.waveAmount,
-                this.center + this.amplitude.max * this.waveAmount
-              ) + 100,
-              5,
-              [random(0, 255), random(0, 255), random(0, 255)]
-            )
-          );
-      this.boats = this.boats.sort((boatA, boatB) => boatA.target.y - boatB.target.y);
+    const diff = this.boats.length - currentBoatAmount;
+
+    if (diff > 0) {
+      this.boats = this.boats
+        .map(boat => {
+          boat.leaveTowards(this.width + 50, boat.target.y);
+          return Math.round(boat.position.x) === Math.round(boat.target.x) ? null : boat;
+        })
+        .filter(Boolean);
+    } else if (diff < 0) {
+      this.boats.push(
+        new Boat(
+          random(50, this.width - 50),
+          random(
+            this.center - this.amplitude.max * this.waveAmount,
+            this.center + this.amplitude.max * this.waveAmount
+          ) + 100,
+          5,
+          [random(0, 255), random(0, 255), random(0, 255)]
+        )
+      );
     }
+
+    this.boats = this.boats.sort((boatA, boatB) => boatA.target.y - boatB.target.y);
 
     for (const boat of this.boats) {
       boat.update();
