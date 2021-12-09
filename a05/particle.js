@@ -42,10 +42,6 @@ class Particle {
   }
 
   update() {
-    // let mouse = createVector(mouseX, mouseY);
-    // this.acc = p5.Vector.sub(mouse, this.pos);
-    // this.acc.setMag(0.1);
-
     this.velocity.add(this.acceleration);
     this.position.add(this.velocity);
     this.acceleration.set(0, 0);
