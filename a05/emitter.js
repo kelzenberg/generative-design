@@ -2,23 +2,23 @@
 class Emitter {
   constructor(x, y) {
     this.position = createVector(x, y);
-    this.gravity = createVector(0, 0.2);
     this.particles = [];
   }
 
   emit(amount) {
     for (let idx = 0; idx < amount; idx++) {
-      if (random(1) < 0.5) {
-        this.particles.push(new Particle(this.position.x, this.position.y));
-      } else {
-        this.particles.push(new Confetti(this.position.x, this.position.y));
-      }
+      this.particles.push(new Particle(this.position.x, this.position.y));
+    }
+  }
+
+  applyForce(force) {
+    for (const particle of this.particles) {
+      particle.applyForce(force);
     }
   }
 
   update() {
     for (const particle of this.particles) {
-      particle.applyForce(this.gravity);
       particle.update();
       particle.avoidEdges();
     }

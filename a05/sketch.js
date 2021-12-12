@@ -21,7 +21,13 @@ function draw() {
   background(0);
   drawFrameRate();
 
+  const force = createVector(0, -0.1);
+  const mouseDir = map(mouseX, 0, cWidth, -0.1, 0.1);
+  const wind = createVector(mouseDir, 0);
+
   for (const emitter of emitters) {
+    emitter.applyForce(force);
+    emitter.applyForce(wind);
     emitter.emit(1);
     emitter.update();
     emitter.show();
