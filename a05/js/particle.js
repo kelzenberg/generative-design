@@ -6,7 +6,7 @@ class Particle extends p5.Vector {
     this.velocity.mult(random(0.5, 2));
     this.acceleration = createVector(0, 0);
     this.lifetime = 255; // alpha transparency
-    this.size = 4;
+    this.size = 16;
   }
 
   isFinished() {
@@ -45,13 +45,12 @@ class Particle extends p5.Vector {
     this.velocity.add(this.acceleration);
     this.add(this.velocity);
     this.acceleration.set(0, 0);
-    this.lifetime -= 1;
+    this.lifetime -= 5;
   }
 
   show() {
-    stroke(255, this.lifetime);
-    strokeWeight(2);
-    fill(255, this.lifetime);
-    ellipse(this.x, this.y, this.size * 2);
+    tint(255, 100, 80, this.lifetime);
+    imageMode(CENTER);
+    image(particleImage, this.x, this.y, this.size * 2, this.size * 2);
   }
 }

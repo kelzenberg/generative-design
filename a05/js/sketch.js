@@ -2,6 +2,12 @@ let cWidth = 500; // canvas width
 let cHeight = 500; // canvas height
 
 let emitters = [];
+let particleImage;
+
+// eslint-disable-next-line no-unused-vars
+function preload() {
+  particleImage = loadImage('./img/particle.svg');
+}
 
 // eslint-disable-next-line no-unused-vars
 function setup() {
@@ -18,8 +24,10 @@ function mousePressed() {
 
 // eslint-disable-next-line no-unused-vars
 function draw() {
+  clear();
   background(0);
   drawFrameRate();
+  blendMode(ADD);
 
   const force = createVector(0, -0.1);
   const mouseDir = map(mouseX, 0, cWidth, -0.1, 0.1);
