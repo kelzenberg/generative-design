@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
-class Particle {
+class Particle extends p5.Vector {
   constructor(x, y) {
-    this.position = createVector(x, y);
+    super(x, y);
     this.velocity = p5.Vector.random2D();
     this.velocity.mult(random(0.5, 2));
     this.acceleration = createVector(0, 0);
@@ -20,30 +20,30 @@ class Particle {
   avoidEdges() {
     const factor = -random(0.2, 0.5);
 
-    if (this.position.y >= height - this.size) {
+    if (this.y >= height - this.size) {
       // bottom border
-      this.position.y = height - this.size;
+      this.y = height - this.size;
       this.velocity.y *= factor;
-    } else if (this.position.y <= this.size) {
+    } else if (this.y <= this.size) {
       // top border
-      this.position.y = this.size;
+      this.y = this.size;
       this.velocity.y *= factor;
     }
 
-    if (this.position.x >= width - this.size) {
+    if (this.x >= width - this.size) {
       // right border
-      this.position.x = width - this.size;
+      this.x = width - this.size;
       this.velocity.x *= factor;
-    } else if (this.position.x <= this.size) {
+    } else if (this.x <= this.size) {
       // left border
-      this.position.x = this.size;
+      this.x = this.size;
       this.velocity.x *= factor;
     }
   }
 
   update() {
     this.velocity.add(this.acceleration);
-    this.position.add(this.velocity);
+    this.add(this.velocity);
     this.acceleration.set(0, 0);
     this.lifetime -= 1;
   }
@@ -52,6 +52,6 @@ class Particle {
     stroke(255, this.lifetime);
     strokeWeight(2);
     fill(255, this.lifetime);
-    ellipse(this.position.x, this.position.y, this.size * 2);
+    ellipse(this.x, this.y, this.size * 2);
   }
 }

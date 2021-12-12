@@ -8,7 +8,7 @@ class Emitter {
 
   emit(amount) {
     for (let idx = 0; idx < amount; idx++) {
-      this.particles.push(new Particle(this.position.x, this.position.y));
+      this.particles.push(new Confetti(this.position.x, this.position.y));
     }
   }
 

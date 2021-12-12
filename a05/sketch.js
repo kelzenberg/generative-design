@@ -22,7 +22,7 @@ function draw() {
   drawFrameRate();
 
   for (const emitter of emitters) {
-    emitter.emit(2);
+    emitter.emit(1);
     emitter.update();
     emitter.show();
   }
