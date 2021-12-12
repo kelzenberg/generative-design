@@ -1,10 +1,12 @@
-const cWidth = 350; // canvas width
-const cHeight = 350; // canvas height
+let cWidth = 500; // canvas width
+let cHeight = 500; // canvas height
 
 let emitters = [];
 
 // eslint-disable-next-line no-unused-vars
 function setup() {
+  cWidth = windowWidth;
+  cHeight = windowHeight;
   createCanvas(cWidth, cHeight);
   createFrameRate(cWidth, cHeight);
 }
@@ -27,6 +29,6 @@ function draw() {
 }
 
 // eslint-disable-next-line no-unused-vars
-// function windowResized() {
-//   resizeCanvas(cWidth, cHeight);
-// }
+function windowResized() {
+  setup();
+}
