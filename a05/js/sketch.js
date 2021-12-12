@@ -1,7 +1,7 @@
 let cWidth = 500; // canvas width
 let cHeight = 500; // canvas height
 
-let emitters = [];
+const emitters = [];
 let particleImage;
 
 // eslint-disable-next-line no-unused-vars
@@ -13,7 +13,7 @@ function preload() {
 function setup() {
   cWidth = windowWidth;
   cHeight = windowHeight;
-  createCanvas(cWidth, cHeight);
+  createCanvas(cWidth, cHeight, WEBGL);
   createFrameRate(cWidth, cHeight);
 }
 
