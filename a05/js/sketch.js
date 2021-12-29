@@ -21,7 +21,7 @@ function setup() {
 
 // eslint-disable-next-line no-unused-vars
 function mousePressed() {
-  emitters.push(new Emitter(mouseX, mouseY));
+  emitters.push(new Emitter(mouseX, mouseY, particleImage));
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -35,19 +35,19 @@ function draw() {
   background(0);
   drawFrameRate();
 
-  push();
-  rectMode(CENTER);
-  noStroke();
-  fill(255, 0, 0);
-  translate(mouseX - cWidth / 2, mouseY - cHeight / 2, mouseZ);
-  rotateX(angle);
-  rotateY(angle);
-  // rect(0, 0, 150, 150);
-  // box(200, 10, 100);
-  torus(100, 42);
-  pop();
+  // push();
+  // rectMode(CENTER);
+  // noStroke();
+  // fill(255, 0, 0);
+  // translate(mouseX - cWidth / 2, mouseY - cHeight / 2, mouseZ);
+  // rotateX(angle);
+  // rotateY(angle);
+  // // rect(0, 0, 150, 150);
+  // // box(200, 10, 100);
+  // torus(100, 42);
+  // pop();
 
-  angle += 0.05;
+  // angle += 0.05;
 
   // blendMode(ADD);
 

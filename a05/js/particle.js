@@ -1,12 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 class Particle extends p5.Vector {
-  constructor(x, y) {
+  constructor(x, y, texture) {
     super(x, y);
     this.velocity = p5.Vector.random2D();
     this.velocity.mult(random(0.5, 2));
     this.acceleration = createVector(0, 0);
     this.lifetime = 255; // alpha transparency
     this.size = 16;
+    this.texture = texture;
   }
 
   isFinished() {
@@ -51,6 +52,6 @@ class Particle extends p5.Vector {
   show() {
     tint(255, 100, 80, this.lifetime);
     imageMode(CENTER);
-    image(particleImage, this.x, this.y, this.size * 2, this.size * 2);
+    image(this.texture, this.x, this.y, this.size * 2, this.size * 2);
   }
 }

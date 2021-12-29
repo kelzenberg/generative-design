@@ -1,13 +1,14 @@
 // eslint-disable-next-line no-unused-vars
 class Emitter {
-  constructor(x, y) {
+  constructor(x, y, particleImage) {
     this.position = createVector(x, y);
     this.particles = [];
+    this.particleImage = particleImage;
   }
 
   emit(amount) {
     for (let idx = 0; idx < amount; idx++) {
-      this.particles.push(new Particle(this.position.x, this.position.y));
+      this.particles.push(new Particle(this.position.x, this.position.y, this.particleImage));
     }
   }
 
