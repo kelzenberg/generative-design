@@ -14,6 +14,10 @@ class Particle extends p5.Vector {
     return this.lifetime < 0;
   }
 
+  hasExploded() {
+    return this.velocity.y >= 0;
+  }
+
   applyForce(force) {
     this.acceleration.add(force);
   }

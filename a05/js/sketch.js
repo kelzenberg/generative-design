@@ -64,7 +64,7 @@ function draw() {
     // 10% chance
     const { x, y } = conv2DLoc(random(0, cWidth), cHeight);
     const emitter = new Emitter(x, y, particleImage);
-    emitter.emit(1);
+    emitter.startEmitting(1);
     emitters.push(emitter);
   }
 

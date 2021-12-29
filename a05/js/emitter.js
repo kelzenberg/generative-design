@@ -6,7 +6,7 @@ class Emitter {
     this.particleImage = particleImage;
   }
 
-  emit(amount) {
+  startEmitting(amount) {
     for (let idx = 0; idx < amount; idx++) {
       this.particles.push(new Particle(this.position.x, this.position.y, this.particleImage));
     }
@@ -25,7 +25,8 @@ class Emitter {
     }
 
     for (let idx = this.particles.length - 1; idx >= 0; idx--) {
-      if (this.particles[idx].isFinished()) {
+      const currentParticle = this.particles[idx];
+      if (currentParticle.isFinished() || currentParticle.hasExploded()) {
         this.particles.splice(idx, 1);
       }
     }
