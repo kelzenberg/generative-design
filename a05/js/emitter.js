@@ -4,6 +4,8 @@ class Emitter {
     this.position = createVector(x, y);
     this.particles = [];
     this.particleImage = particleImage;
+
+    console.log(this.position);
   }
 
   emit(amount) {
@@ -21,7 +23,7 @@ class Emitter {
   update() {
     for (const particle of this.particles) {
       particle.update();
-      particle.avoidEdges();
+      // particle.avoidEdges();
     }
 
     for (let idx = this.particles.length - 1; idx >= 0; idx--) {

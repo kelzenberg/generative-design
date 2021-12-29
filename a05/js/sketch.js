@@ -24,15 +24,14 @@ function setup() {
   createCanvas(cWidth, cHeight, WEBGL);
   createFrameRate(cWidth, cHeight);
 
-  gravity = createVector();
-  const { x, y } = conv2DLoc(random(cWidth), cHeight);
-  firework = new Particle(x, y, particleImage);
+  gravity = createVector(0, 0.2);
 }
 
 // eslint-disable-next-line no-unused-vars
-// function mousePressed() {
-//   emitters.push(new Emitter(mouseX, mouseY, particleImage));
-// }
+function mousePressed() {
+  const { x, y } = conv2DLoc(mouseX, mouseY);
+  emitters.push(new Emitter(x, y, particleImage));
+}
 
 // eslint-disable-next-line no-unused-vars
 // function mouseWheel({ delta }) {
@@ -44,9 +43,6 @@ function draw() {
   clear();
   background(0);
   drawFrameRate();
-
-  firework.update();
-  firework.show();
 
   // push();
   // rectMode(CENTER);
@@ -64,17 +60,16 @@ function draw() {
 
   // blendMode(ADD);
 
-  // const force = createVector(0, -0.1);
   // const mouseDir = map(mouseX, 0, cWidth, -0.1, 0.1);
   // const wind = createVector(mouseDir, 0);
 
-  // for (const emitter of emitters) {
-  //   emitter.applyForce(force);
-  //   emitter.applyForce(wind);
-  //   emitter.emit(1);
-  //   emitter.update();
-  //   emitter.show();
-  // }
+  for (const emitter of emitters) {
+    emitter.applyForce(gravity);
+    // emitter.applyForce(wind);
+    emitter.emit(1);
+    emitter.update();
+    emitter.show();
+  }
 }
 
 // eslint-disable-next-line no-unused-vars

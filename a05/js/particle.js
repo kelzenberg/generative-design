@@ -2,7 +2,7 @@
 class Particle extends p5.Vector {
   constructor(x, y, texture) {
     super(x, y);
-    this.velocity = createVector(0, -1);
+    this.velocity = createVector(0, -8);
     this.velocity.mult(random(0.5, 2));
     this.acceleration = createVector(0, 0);
     this.lifetime = 255; // alpha transparency
@@ -18,29 +18,29 @@ class Particle extends p5.Vector {
     this.acceleration.add(force);
   }
 
-  avoidEdges() {
-    const factor = -random(0.2, 0.5);
+  // avoidEdges() {
+  //   const factor = -random(0.2, 0.5);
 
-    if (this.y >= height - this.size) {
-      // bottom border
-      this.y = height - this.size;
-      this.velocity.y *= factor;
-    } else if (this.y <= this.size) {
-      // top border
-      this.y = this.size;
-      this.velocity.y *= factor;
-    }
+  //   if (this.y >= height - this.size) {
+  //     // bottom border
+  //     this.y = height - this.size;
+  //     this.velocity.y *= factor;
+  //   } else if (this.y <= this.size) {
+  //     // top border
+  //     this.y = this.size;
+  //     this.velocity.y *= factor;
+  //   }
 
-    if (this.x >= width - this.size) {
-      // right border
-      this.x = width - this.size;
-      this.velocity.x *= factor;
-    } else if (this.x <= this.size) {
-      // left border
-      this.x = this.size;
-      this.velocity.x *= factor;
-    }
-  }
+  //   if (this.x >= width - this.size) {
+  //     // right border
+  //     this.x = width - this.size;
+  //     this.velocity.x *= factor;
+  //   } else if (this.x <= this.size) {
+  //     // left border
+  //     this.x = this.size;
+  //     this.velocity.x *= factor;
+  //   }
+  // }
 
   update() {
     this.velocity.add(this.acceleration);
