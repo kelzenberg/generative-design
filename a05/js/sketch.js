@@ -60,13 +60,20 @@ function draw() {
 
   // blendMode(ADD);
 
+  if (random() < 0.1) {
+    // 10% chance
+    const { x, y } = conv2DLoc(random(0, cWidth), cHeight);
+    const emitter = new Emitter(x, y, particleImage);
+    emitter.emit(1);
+    emitters.push(emitter);
+  }
+
   // const mouseDir = map(mouseX, 0, cWidth, -0.1, 0.1);
   // const wind = createVector(mouseDir, 0);
 
   for (const emitter of emitters) {
     emitter.applyForce(gravity);
     // emitter.applyForce(wind);
-    emitter.emit(1);
     emitter.update();
     emitter.show();
   }

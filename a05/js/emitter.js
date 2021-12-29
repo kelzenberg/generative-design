@@ -4,8 +4,6 @@ class Emitter {
     this.position = createVector(x, y);
     this.particles = [];
     this.particleImage = particleImage;
-
-    console.log(this.position);
   }
 
   emit(amount) {
