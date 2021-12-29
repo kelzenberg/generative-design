@@ -2,7 +2,7 @@
 class Particle extends p5.Vector {
   constructor(x, y, texture) {
     super(x, y);
-    this.velocity = p5.Vector.random2D();
+    this.velocity = createVector(0, -1);
     this.velocity.mult(random(0.5, 2));
     this.acceleration = createVector(0, 0);
     this.lifetime = 255; // alpha transparency
@@ -46,7 +46,7 @@ class Particle extends p5.Vector {
     this.velocity.add(this.acceleration);
     this.add(this.velocity);
     this.acceleration.set(0, 0);
-    this.lifetime -= 5;
+    // this.lifetime -= 5;
   }
 
   show() {
