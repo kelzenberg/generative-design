@@ -14,7 +14,7 @@ class Particle extends p5.Vector {
     return this.lifetime < 0;
   }
 
-  hasExploded() {
+  isExploded() {
     return this.velocity.y >= 0;
   }
 
@@ -50,7 +50,7 @@ class Particle extends p5.Vector {
     this.velocity.add(this.acceleration);
     this.add(this.velocity);
     this.acceleration.set(0, 0);
-    // this.lifetime -= 5;
+    this.lifetime -= 1;
   }
 
   show() {

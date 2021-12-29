@@ -60,10 +60,10 @@ function draw() {
 
   // blendMode(ADD);
 
-  if (random() < 0.1) {
+  if (random() < 0.03) {
     // 10% chance
     const { x, y } = conv2DLoc(random(0, cWidth), cHeight);
-    const emitter = new Emitter(x, y, 100, particleImage);
+    const emitter = new Emitter(x, y, 20, particleImage);
     emitter.startEmitting(1);
     emitters.push(emitter);
   }
@@ -76,6 +76,13 @@ function draw() {
     // emitter.applyForce(wind);
     emitter.update();
     emitter.show();
+  }
+
+  for (let idx = 0; idx < emitters.length; idx++) {
+    if (!emitters[idx].isFinished()) {
+      // console.log(`Emitter ${idx} has finished`);
+      // emitters.splice(idx, 1);
+    }
   }
 }
 
