@@ -7,7 +7,7 @@ class Particle extends p5.Vector {
     if (this.isSpreader) {
       this.velocity = createVector(0, random(-(height * 0.022), -(height * 0.01)));
     } else {
-      this.velocity = p5.Vector.random2D();
+      this.velocity = p5.Vector.random3D();
       this.velocity.mult(random(1, 6));
     }
 

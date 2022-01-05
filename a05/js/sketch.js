@@ -70,9 +70,14 @@ function draw() {
     emitter.show();
   }
 
-  translate(0, cHeight / 2 - 32, 0);
   ambientMaterial(255);
-  sphere(32);
+  const step = cWidth / 10;
+  for (let x = -cWidth / 2; x < cWidth; x += step) {
+    push();
+    translate(x, cHeight / 2, 100);
+    box(step, noise(x) * 300, 100);
+    pop();
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
