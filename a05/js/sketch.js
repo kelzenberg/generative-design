@@ -23,14 +23,15 @@ function setup() {
   cHeight = windowHeight;
   createCanvas(cWidth, cHeight, WEBGL);
   createFrameRate(cWidth, cHeight);
+  background(0);
 
   gravity = createVector(0, 0.2);
 }
 
 // eslint-disable-next-line no-unused-vars
 function mousePressed() {
-  const { x, y } = conv2DLoc(mouseX, mouseY);
-  emitters.push(new Emitter(x, y, 1, 100, particleImage));
+  const { x } = conv2DLoc(mouseX, mouseY);
+  emitters.push(new Emitter(x, cHeight, 1, 100, particleImage));
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -40,25 +41,10 @@ function mousePressed() {
 
 // eslint-disable-next-line no-unused-vars
 function draw() {
-  clear();
   background(0);
   drawFrameRate();
 
-  // push();
-  // rectMode(CENTER);
-  // noStroke();
-  // fill(255, 0, 0);
-  // translate(mouseX - cWidth / 2, mouseY - cHeight / 2, mouseZ);
-  // rotateX(angle);
-  // rotateY(angle);
-  // // rect(0, 0, 150, 150);
-  // // box(200, 10, 100);
-  // torus(100, 42);
-  // pop();
-
-  // angle += 0.05;
-
-  // blendMode(ADD);
+  // ambientLight(255);
 
   if (random() < 0.03) {
     // 10% chance
@@ -83,6 +69,10 @@ function draw() {
     emitter.update();
     emitter.show();
   }
+
+  translate(0, cHeight / 2 - 32, 0);
+  ambientMaterial(255);
+  box(32);
 }
 
 // eslint-disable-next-line no-unused-vars

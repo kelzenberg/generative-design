@@ -5,9 +5,10 @@ class Emitter {
     this.seedAmount = seedAmount;
     this.spreadAmount = spreadAmount;
     this.particleImage = particleImage;
+    this.hue = [random(255), random(255), random(255)];
 
     this.seedParticles = new Array(this.seedAmount).fill(
-      new Particle(this.position.x, this.position.y, this.particleImage, true)
+      new Particle(this.position.x, this.position.y, this.hue, true)
     );
     this.childParticles = [];
     this.isExploded = false;
@@ -25,7 +26,7 @@ class Emitter {
 
   explode(x, y) {
     for (let idx = 0; idx < this.spreadAmount; idx++) {
-      this.childParticles.push(new Particle(x, y, this.particleImage));
+      this.childParticles.push(new Particle(x, y, this.hue));
     }
     this.isExploded = true;
   }
@@ -60,6 +61,22 @@ class Emitter {
   }
 
   show() {
+    const childAmount = this.childParticles.length;
+
+    if (childAmount > 0) {
+      const center = this.childParticles.reduce(
+        (prev, curr) => {
+          return { x: prev.x + curr.x / childAmount, y: prev.y + curr.y / childAmount };
+        },
+        { x: 0, y: 0 }
+      );
+
+      pointLight(this.hue, center.x, center.y, 0);
+    }
+
+    push();
+    ambientLight(255);
     this.seedParticles.concat(this.childParticles).forEach(particle => particle.show());
+    pop();
   }
 }

@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 class Particle extends p5.Vector {
-  constructor(x, y, texture, isSpreader = false) {
+  constructor(x, y, hue, isSpreader = false) {
     super(x, y);
 
     this.isSpreader = isSpreader;
@@ -13,8 +13,8 @@ class Particle extends p5.Vector {
 
     this.acceleration = createVector(0, 0);
     this.lifetime = 255; // alpha transparency
-    this.size = 4;
-    this.texture = texture;
+    this.size = 2;
+    this.hue = hue;
   }
 
   isFinished() {
@@ -61,12 +61,13 @@ class Particle extends p5.Vector {
     this.velocity.add(this.acceleration);
     this.add(this.velocity);
     this.acceleration.set(0, 0);
-    this.lifetime -= 1;
+    this.lifetime -= 2;
   }
 
   show() {
     push();
-    translate(this.x, this.y);
+    translate(this.x, this.y, 0);
+    ambientMaterial(this.hue.map(value => (value * this.lifetime) / 255));
     noStroke();
     sphere(this.size);
     pop();
