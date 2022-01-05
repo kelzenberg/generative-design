@@ -71,12 +71,18 @@ function draw() {
   }
 
   ambientMaterial(255);
-  const step = cWidth / 10;
-  for (let x = -cWidth / 2; x < cWidth; x += step) {
-    push();
-    translate(x, cHeight / 2, 100);
-    box(step, noise(x) * 300, 100);
-    pop();
+  translate(0, cHeight / 2, 100);
+  const col = cWidth / 10;
+  const row = 100;
+  for (let z = row; z > -1000; z -= row) {
+    for (let x = -cWidth / 2; x < cWidth; x += col) {
+      const houseHeight = noise(x, z) * 300;
+
+      push();
+      translate(x, -houseHeight / 2, z);
+      box(col, houseHeight, row);
+      pop();
+    }
   }
 }
 
