@@ -5,7 +5,7 @@ class Particle extends p5.Vector {
 
     this.isSpreader = isSpreader;
     if (this.isSpreader) {
-      this.velocity = createVector(0, random(-15, -8));
+      this.velocity = createVector(0, random(-(height * 0.022), -(height * 0.01)));
     } else {
       this.velocity = p5.Vector.random2D();
       this.velocity.mult(random(1, 6));
@@ -13,7 +13,7 @@ class Particle extends p5.Vector {
 
     this.acceleration = createVector(0, 0);
     this.lifetime = 255; // alpha transparency
-    this.size = 16;
+    this.size = 4;
     this.texture = texture;
   }
 
@@ -65,8 +65,10 @@ class Particle extends p5.Vector {
   }
 
   show() {
-    tint(255, 100, 80, this.lifetime);
-    imageMode(CENTER);
-    image(this.texture, this.x, this.y, this.size * 2, this.size * 2);
+    push();
+    translate(this.x, this.y);
+    noStroke();
+    sphere(this.size);
+    pop();
   }
 }
