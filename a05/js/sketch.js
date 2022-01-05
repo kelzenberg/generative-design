@@ -30,7 +30,7 @@ function setup() {
 // eslint-disable-next-line no-unused-vars
 function mousePressed() {
   const { x, y } = conv2DLoc(mouseX, mouseY);
-  emitters.push(new Emitter(x, y, 100, particleImage));
+  emitters.push(new Emitter(x, y, 1, 100, particleImage));
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -63,8 +63,7 @@ function draw() {
   if (random() < 0.03) {
     // 10% chance
     const { x, y } = conv2DLoc(random(0, cWidth), cHeight);
-    const emitter = new Emitter(x, y, 20, particleImage);
-    emitter.startEmitting(1);
+    const emitter = new Emitter(x, y, 1, 20, particleImage);
     emitters.push(emitter);
   }
 

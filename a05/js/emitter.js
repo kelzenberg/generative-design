@@ -1,11 +1,14 @@
 // eslint-disable-next-line no-unused-vars
 class Emitter {
-  constructor(x, y, amount, particleImage) {
+  constructor(x, y, seedAmount, spreadAmount, particleImage) {
     this.position = createVector(x, y);
-    this.amount = amount;
+    this.seedAmount = seedAmount;
+    this.spreadAmount = spreadAmount;
     this.particleImage = particleImage;
 
-    this.seedParticles = [];
+    this.seedParticles = new Array(this.seedAmount).fill(
+      new Particle(this.position.x, this.position.y, this.particleImage, true)
+    );
     this.childParticles = [];
   }
 
@@ -15,14 +18,8 @@ class Emitter {
     }
   }
 
-  startEmitting(amount) {
-    for (let idx = 0; idx < amount; idx++) {
-      this.seedParticles.push(new Particle(this.position.x, this.position.y, this.particleImage, true));
-    }
-  }
-
   explode(x, y) {
-    for (let idx = 0; idx < this.amount; idx++) {
+    for (let idx = 0; idx < this.spreadAmount; idx++) {
       this.childParticles.push(new Particle(x, y, this.particleImage));
     }
   }
