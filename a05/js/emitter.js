@@ -64,14 +64,14 @@ class Emitter {
     const childAmount = this.childParticles.length;
 
     if (childAmount > 0) {
-      const center = this.childParticles.reduce(
+      const childCenter = this.childParticles.reduce(
         (prev, curr) => {
           return { x: prev.x + curr.x / childAmount, y: prev.y + curr.y / childAmount };
         },
         { x: 0, y: 0 }
       );
 
-      pointLight(this.hue, center.x, center.y, 0);
+      pointLight(this.hue, childCenter.x, childCenter.y, 0);
     }
 
     push();

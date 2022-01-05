@@ -3,18 +3,10 @@ let cHeight = 500; // canvas height
 
 const emitters = [];
 let particleImage;
-let angle = 0;
-let mouseZ = 0;
 let gravity;
-let firework;
 
 function conv2DLoc(x, y) {
   return { x: x - cWidth / 2, y: y - cHeight / 2 };
-}
-
-// eslint-disable-next-line no-unused-vars
-function preload() {
-  particleImage = loadImage('./img/particle.svg');
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -35,16 +27,9 @@ function mousePressed() {
 }
 
 // eslint-disable-next-line no-unused-vars
-// function mouseWheel({ delta }) {
-//   mouseZ += map(delta, 0, 1500, 0, 500);
-// }
-
-// eslint-disable-next-line no-unused-vars
 function draw() {
   background(0);
   drawFrameRate();
-
-  // ambientLight(255);
 
   if (random() < 0.03) {
     // 10% chance
@@ -70,8 +55,10 @@ function draw() {
     emitter.show();
   }
 
+  // building generation:
   ambientMaterial(255);
   translate(-150, cHeight / 2, 100);
+
   const col = cWidth / 10;
   const row = 100;
   for (let z = row; z > -1000; z -= row) {

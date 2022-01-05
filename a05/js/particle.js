@@ -11,10 +11,10 @@ class Particle extends p5.Vector {
       this.velocity.mult(random(1, 6));
     }
 
-    this.acceleration = createVector(0, 0);
-    this.lifetime = 255; // alpha transparency
-    this.size = 2;
     this.hue = hue;
+    this.acceleration = createVector(0, 0);
+    this.lifetime = 255;
+    this.size = 2;
   }
 
   isFinished() {
@@ -28,30 +28,6 @@ class Particle extends p5.Vector {
   applyForce(force) {
     this.acceleration.add(force);
   }
-
-  // avoidEdges() {
-  //   const factor = -random(0.2, 0.5);
-
-  //   if (this.y >= height - this.size) {
-  //     // bottom border
-  //     this.y = height - this.size;
-  //     this.velocity.y *= factor;
-  //   } else if (this.y <= this.size) {
-  //     // top border
-  //     this.y = this.size;
-  //     this.velocity.y *= factor;
-  //   }
-
-  //   if (this.x >= width - this.size) {
-  //     // right border
-  //     this.x = width - this.size;
-  //     this.velocity.x *= factor;
-  //   } else if (this.x <= this.size) {
-  //     // left border
-  //     this.x = this.size;
-  //     this.velocity.x *= factor;
-  //   }
-  // }
 
   update() {
     if (!this.isSpreader) {
