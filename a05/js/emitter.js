@@ -10,6 +10,11 @@ class Emitter {
       new Particle(this.position.x, this.position.y, this.particleImage, true)
     );
     this.childParticles = [];
+    this.isExploded = false;
+  }
+
+  isFinished() {
+    return this.isExploded && this.seedParticles.length === 0 && this.childParticles.length === 0;
   }
 
   applyForce(force) {
@@ -22,6 +27,7 @@ class Emitter {
     for (let idx = 0; idx < this.spreadAmount; idx++) {
       this.childParticles.push(new Particle(x, y, this.particleImage));
     }
+    this.isExploded = true;
   }
 
   updateSeedParticles() {

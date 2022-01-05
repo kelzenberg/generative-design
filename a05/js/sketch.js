@@ -70,7 +70,14 @@ function draw() {
   // const mouseDir = map(mouseX, 0, cWidth, -0.1, 0.1);
   // const wind = createVector(mouseDir, 0);
 
-  for (const emitter of emitters) {
+  for (let idx = emitters.length - 1; idx >= 0; idx--) {
+    const emitter = emitters[idx];
+
+    if (emitter.isFinished()) {
+      emitters.splice(idx, 1);
+      return;
+    }
+
     emitter.applyForce(gravity);
     // emitter.applyForce(wind);
     emitter.update();
