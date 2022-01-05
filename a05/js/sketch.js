@@ -72,7 +72,7 @@ function draw() {
 
   translate(0, cHeight / 2 - 32, 0);
   ambientMaterial(255);
-  box(32);
+  sphere(32);
 }
 
 // eslint-disable-next-line no-unused-vars
