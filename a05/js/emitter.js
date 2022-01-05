@@ -17,7 +17,7 @@ class Emitter {
 
   startEmitting(amount) {
     for (let idx = 0; idx < amount; idx++) {
-      this.seedParticles.push(new Particle(this.position.x, this.position.y, this.particleImage));
+      this.seedParticles.push(new Particle(this.position.x, this.position.y, this.particleImage, true));
     }
   }
 
