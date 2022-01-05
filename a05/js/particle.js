@@ -1,15 +1,16 @@
 // eslint-disable-next-line no-unused-vars
 class Particle extends p5.Vector {
-  constructor(x, y, texture, spreader = false) {
+  constructor(x, y, texture, isSpreader = false) {
     super(x, y);
 
-    if (spreader) {
+    this.isSpreader = isSpreader;
+    if (this.isSpreader) {
       this.velocity = createVector(0, random(-15, -8));
     } else {
       this.velocity = p5.Vector.random2D();
+      this.velocity.mult(random(1, 6));
     }
 
-    this.velocity.mult(random(0.5, 2));
     this.acceleration = createVector(0, 0);
     this.lifetime = 255; // alpha transparency
     this.size = 16;
@@ -53,6 +54,10 @@ class Particle extends p5.Vector {
   // }
 
   update() {
+    if (!this.isSpreader) {
+      this.velocity.mult(0.95);
+    }
+
     this.velocity.add(this.acceleration);
     this.add(this.velocity);
     this.acceleration.set(0, 0);
