@@ -77,13 +77,6 @@ function draw() {
     emitter.update();
     emitter.show();
   }
-
-  for (let idx = 0; idx < emitters.length; idx++) {
-    if (!emitters[idx].isFinished()) {
-      // console.log(`Emitter ${idx} has finished`);
-      // emitters.splice(idx, 1);
-    }
-  }
 }
 
 // eslint-disable-next-line no-unused-vars

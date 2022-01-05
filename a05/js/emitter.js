@@ -9,16 +9,8 @@ class Emitter {
     this.childParticles = [];
   }
 
-  isFinished() {
-    return this.seedParticles.length === 0 && this.childParticles.length === 0;
-  }
-
   applyForce(force) {
-    for (const particle of this.seedParticles) {
-      particle.applyForce(force);
-    }
-
-    for (const particle of this.childParticles) {
+    for (const particle of this.seedParticles.concat(this.childParticles)) {
       particle.applyForce(force);
     }
   }
@@ -36,12 +28,10 @@ class Emitter {
   }
 
   updateSeedParticles() {
-    for (const particle of this.seedParticles) {
-      particle.update();
-    }
-
     for (let idx = this.seedParticles.length - 1; idx >= 0; idx--) {
       const seed = this.seedParticles[idx];
+      seed.update();
+
       if (seed.isExploded()) {
         this.explode(seed.x, seed.y);
 
@@ -51,12 +41,10 @@ class Emitter {
   }
 
   updateChildParticles() {
-    for (const particle of this.childParticles) {
-      particle.update();
-    }
-
     for (let idx = this.childParticles.length - 1; idx >= 0; idx--) {
       const child = this.childParticles[idx];
+      child.update();
+
       if (child.isFinished()) {
         this.childParticles.splice(idx, 1);
       }
@@ -69,7 +57,6 @@ class Emitter {
   }
 
   show() {
-    this.seedParticles.forEach(particle => particle.show());
-    this.childParticles.forEach(particle => particle.show());
+    this.seedParticles.concat(this.childParticles).forEach(particle => particle.show());
   }
 }
