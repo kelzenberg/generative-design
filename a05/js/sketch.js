@@ -71,7 +71,7 @@ function draw() {
   }
 
   ambientMaterial(255);
-  translate(0, cHeight / 2, 100);
+  translate(-150, cHeight / 2, 100);
   const col = cWidth / 10;
   const row = 100;
   for (let z = row; z > -1000; z -= row) {
@@ -80,7 +80,7 @@ function draw() {
 
       push();
       translate(x, -houseHeight / 2, z);
-      box(col, houseHeight, row);
+      box(col - 30, houseHeight, row - 20);
       pop();
     }
   }
