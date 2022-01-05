@@ -5,21 +5,18 @@ class Particle extends p5.Vector {
     this.velocity = createVector(0, random(-15, -8));
     this.velocity.mult(random(0.5, 2));
     this.acceleration = createVector(0, 0);
-    this.lifetime = 255; // alpha transparency
-    this.size = 16;
     this.texture = texture;
-  }
-
-  isFinished() {
-    return this.lifetime < 0;
-  }
-
-  isExploded() {
-    return this.velocity.y >= 0;
+    this.lifetime = 255; // alpha transparency
+    this.lifetimeRate = 1;
+    this.size = 16;
   }
 
   applyForce(force) {
     this.acceleration.add(force);
+  }
+
+  isLapsed() {
+    return this.lifetime <= 0;
   }
 
   // avoidEdges() {
@@ -50,7 +47,8 @@ class Particle extends p5.Vector {
     this.velocity.add(this.acceleration);
     this.add(this.velocity);
     this.acceleration.set(0, 0);
-    this.lifetime -= 1;
+
+    this.lifetime -= this.lifetimeRate;
   }
 
   show() {
