@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "start": "live-server",
-    "new": "cp -r ./template"
+    "new2D": "cp -r ./template2D",
+    "new3D": "cp -r ./template3D"
   },
   "repository": {
     "type": "git",
