@@ -1,7 +1,8 @@
 let cWidth = 500; // canvas width
 let cHeight = 500; // canvas height
 
-let vehicle;
+let pursuer;
+let target;
 
 // eslint-disable-next-line no-unused-vars
 function setup() {
@@ -10,7 +11,8 @@ function setup() {
   createCanvas(cWidth, cHeight);
   createFrameRate(cWidth, cHeight);
 
-  vehicle = new Vehicle(cWidth / 2, cHeight / 2);
+  pursuer = new Vehicle(cWidth / 2, cHeight / 2);
+  target = new Target(cWidth / 2 - 30, cHeight / 2 - 30);
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -18,16 +20,14 @@ function draw() {
   background(0);
   drawFrameRate();
 
-  fill(255, 0, 0);
-  noStroke();
-  const target = createVector(mouseX, mouseY);
-  circle(target.x, target.y, 32);
+  const steering = pursuer.seek(target);
+  pursuer.applyForce(steering);
+  pursuer.update();
+  pursuer.show();
 
-  const steering = vehicle.flee(target);
-
-  vehicle.applyForce(steering);
-  vehicle.update();
-  vehicle.show();
+  target.edges();
+  target.update();
+  target.show();
 }
 
 // eslint-disable-next-line no-unused-vars

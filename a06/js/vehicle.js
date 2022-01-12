@@ -31,6 +31,28 @@ class Vehicle extends p5.Vector {
     return this.seek(target).mult(-1);
   }
 
+  edges() {
+    if (this.y >= height - this.size) {
+      // bottom border
+      this.y = height - this.size;
+      this.velocity.y *= -1;
+    } else if (this.y <= this.size) {
+      // top border
+      this.y = this.size;
+      this.velocity.y *= -1;
+    }
+
+    if (this.x >= width - this.size) {
+      // right border
+      this.x = width - this.size;
+      this.velocity.x *= -1;
+    } else if (this.x <= this.size) {
+      // left border
+      this.x = this.size;
+      this.velocity.x *= -1;
+    }
+  }
+
   update() {
     this.velocity.add(this.acceleration);
     this.velocity.limit(this.maxSpeed);
@@ -48,6 +70,24 @@ class Vehicle extends p5.Vector {
     translate(this.x, this.y);
     rotate(this.velocity.heading());
     triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
+    pop();
+  }
+}
+
+// eslint-disable-next-line no-unused-vars
+class Target extends Vehicle {
+  constructor(x, y) {
+    super(x, y);
+    this.velocity = createVector(2, 5);
+  }
+
+  show() {
+    fill(255, 0, 0);
+    noStroke();
+
+    push();
+    translate(this.x, this.y);
+    circle(0, 0, this.size * 2);
     pop();
   }
 }
