@@ -34,7 +34,7 @@ class Vehicle extends p5.Vector {
   pursue(vehicle) {
     const target = vehicle.copy();
     const prediction = vehicle.velocity.copy();
-    prediction.mult(10);
+    prediction.mult(16);
     target.add(prediction);
 
     fill(0, 255, 0);

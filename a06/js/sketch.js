@@ -20,8 +20,14 @@ function draw() {
   background(0);
   drawFrameRate();
 
-  const steering = pursuer.evade(target);
+  const steering = pursuer.pursue(target);
   pursuer.applyForce(steering);
+
+  const distance = p5.Vector.dist(pursuer, target);
+  if (distance < pursuer.size + target.size) {
+    target = new Target(random(cWidth), random(cHeight));
+  }
+
   pursuer.edges();
   pursuer.update();
   pursuer.show();
