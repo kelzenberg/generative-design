@@ -20,24 +20,25 @@ function draw() {
   background(0);
   drawFrameRate();
 
-  target.x = mouseX;
-  target.y = mouseY;
+  // target.x = mouseX;
+  // target.y = mouseY;
 
-  const steering = pursuer.arrive(target);
-  pursuer.applyForce(steering);
+  // const steering = pursuer.arrive(target);
+  // pursuer.applyForce(steering);
 
   // const distance = p5.Vector.dist(pursuer, target);
   // if (distance < pursuer.size + target.size) {
   //   target = new Target(random(cWidth), random(cHeight));
   // }
 
+  pursuer.wander();
   pursuer.edges();
   pursuer.update();
   pursuer.show();
 
-  target.edges();
-  target.update();
-  target.show();
+  // target.edges();
+  // target.update();
+  // target.show();
 }
 
 // eslint-disable-next-line no-unused-vars

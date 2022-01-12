@@ -3,12 +3,13 @@ class Vehicle extends p5.Vector {
   constructor(x, y) {
     super(x, y);
 
-    this.velocity = createVector(0, 0);
+    this.velocity = createVector(1, 0);
     this.acceleration = createVector(0, 0);
-    this.maxSpeed = 8;
-    this.maxForce = 0.3; // limits magnitude of steering
+    this.maxSpeed = 2;
+    this.maxForce = 0.1; // limits magnitude of steering
     this.lifetime = 255;
     this.size = 16;
+    this.theta = PI / 2;
   }
 
   isFinished() {
@@ -17,6 +18,40 @@ class Vehicle extends p5.Vector {
 
   applyForce(force) {
     this.acceleration.add(force);
+  }
+
+  wander() {
+    const direction = this.velocity.copy();
+    direction.setMag(100);
+    direction.add(this);
+    fill(255, 0, 0);
+    noStroke();
+    circle(direction.x, direction.y, 16);
+
+    const radius = 50;
+    noFill();
+    stroke(255);
+    circle(direction.x, direction.y, radius * 2);
+
+    line(this.x, this.y, direction.x, direction.y);
+
+    const theta = this.theta + this.velocity.heading();
+    const x = radius * cos(theta);
+    const y = radius * sin(theta);
+    direction.add(x, y);
+    fill(0, 255, 0);
+    noStroke();
+    circle(direction.x, direction.y, 16);
+
+    stroke(255);
+    line(this.x, this.y, direction.x, direction.y);
+
+    const steer = direction.sub(this);
+    steer.setMag(this.maxForce);
+    this.applyForce(steer);
+
+    const displaceRange = 0.3;
+    this.theta += random(-displaceRange, displaceRange);
   }
 
   seek(target, arrive = false) {
