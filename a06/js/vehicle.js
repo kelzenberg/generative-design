@@ -5,8 +5,8 @@ class Vehicle extends p5.Vector {
 
     this.velocity = createVector(1, 0);
     this.acceleration = createVector(0, 0);
-    this.maxSpeed = 2;
-    this.maxForce = 0.1; // limits magnitude of steering
+    this.maxSpeed = 8;
+    this.maxForce = 0.3; // limits magnitude of steering
     this.lifetime = 255;
     this.size = 16;
     this.theta = PI / 2;
@@ -126,10 +126,11 @@ class Vehicle extends p5.Vector {
       hitEdge = true;
     }
 
-    if (hitEdge) {
-      this.currentPath = [];
-      this.paths.push(this.currentPath);
-    }
+    // comment in if vehicle is not bouncing off wales but teleports
+    // if (hitEdge) {
+    //   this.currentPath = [];
+    //   this.paths.push(this.currentPath);
+    // }
   }
 
   update() {
