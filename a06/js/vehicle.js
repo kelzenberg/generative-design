@@ -6,7 +6,7 @@ class Vehicle extends p5.Vector {
     this.velocity = createVector(0, 0);
     this.acceleration = createVector(0, 0);
     this.maxSpeed = 8;
-    this.maxForce = 0.1; // limits magnitude of steering
+    this.maxForce = 0.3; // limits magnitude of steering
     this.lifetime = 255;
     this.size = 16;
   }
@@ -19,12 +19,24 @@ class Vehicle extends p5.Vector {
     this.acceleration.add(force);
   }
 
-  seek(target) {
+  seek(target, arrive = false) {
     const force = p5.Vector.sub(target, this);
-    force.setMag(this.maxSpeed);
+    let desiredSpeed = this.maxSpeed;
+
+    if (arrive) {
+      const distance = force.mag();
+      const threshold = 100;
+      desiredSpeed = map(distance, 0, threshold, 0, this.maxSpeed);
+    }
+
+    force.setMag(desiredSpeed);
     force.sub(this.velocity);
     force.limit(this.maxForce);
     return force;
+  }
+
+  arrive(target) {
+    return this.seek(target, true);
   }
 
   flee(target) {
@@ -96,7 +108,7 @@ class Vehicle extends p5.Vector {
 class Target extends Vehicle {
   constructor(x, y) {
     super(x, y);
-    this.velocity = p5.Vector.random2D().mult(4);
+    // this.velocity = p5.Vector.random2D().mult(4);
   }
 
   show() {

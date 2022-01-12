@@ -20,13 +20,16 @@ function draw() {
   background(0);
   drawFrameRate();
 
-  const steering = pursuer.pursue(target);
+  target.x = mouseX;
+  target.y = mouseY;
+
+  const steering = pursuer.arrive(target);
   pursuer.applyForce(steering);
 
-  const distance = p5.Vector.dist(pursuer, target);
-  if (distance < pursuer.size + target.size) {
-    target = new Target(random(cWidth), random(cHeight));
-  }
+  // const distance = p5.Vector.dist(pursuer, target);
+  // if (distance < pursuer.size + target.size) {
+  //   target = new Target(random(cWidth), random(cHeight));
+  // }
 
   pursuer.edges();
   pursuer.update();
