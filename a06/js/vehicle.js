@@ -10,6 +10,7 @@ class Vehicle extends p5.Vector {
     this.lifetime = 255;
     this.size = 16;
     this.theta = PI / 2;
+    this.path = [];
   }
 
   isFinished() {
@@ -24,27 +25,28 @@ class Vehicle extends p5.Vector {
     const direction = this.velocity.copy();
     direction.setMag(100);
     direction.add(this);
-    fill(255, 0, 0);
-    noStroke();
-    circle(direction.x, direction.y, 16);
+
+    // fill(255, 0, 0);
+    // noStroke();
+    // circle(direction.x, direction.y, 16);
 
     const radius = 50;
-    noFill();
-    stroke(255);
-    circle(direction.x, direction.y, radius * 2);
 
-    line(this.x, this.y, direction.x, direction.y);
+    // noFill();
+    // stroke(255);
+    // circle(direction.x, direction.y, radius * 2);
+    // line(this.x, this.y, direction.x, direction.y);
 
     const theta = this.theta + this.velocity.heading();
     const x = radius * cos(theta);
     const y = radius * sin(theta);
     direction.add(x, y);
-    fill(0, 255, 0);
-    noStroke();
-    circle(direction.x, direction.y, 16);
 
-    stroke(255);
-    line(this.x, this.y, direction.x, direction.y);
+    // fill(0, 255, 0);
+    // noStroke();
+    // circle(direction.x, direction.y, 16);
+    // stroke(255);
+    // line(this.x, this.y, direction.x, direction.y);
 
     const steer = direction.sub(this);
     steer.setMag(this.maxForce);
@@ -124,6 +126,8 @@ class Vehicle extends p5.Vector {
     this.add(this.velocity);
     this.acceleration.set(0, 0);
     // this.lifetime -= 1;
+
+    this.path.push(this.copy());
   }
 
   show() {
@@ -136,6 +140,13 @@ class Vehicle extends p5.Vector {
     rotate(this.velocity.heading());
     triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
     pop();
+
+    beginShape();
+    noFill();
+    for (const { x, y } of this.path) {
+      vertex(x, y);
+    }
+    endShape();
   }
 }
 
