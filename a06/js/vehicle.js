@@ -5,7 +5,8 @@ class Vehicle extends p5.Vector {
 
     this.velocity = createVector(0, 0);
     this.acceleration = createVector(0, 0);
-    this.maxSpeed = 4;
+    this.maxSpeed = 8;
+    this.maxForce = 0.1; // limits magnitude of steering
     this.lifetime = 255;
     this.size = 16;
   }
@@ -19,14 +20,16 @@ class Vehicle extends p5.Vector {
   }
 
   seek(target) {
-    const desired = p5.Vector.sub(target, this);
-    desired.setMag(this.maxSpeed);
-    const steering = p5.Vector.sub(desired, this.velocity);
-    this.applyForce(steering);
+    const force = p5.Vector.sub(target, this);
+    force.setMag(this.maxSpeed);
+    force.sub(this.velocity);
+    force.limit(this.maxForce);
+    this.applyForce(force);
   }
 
   update() {
     this.velocity.add(this.acceleration);
+    this.velocity.limit(this.maxSpeed);
     this.add(this.velocity);
     this.acceleration.set(0, 0);
     // this.lifetime -= 1;
