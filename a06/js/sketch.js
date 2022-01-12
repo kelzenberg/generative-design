@@ -20,8 +20,9 @@ function draw() {
   background(0);
   drawFrameRate();
 
-  const steering = pursuer.seek(target);
+  const steering = pursuer.evade(target);
   pursuer.applyForce(steering);
+  pursuer.edges();
   pursuer.update();
   pursuer.show();
 

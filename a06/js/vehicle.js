@@ -31,6 +31,24 @@ class Vehicle extends p5.Vector {
     return this.seek(target).mult(-1);
   }
 
+  pursue(vehicle) {
+    const target = vehicle.copy();
+    const prediction = vehicle.velocity.copy();
+    prediction.mult(10);
+    target.add(prediction);
+
+    fill(0, 255, 0);
+    circle(target.x, target.y, 16);
+
+    return this.seek(target);
+  }
+
+  evade(vehicle) {
+    let pursuit = this.pursue(vehicle);
+    pursuit.mult(-1);
+    return pursuit;
+  }
+
   edges() {
     if (this.y >= height - this.size) {
       // bottom border
@@ -78,7 +96,7 @@ class Vehicle extends p5.Vector {
 class Target extends Vehicle {
   constructor(x, y) {
     super(x, y);
-    this.velocity = createVector(2, 5);
+    this.velocity = p5.Vector.random2D().mult(4);
   }
 
   show() {
