@@ -18,6 +18,12 @@ function draw() {
   background(0);
   drawFrameRate();
 
+  fill(255, 0, 0);
+  noStroke();
+  const target = createVector(mouseX, mouseY);
+  circle(target.x, target.y, 32);
+
+  vehicle.seek(target);
   vehicle.update();
   vehicle.show();
 }
