@@ -23,7 +23,9 @@ function draw() {
   const target = createVector(mouseX, mouseY);
   circle(target.x, target.y, 32);
 
-  vehicle.seek(target);
+  const steering = vehicle.flee(target);
+
+  vehicle.applyForce(steering);
   vehicle.update();
   vehicle.show();
 }

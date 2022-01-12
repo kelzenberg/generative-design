@@ -24,7 +24,11 @@ class Vehicle extends p5.Vector {
     force.setMag(this.maxSpeed);
     force.sub(this.velocity);
     force.limit(this.maxForce);
-    this.applyForce(force);
+    return force;
+  }
+
+  flee(target) {
+    return this.seek(target).mult(-1);
   }
 
   update() {
