@@ -10,7 +10,8 @@ class Vehicle extends p5.Vector {
     this.lifetime = 255;
     this.size = 16;
     this.theta = PI / 2;
-    this.path = [];
+    this.currentPath = [];
+    this.paths = [this.currentPath];
   }
 
   isFinished() {
@@ -99,24 +100,35 @@ class Vehicle extends p5.Vector {
   }
 
   edges() {
+    let hitEdge = false;
+
     if (this.y >= height - this.size) {
       // bottom border
       this.y = height - this.size;
       this.velocity.y *= -1;
+      hitEdge = true;
     } else if (this.y <= this.size) {
       // top border
       this.y = this.size;
       this.velocity.y *= -1;
+      hitEdge = true;
     }
 
     if (this.x >= width - this.size) {
       // right border
       this.x = width - this.size;
       this.velocity.x *= -1;
+      hitEdge = true;
     } else if (this.x <= this.size) {
       // left border
       this.x = this.size;
       this.velocity.x *= -1;
+      hitEdge = true;
+    }
+
+    if (hitEdge) {
+      this.currentPath = [];
+      this.paths.push(this.currentPath);
     }
   }
 
@@ -127,7 +139,7 @@ class Vehicle extends p5.Vector {
     this.acceleration.set(0, 0);
     // this.lifetime -= 1;
 
-    this.path.push(this.copy());
+    this.currentPath.push(this.copy());
   }
 
   show() {
@@ -141,12 +153,14 @@ class Vehicle extends p5.Vector {
     triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
     pop();
 
-    beginShape();
-    noFill();
-    for (const { x, y } of this.path) {
-      vertex(x, y);
+    for (const path of this.paths) {
+      beginShape();
+      noFill();
+      for (const { x, y } of path) {
+        vertex(x, y);
+      }
+      endShape();
     }
-    endShape();
   }
 }
 
