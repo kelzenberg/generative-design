@@ -5,6 +5,7 @@ class Vehicle extends p5.Vector {
 
     this.velocity = createVector(0, 0);
     this.acceleration = createVector(0, 0);
+    this.maxSpeed = 4;
     this.lifetime = 255;
     this.size = 16;
   }
@@ -18,7 +19,10 @@ class Vehicle extends p5.Vector {
   }
 
   seek(target) {
-    //
+    const desired = p5.Vector.sub(target, this);
+    desired.setMag(this.maxSpeed);
+    const steering = p5.Vector.sub(desired, this.velocity);
+    this.applyForce(steering);
   }
 
   update() {
@@ -35,6 +39,7 @@ class Vehicle extends p5.Vector {
 
     push();
     translate(this.x, this.y);
+    rotate(this.velocity.heading());
     triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
     pop();
   }
