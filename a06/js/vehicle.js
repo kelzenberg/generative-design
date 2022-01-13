@@ -133,6 +133,10 @@ class Vehicle extends p5.Vector {
     }
   }
 
+  follow(path) {
+    //
+  }
+
   update() {
     this.velocity.add(this.acceleration);
     this.velocity.limit(this.maxSpeed);
@@ -140,7 +144,7 @@ class Vehicle extends p5.Vector {
     this.acceleration.set(0, 0);
     // this.lifetime -= 1;
 
-    this.currentPath.push(this.copy());
+    // this.currentPath.push(this.copy());
   }
 
   show() {
@@ -154,14 +158,14 @@ class Vehicle extends p5.Vector {
     triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
     pop();
 
-    for (const path of this.paths) {
-      beginShape();
-      noFill();
-      for (const { x, y } of path) {
-        vertex(x, y);
-      }
-      endShape();
-    }
+    // for (const path of this.paths) {
+    //   beginShape();
+    //   noFill();
+    //   for (const { x, y } of path) {
+    //     vertex(x, y);
+    //   }
+    //   endShape();
+    // }
   }
 }
 

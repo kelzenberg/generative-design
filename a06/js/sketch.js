@@ -1,8 +1,9 @@
 let cWidth = 500; // canvas width
 let cHeight = 500; // canvas height
 
-let pursuer;
+let vehicle;
 let target;
+let path;
 
 // eslint-disable-next-line no-unused-vars
 function setup() {
@@ -11,8 +12,9 @@ function setup() {
   createCanvas(cWidth, cHeight);
   createFrameRate(cWidth, cHeight);
 
-  pursuer = new Vehicle(cWidth / 2, cHeight / 2);
+  vehicle = new Vehicle(50, cHeight / 2 - 100);
   target = new Target(cWidth / 2 - 30, cHeight / 2 - 30);
+  path = new Path(0, cHeight / 2, cWidth, cHeight / 2);
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -31,10 +33,15 @@ function draw() {
   //   target = new Target(random(cWidth), random(cHeight));
   // }
 
-  pursuer.wander();
-  pursuer.edges();
-  pursuer.update();
-  pursuer.show();
+  const force = vehicle.follow(path);
+  vehicle.applyForce(force);
+
+  // vehicle.wander();
+  vehicle.edges();
+  vehicle.update();
+  vehicle.show();
+
+  path.show();
 
   // target.edges();
   // target.update();
