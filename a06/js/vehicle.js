@@ -140,18 +140,32 @@ class Vehicle extends p5.Vector {
     const futurePosition = this.velocity.copy();
     futurePosition.mult(this.lookAhead).add(this);
 
-    fill(255, 0, 0);
+    fill(255, 0, 0); // red
     noStroke();
     circle(futurePosition.x, futurePosition.y, 16);
 
-    // find target on path
-    const target = findProjection(path.start, futurePosition, path.end);
+    // find projection-point on path
+    const projectionPoint = findProjection(path.start, futurePosition, path.end);
 
-    fill(0, 255, 0);
+    fill(0, 255, 0); // green
+    noStroke();
+    circle(projectionPoint.x, projectionPoint.y, 16);
+
+    // get target (ahead) on path
+    const pathDirection = p5.Vector.sub(path.end, path.start).normalize();
+    const futurePathPoint = p5.Vector.mult(pathDirection, this.lookAhead * 2);
+    // fix direction of futurePath point
+    if (p5.Vector.dot(this.velocity, futurePathPoint) < 0) {
+      futurePathPoint.mult(-1);
+    }
+    const target = p5.Vector.add(projectionPoint, futurePathPoint);
+
+    fill(0, 0, 255); // blue
     noStroke();
     circle(target.x, target.y, 16);
 
-    const distance = p5.Vector.dist(futurePosition, target);
+    // calculate distance & return adjustment vector
+    const distance = p5.Vector.dist(futurePosition, projectionPoint);
     return distance > path.radius ? this.seek(target) : createVector(0, 0);
   }
 
