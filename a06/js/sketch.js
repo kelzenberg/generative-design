@@ -14,7 +14,7 @@ function setup() {
 
   vehicle = new Vehicle(50, cHeight / 2 - 100);
   target = new Target(cWidth / 2 - 30, cHeight / 2 - 30);
-  path = new Path(0, cHeight / 2, cWidth, cHeight / 2);
+  path = new Path(100, cHeight / 2, cWidth - 100, cHeight / 2);
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -33,6 +33,7 @@ function draw() {
   //   target = new Target(random(cWidth), random(cHeight));
   // }
 
+  path.end.x = mouseX;
   path.end.y = mouseY;
 
   const force = vehicle.follow(path);
