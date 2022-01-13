@@ -126,11 +126,11 @@ class Vehicle extends p5.Vector {
       hitEdge = true;
     }
 
-    // comment in if vehicle is not bouncing off wales but teleports
-    // if (hitEdge) {
-    //   this.currentPath = [];
-    //   this.paths.push(this.currentPath);
-    // }
+    if (hitEdge) {
+      // comment in if vehicle is not bouncing off wales but teleports
+      //   this.currentPath = [];
+      //   this.paths.push(this.currentPath);
+    }
   }
 
   update() {
