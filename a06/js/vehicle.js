@@ -5,11 +5,13 @@ class Vehicle extends p5.Vector {
 
     this.velocity = createVector(1, 0);
     this.acceleration = createVector(0, 0);
-    this.maxSpeed = 8;
-    this.maxForce = 0.3; // limits magnitude of steering
+    this.maxSpeed = 4;
+    this.maxForce = 0.1; // limits magnitude of steering
     this.lifetime = 255;
     this.size = 16;
     this.theta = PI / 2;
+    this.lookAhead = 20;
+
     this.currentPath = [];
     this.paths = [this.currentPath];
   }
@@ -134,7 +136,23 @@ class Vehicle extends p5.Vector {
   }
 
   follow(path) {
-    //
+    // calculate future position
+    const futurePosition = this.velocity.copy();
+    futurePosition.mult(this.lookAhead).add(this);
+
+    fill(255, 0, 0);
+    noStroke();
+    circle(futurePosition.x, futurePosition.y, 16);
+
+    // find target on path
+    const target = findProjection(path.start, futurePosition, path.end);
+
+    fill(0, 255, 0);
+    noStroke();
+    circle(target.x, target.y, 16);
+
+    const distance = p5.Vector.dist(futurePosition, target);
+    return distance > path.radius ? this.seek(target) : createVector(0, 0);
   }
 
   update() {
