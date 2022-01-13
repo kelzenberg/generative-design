@@ -33,6 +33,8 @@ function draw() {
   //   target = new Target(random(cWidth), random(cHeight));
   // }
 
+  path.end.y = mouseY;
+
   const force = vehicle.follow(path);
   vehicle.applyForce(force);
 
