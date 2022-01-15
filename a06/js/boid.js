@@ -196,6 +196,7 @@ class Boid extends p5.Vector {
 
     if (closestBoids.length > 0) {
       steeringForce.div(closestBoids.length);
+      steeringForce.setMag(this.maxSpeed);
       steeringForce.sub(this.velocity);
       steeringForce.limit(this.maxForce);
     }
