@@ -11,7 +11,7 @@ function setup() {
   createFrameRate(cWidth, cHeight);
 
   for (let idx = 0; idx < 100; idx++) {
-    flock.push(new Boid(cWidth / 2, cHeight / 2));
+    flock.push(new Boid(random(cWidth), random(cHeight)));
   }
 }
 
@@ -21,7 +21,7 @@ function draw() {
   drawFrameRate();
 
   for (const boid of flock) {
-    boid.alignWith(flock);
+    boid.flockWith(flock);
     boid.update();
     boid.show();
   }

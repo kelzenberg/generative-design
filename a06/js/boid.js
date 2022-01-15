@@ -3,7 +3,7 @@ class Boid extends p5.Vector {
   constructor(x, y) {
     super(x, y);
 
-    this.velocity = p5.Vector.random2D().setMag(random(0.5, 5));
+    this.velocity = p5.Vector.random2D().setMag(random(2, 5));
     this.acceleration = createVector(0, 0);
     this.maxSpeed = 4;
     this.maxForce = 0.1; // limits magnitude of steering
@@ -11,7 +11,7 @@ class Boid extends p5.Vector {
     this.size = 16;
     this.theta = PI / 2;
     this.lookAhead = 20;
-    this.perception = 100;
+    this.perception = 50;
 
     this.currentPath = [];
     this.paths = [this.currentPath];
@@ -171,14 +171,21 @@ class Boid extends p5.Vector {
   }
 
   alignWith(boids) {
-    const average = createVector();
+    const steeringForce = createVector();
     const closestBoids = boids
       .filter(boid => boid != this && dist(this.x, this.y, boid.x, boid.y) < this.perception)
-      .map(boid => average.add(boid.velocity));
+      .map(boid => steeringForce.add(boid.velocity));
 
     if (closestBoids.length > 0) {
-      average.div(closestBoids.length);
+      steeringForce.div(closestBoids.length);
+      steeringForce.sub(this.velocity);
     }
+
+    return steeringForce;
+  }
+
+  flockWith(boids) {
+    this.acceleration = this.alignWith(boids);
   }
 
   update() {
