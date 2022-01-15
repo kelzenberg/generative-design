@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-unused-vars
-class Vehicle extends p5.Vector {
+class Boid extends p5.Vector {
   constructor(x, y) {
     super(x, y);
 
-    this.velocity = createVector(1, 0);
+    this.velocity = p5.Vector.random2D();
     this.acceleration = createVector(0, 0);
     this.maxSpeed = 4;
     this.maxForce = 0.1; // limits magnitude of steering
@@ -188,33 +188,6 @@ class Vehicle extends p5.Vector {
     translate(this.x, this.y);
     rotate(this.velocity.heading());
     triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
-    pop();
-
-    // for (const path of this.paths) {
-    //   beginShape();
-    //   noFill();
-    //   for (const { x, y } of path) {
-    //     vertex(x, y);
-    //   }
-    //   endShape();
-    // }
-  }
-}
-
-// eslint-disable-next-line no-unused-vars
-class Target extends Vehicle {
-  constructor(x, y) {
-    super(x, y);
-    // this.velocity = p5.Vector.random2D().mult(4);
-  }
-
-  show() {
-    fill(255, 0, 0);
-    noStroke();
-
-    push();
-    translate(this.x, this.y);
-    circle(0, 0, this.size * 2);
     pop();
   }
 }
