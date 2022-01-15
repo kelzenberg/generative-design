@@ -3,7 +3,7 @@ class Boid extends p5.Vector {
   constructor(x, y) {
     super(x, y);
 
-    this.velocity = p5.Vector.random2D();
+    this.velocity = p5.Vector.random2D().setMag(random(0.5, 5));
     this.acceleration = createVector(0, 0);
     this.maxSpeed = 4;
     this.maxForce = 0.1; // limits magnitude of steering
@@ -11,6 +11,7 @@ class Boid extends p5.Vector {
     this.size = 16;
     this.theta = PI / 2;
     this.lookAhead = 20;
+    this.perception = 100;
 
     this.currentPath = [];
     this.paths = [this.currentPath];
@@ -101,6 +102,40 @@ class Boid extends p5.Vector {
     return pursuit;
   }
 
+  follow(path) {
+    // calculate future position
+    const futurePosition = this.velocity.copy();
+    futurePosition.mult(this.lookAhead).add(this);
+
+    fill(255, 0, 0); // red
+    noStroke();
+    circle(futurePosition.x, futurePosition.y, 16);
+
+    // find projection-point on path
+    const projectionPoint = findProjection(path.start, futurePosition, path.end);
+
+    fill(0, 255, 0); // green
+    noStroke();
+    circle(projectionPoint.x, projectionPoint.y, 16);
+
+    // get target (ahead) on path
+    const pathDirection = p5.Vector.sub(path.end, path.start).normalize();
+    const futurePathPoint = p5.Vector.mult(pathDirection, this.lookAhead * 2);
+    // fix direction of futurePath point
+    if (p5.Vector.dot(this.velocity, futurePathPoint) < 0) {
+      futurePathPoint.mult(-1);
+    }
+    const target = p5.Vector.add(projectionPoint, futurePathPoint);
+
+    fill(0, 0, 255); // blue
+    noStroke();
+    circle(target.x, target.y, 16);
+
+    // calculate distance & return adjustment vector
+    const distance = p5.Vector.dist(futurePosition, projectionPoint);
+    return distance > path.radius ? this.seek(target) : createVector(0, 0);
+  }
+
   edges() {
     let hitEdge = false;
 
@@ -135,38 +170,15 @@ class Boid extends p5.Vector {
     }
   }
 
-  follow(path) {
-    // calculate future position
-    const futurePosition = this.velocity.copy();
-    futurePosition.mult(this.lookAhead).add(this);
+  alignWith(boids) {
+    const average = createVector();
+    const closestBoids = boids
+      .filter(boid => boid != this && dist(this.x, this.y, boid.x, boid.y) < this.perception)
+      .map(boid => average.add(boid.velocity));
 
-    fill(255, 0, 0); // red
-    noStroke();
-    circle(futurePosition.x, futurePosition.y, 16);
-
-    // find projection-point on path
-    const projectionPoint = findProjection(path.start, futurePosition, path.end);
-
-    fill(0, 255, 0); // green
-    noStroke();
-    circle(projectionPoint.x, projectionPoint.y, 16);
-
-    // get target (ahead) on path
-    const pathDirection = p5.Vector.sub(path.end, path.start).normalize();
-    const futurePathPoint = p5.Vector.mult(pathDirection, this.lookAhead * 2);
-    // fix direction of futurePath point
-    if (p5.Vector.dot(this.velocity, futurePathPoint) < 0) {
-      futurePathPoint.mult(-1);
+    if (closestBoids.length > 0) {
+      average.div(closestBoids.length);
     }
-    const target = p5.Vector.add(projectionPoint, futurePathPoint);
-
-    fill(0, 0, 255); // blue
-    noStroke();
-    circle(target.x, target.y, 16);
-
-    // calculate distance & return adjustment vector
-    const distance = p5.Vector.dist(futurePosition, projectionPoint);
-    return distance > path.radius ? this.seek(target) : createVector(0, 0);
   }
 
   update() {

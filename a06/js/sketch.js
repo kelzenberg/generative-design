@@ -21,6 +21,7 @@ function draw() {
   drawFrameRate();
 
   for (const boid of flock) {
+    boid.alignWith(flock);
     boid.update();
     boid.show();
   }
