@@ -6,7 +6,7 @@ class Boid extends p5.Vector {
     this.velocity = p5.Vector.random2D().setMag(random(2, 5));
     this.acceleration = createVector(0, 0);
     this.maxSpeed = 4;
-    this.maxForce = 0.1; // limits magnitude of steering
+    this.maxForce = 0.2; // limits magnitude of steering
     this.lifetime = 255;
     this.size = 16;
     this.theta = PI / 2;
@@ -136,7 +136,7 @@ class Boid extends p5.Vector {
     return distance > path.radius ? this.seek(target) : createVector(0, 0);
   }
 
-  edges() {
+  bounceEdges() {
     let hitEdge = false;
 
     if (this.y >= height - this.size) {
@@ -170,6 +170,24 @@ class Boid extends p5.Vector {
     }
   }
 
+  teleportEdges() {
+    if (this.y >= height + this.size) {
+      // bottom border
+      this.y = 0 - this.size;
+    } else if (this.y <= 0 - this.size) {
+      // top border
+      this.y = height + this.size;
+    }
+
+    if (this.x >= width + this.size) {
+      // right border
+      this.x = 0 - this.size;
+    } else if (this.x <= 0 - this.size) {
+      // left border
+      this.x = width + this.size;
+    }
+  }
+
   alignWith(boids) {
     const steeringForce = createVector();
     const closestBoids = boids
@@ -179,6 +197,7 @@ class Boid extends p5.Vector {
     if (closestBoids.length > 0) {
       steeringForce.div(closestBoids.length);
       steeringForce.sub(this.velocity);
+      steeringForce.limit(this.maxForce);
     }
 
     return steeringForce;

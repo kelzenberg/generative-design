@@ -22,6 +22,7 @@ function draw() {
 
   for (const boid of flock) {
     boid.flockWith(flock);
+    boid.teleportEdges();
     boid.update();
     boid.show();
   }
