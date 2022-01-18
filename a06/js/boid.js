@@ -13,47 +13,8 @@ class Boid extends p5.Vector {
     this.perceptionRadius = 50;
   }
 
-  isFinished() {
-    return this.lifetime < 0;
-  }
-
   applyForce(force) {
     this.acceleration.add(force);
-  }
-
-  wander() {
-    const direction = this.velocity.copy();
-    direction.setMag(100);
-    direction.add(this);
-
-    // fill(255, 0, 0);
-    // noStroke();
-    // circle(direction.x, direction.y, 16);
-
-    const radius = 50;
-
-    // noFill();
-    // stroke(255);
-    // circle(direction.x, direction.y, radius * 2);
-    // line(this.x, this.y, direction.x, direction.y);
-
-    const theta = this.theta + this.velocity.heading();
-    const x = radius * cos(theta);
-    const y = radius * sin(theta);
-    direction.add(x, y);
-
-    // fill(0, 255, 0);
-    // noStroke();
-    // circle(direction.x, direction.y, 16);
-    // stroke(255);
-    // line(this.x, this.y, direction.x, direction.y);
-
-    const steer = direction.sub(this);
-    steer.setMag(this.maxForce);
-    this.applyForce(steer);
-
-    const displaceRange = 0.3;
-    this.theta += random(-displaceRange, displaceRange);
   }
 
   seek(target, arrive = false) {
@@ -96,40 +57,6 @@ class Boid extends p5.Vector {
     let pursuit = this.pursue(vehicle);
     pursuit.mult(-1);
     return pursuit;
-  }
-
-  follow(path) {
-    // calculate future position
-    const futurePosition = this.velocity.copy();
-    futurePosition.mult(this.lookAhead).add(this);
-
-    fill(255, 0, 0); // red
-    noStroke();
-    circle(futurePosition.x, futurePosition.y, 16);
-
-    // find projection-point on path
-    const projectionPoint = findProjection(path.start, futurePosition, path.end);
-
-    fill(0, 255, 0); // green
-    noStroke();
-    circle(projectionPoint.x, projectionPoint.y, 16);
-
-    // get target (ahead) on path
-    const pathDirection = p5.Vector.sub(path.end, path.start).normalize();
-    const futurePathPoint = p5.Vector.mult(pathDirection, this.lookAhead * 2);
-    // fix direction of futurePath point
-    if (p5.Vector.dot(this.velocity, futurePathPoint) < 0) {
-      futurePathPoint.mult(-1);
-    }
-    const target = p5.Vector.add(projectionPoint, futurePathPoint);
-
-    fill(0, 0, 255); // blue
-    noStroke();
-    circle(target.x, target.y, 16);
-
-    // calculate distance & return adjustment vector
-    const distance = p5.Vector.dist(futurePosition, projectionPoint);
-    return distance > path.radius ? this.seek(target) : createVector(0, 0);
   }
 
   bounceEdges() {
