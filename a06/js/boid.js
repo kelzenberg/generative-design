@@ -190,66 +190,57 @@ class Boid extends p5.Vector {
 
   alignWith(boids) {
     const steeringForce = createVector();
-    const closestBoids = boids.map(boid => {
-      steeringForce.add(boid.velocity);
-      return boid;
-    });
 
-    if (closestBoids.length > 0) {
-      steeringForce.div(closestBoids.length);
-      steeringForce.setMag(this.maxSpeed);
-      steeringForce.sub(this.velocity);
-      steeringForce.limit(this.maxForce);
-    }
+    boids.forEach(boid => steeringForce.add(boid.velocity));
+
+    steeringForce.div(boids.length);
+    steeringForce.setMag(this.maxSpeed);
+    steeringForce.sub(this.velocity);
+    steeringForce.limit(this.maxForce);
 
     return steeringForce;
   }
 
   cohesionWith(boids) {
     const steeringForce = createVector();
-    const closestBoids = boids.map(boid => {
-      steeringForce.add(boid);
-      return boid;
-    });
 
-    if (closestBoids.length > 0) {
-      steeringForce.div(closestBoids.length);
-      steeringForce.sub(this);
-      steeringForce.setMag(this.maxSpeed);
-      steeringForce.sub(this.velocity);
-      steeringForce.limit(this.maxForce);
-    }
+    boids.forEach(boid => steeringForce.add(boid));
+
+    steeringForce.div(boids.length);
+    steeringForce.sub(this);
+    steeringForce.setMag(this.maxSpeed);
+    steeringForce.sub(this.velocity);
+    steeringForce.limit(this.maxForce);
 
     return steeringForce;
   }
 
   separationFrom(boids) {
     const steeringForce = createVector();
-    const closestBoids = boids.map(boid => {
+
+    boids.forEach(boid => {
       const difference = p5.Vector.sub(this, boid);
-      difference.div(dist(this.x, this.y, boid.x, boid.y));
+      const distance = dist(this.x, this.y, boid.x, boid.y);
+      difference.div(distance);
       steeringForce.add(difference);
-      return boid;
     });
 
-    if (closestBoids.length > 0) {
-      steeringForce.div(closestBoids.length);
-      steeringForce.setMag(this.maxSpeed);
-      steeringForce.sub(this.velocity);
-      steeringForce.limit(this.maxForce);
-    }
+    steeringForce.div(boids.length);
+    steeringForce.setMag(this.maxSpeed);
+    steeringForce.sub(this.velocity);
+    steeringForce.limit(this.maxForce);
 
     return steeringForce;
   }
 
   flockWith(boids) {
-    const closedBoids = boids.filter(boid => boid != this && dist(this.x, this.y, boid.x, boid.y) < this.perception);
-    const alignment = this.alignWith(closedBoids);
-    const cohesion = this.cohesionWith(closedBoids);
-    const separation = this.separationFrom(closedBoids);
-    this.acceleration.add(alignment);
-    this.acceleration.add(cohesion);
-    this.acceleration.add(separation);
+    const closestBoids = boids.filter(boid => boid != this && dist(this.x, this.y, boid.x, boid.y) < this.perception);
+
+    if (closestBoids.length <= 0) return;
+
+    this.acceleration.add(this.alignWith(closestBoids));
+    this.acceleration.add(this.cohesionWith(closestBoids));
+    this.acceleration.add(this.separationFrom(closestBoids));
   }
 
   update() {
