@@ -1,6 +1,7 @@
 let cWidth = 500; // canvas width
 let cHeight = 500; // canvas height
 
+let paused = false;
 const flock = [];
 
 // eslint-disable-next-line no-unused-vars
@@ -19,6 +20,8 @@ function setup() {
 function draw() {
   background(0);
   drawFrameRate();
+
+  if (paused) return;
 
   for (const boid of flock) {
     boid.flockWith(flock);
