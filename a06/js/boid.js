@@ -272,12 +272,10 @@ class Boid extends p5.Vector {
     strokeWeight(2);
     fill(255);
 
-    circle(this.x, this.y, 16);
-
-    // push();
-    // translate(this.x, this.y);
-    // rotate(this.velocity.heading());
-    // triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
-    // pop();
+    push();
+    translate(this.x, this.y);
+    rotate(this.velocity.heading());
+    triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
+    pop();
   }
 }
