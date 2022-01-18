@@ -1,6 +1,7 @@
 let f; // textFont
 let cWidth = 500; // canvas width
 let cHeight = 500; // canvas height
+let showHelp = false;
 
 const flock = [];
 
@@ -22,9 +23,17 @@ function setup() {
 }
 
 // eslint-disable-next-line no-unused-vars
+function keyPressed() {
+  if (key == 'h') showHelp = !showHelp;
+}
+
+// eslint-disable-next-line no-unused-vars
 function draw() {
   background('blue');
-  drawHelp();
+
+  if (showHelp) {
+    drawHelp();
+  }
 
   push();
   noStroke();
