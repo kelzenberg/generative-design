@@ -192,7 +192,10 @@ class Boid extends p5.Vector {
     const steeringForce = createVector();
     const closestBoids = boids
       .filter(boid => boid != this && dist(this.x, this.y, boid.x, boid.y) < this.perception)
-      .map(boid => steeringForce.add(boid.velocity));
+      .map(boid => {
+        steeringForce.add(boid.velocity);
+        return boid;
+      });
 
     if (closestBoids.length > 0) {
       steeringForce.div(closestBoids.length);
@@ -208,7 +211,10 @@ class Boid extends p5.Vector {
     const steeringForce = createVector();
     const closestBoids = boids
       .filter(boid => boid != this && dist(this.x, this.y, boid.x, boid.y) < this.perception)
-      .map(boid => steeringForce.add(boid));
+      .map(boid => {
+        steeringForce.add(boid);
+        return boid;
+      });
 
     if (closestBoids.length > 0) {
       steeringForce.div(closestBoids.length);
