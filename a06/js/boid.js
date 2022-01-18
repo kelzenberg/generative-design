@@ -1,10 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 class Boid extends p5.Vector {
-  constructor(x, y) {
-    super(x, y);
+  constructor(x, y, z) {
+    super(x, y, z);
 
-    this.velocity = p5.Vector.random2D().setMag(random(2, 4));
-    this.acceleration = createVector(0, 0);
+    this.velocity = p5.Vector.random3D().setMag(random(2, 4));
+    this.acceleration = createVector();
     this.maxSpeed = 4;
     this.maxForce = 0.2; // limits magnitude of steering
     this.size = 16;
@@ -131,7 +131,7 @@ class Boid extends p5.Vector {
 
     boids.forEach(boid => {
       const difference = p5.Vector.sub(this, boid);
-      const distance = dist(this.x, this.y, boid.x, boid.y);
+      const distance = dist(this.x, this.y, this.z, boid.x, boid.y, boid.z);
       difference.div(distance);
       steeringForce.add(difference);
     });
@@ -146,7 +146,7 @@ class Boid extends p5.Vector {
 
   flockWith(boids) {
     const closestBoids = boids.filter(
-      boid => boid != this && dist(this.x, this.y, boid.x, boid.y) < this.perceptionRadius
+      boid => boid != this && dist(this.x, this.y, this.z, boid.x, boid.y, boid.z) < this.perceptionRadius
     );
 
     if (closestBoids.length <= 0) return;
@@ -160,7 +160,7 @@ class Boid extends p5.Vector {
     this.add(this.velocity);
     this.velocity.add(this.acceleration);
     this.velocity.limit(this.maxSpeed);
-    this.acceleration.set(0, 0);
+    this.acceleration.set(0, 0, 0);
   }
 
   show() {
@@ -169,9 +169,11 @@ class Boid extends p5.Vector {
     fill(255);
 
     push();
-    translate(this.x, this.y);
+    translate(this.x, this.y, this.z);
     rotate(this.velocity.heading());
     triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
+    normalMaterial();
+    cone(this.size / 2, this.size);
     pop();
   }
 }

@@ -5,9 +5,12 @@ let showHelp = false;
 console.log('Show the help by pressing "h" on your keyboard or by setting "showHelp = true" in the console.');
 
 let rover;
-let cam;
 let aquarium;
 const flock = [];
+
+function convert2Dto3D(w, h) {
+  return (x, y) => ({ x: x - w / 2, y: y - h / 2 });
+}
 
 // eslint-disable-next-line no-unused-vars
 function preload() {
@@ -22,12 +25,13 @@ function setup() {
   textFont(f);
 
   rover = new Rover();
-  cam = rover.getCam();
 
   aquarium = new Aquarium();
+  const convert = convert2Dto3D(aquarium.width, aquarium.height);
 
   for (let idx = 0; idx < 100; idx++) {
-    flock.push(new Boid(random(cWidth), random(cHeight)));
+    const { x, y } = convert(random(aquarium.width), random(aquarium.height));
+    flock.push(new Boid(x, y, random(-aquarium.depth / 2, aquarium.depth / 2)));
   }
 }
 
@@ -57,9 +61,9 @@ function draw() {
   aquarium.show();
 
   for (const boid of flock) {
-    boid.flockWith(flock);
+    // boid.flockWith(flock);
     // boid.teleportEdges();
-    boid.update();
+    // boid.update();
     boid.show();
   }
 }
