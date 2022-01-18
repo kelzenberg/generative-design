@@ -3,11 +3,12 @@ class Boid extends p5.Vector {
   constructor(x, y, z) {
     super(x, y, z);
 
-    this.velocity = p5.Vector.random3D().setMag(random(2, 4));
-    this.acceleration = createVector();
-    this.maxSpeed = 4;
+    // this.velocity = p5.Vector.random3D().setMag(random(2, 4));
+    this.velocity = createVector(-1, 1, 0).setMag(random(2, 4));
+    this.acceleration = createVector(0, 0, 0);
+    this.maxSpeed = 0.1;
     this.maxForce = 0.2; // limits magnitude of steering
-    this.size = 16;
+    this.size = 4;
     this.theta = PI / 2;
     this.lookAhead = 20;
     this.perceptionRadius = 50;
@@ -168,12 +169,66 @@ class Boid extends p5.Vector {
     strokeWeight(2);
     fill(255);
 
+    // push();
+    // translate(this.x, this.y, this.z);
+    // rotate(this.velocity.heading());
+    // // const ax = atan2(sqrt(sq(this.velocity.y) + sq(this.velocity.z)), this.velocity.x);
+    // // const ay = atan2(sqrt(sq(this.velocity.z) + sq(this.velocity.x)), this.velocity.y);
+    // // const az = atan2(sqrt(sq(this.velocity.x) + sq(this.velocity.y)), this.velocity.z);
+    // // rotate(this.velocity.angleBetween(createVector(1, 0, 0)), [1, 0, 0]);
+    // // rotate(this.velocity.angleBetween(createVector(0, 1, 0)), [0, 1, 0]);
+    // // rotate(this.velocity.angleBetween(createVector(0, 0, 1)), [0, 0, 1]);
+    // // // console.log(this.velocity.angleBetween(createVector(1, 0, 0)));)
+    // triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
+    // pop();
+
+    // const ax = atan2(sqrt(sq(this.velocity.y) + sq(this.velocity.z)), this.velocity.x);
+    // const ay = atan2(sqrt(sq(this.velocity.z) + sq(this.velocity.x)), this.velocity.y);
+    // const az = atan2(sqrt(sq(this.velocity.x) + sq(this.velocity.y)), this.velocity.z);
+    // rotate(ax, [1, 0, 0]);
+    // rotate(ay, [0, 1, 0]);
+    // rotate(az, [0, 0, 1]);
+
+    normalMaterial();
+
+    // body
     push();
     translate(this.x, this.y, this.z);
-    rotate(this.velocity.heading());
-    triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
-    normalMaterial();
-    cone(this.size / 2, this.size);
+    ellipsoid(this.size * 2, this.size / 2, this.size / 2);
+    pop();
+
+    // eye left
+    push();
+    translate(this.x + -5.5, this.y, this.z + 1);
+    sphere(0.5);
+    pop();
+
+    // eye right
+    push();
+    translate(this.x + -5.5, this.y, this.z - 1);
+    sphere(0.5);
+    pop();
+
+    // fin left
+    push();
+    translate(this.x + -2, this.y, this.z + 2);
+    rotate(radians(60), [0, 1, 0]);
+    ellipsoid(this.size / 6, this.size / 10, this.size);
+    pop();
+
+    // fin right
+    push();
+    translate(this.x + -2, this.y, this.z - 2);
+    rotate(radians(-60), [0, 1, 0]);
+    ellipsoid(this.size / 6, this.size / 10, this.size);
+    pop();
+
+    // fin top
+    push();
+    translate(this.x, this.y - 1.5, this.z);
+    rotate(radians(90), [1, 0, 0]);
+    rotate(radians(80), [0, 1, 0]);
+    ellipsoid(this.size / 6, this.size / 10, this.size);
     pop();
   }
 }
