@@ -7,11 +7,10 @@ class Boid extends p5.Vector {
     this.acceleration = createVector(0, 0);
     this.maxSpeed = 4;
     this.maxForce = 0.2; // limits magnitude of steering
-    this.lifetime = 255;
     this.size = 16;
     this.theta = PI / 2;
     this.lookAhead = 20;
-    this.perception = 50;
+    this.perceptionRadius = 50;
 
     this.currentPath = [];
     this.paths = [this.currentPath];
@@ -234,7 +233,9 @@ class Boid extends p5.Vector {
   }
 
   flockWith(boids) {
-    const closestBoids = boids.filter(boid => boid != this && dist(this.x, this.y, boid.x, boid.y) < this.perception);
+    const closestBoids = boids.filter(
+      boid => boid != this && dist(this.x, this.y, boid.x, boid.y) < this.perceptionRadius
+    );
 
     if (closestBoids.length <= 0) return;
 
@@ -248,9 +249,6 @@ class Boid extends p5.Vector {
     this.velocity.add(this.acceleration);
     this.velocity.limit(this.maxSpeed);
     this.acceleration.set(0, 0);
-    // this.lifetime -= 1;
-
-    // this.currentPath.push(this.copy());
   }
 
   show() {
