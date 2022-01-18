@@ -6,6 +6,7 @@ console.log('Show the help by pressing "h" on your keyboard or by setting "showH
 
 let rover;
 let cam;
+let aquarium;
 const flock = [];
 
 // eslint-disable-next-line no-unused-vars
@@ -23,6 +24,8 @@ function setup() {
   rover = new Rover();
   cam = rover.getCam();
 
+  aquarium = new Aquarium();
+
   for (let idx = 0; idx < 100; idx++) {
     flock.push(new Boid(random(cWidth), random(cHeight)));
   }
@@ -35,7 +38,7 @@ function keyPressed() {
 
 // eslint-disable-next-line no-unused-vars
 function draw() {
-  background(230);
+  background(215);
 
   if (showHelp) {
     rover.drawHelp();
@@ -50,6 +53,8 @@ function draw() {
   normalMaterial();
   sphere(25);
   pop();
+
+  aquarium.show();
 
   for (const boid of flock) {
     boid.flockWith(flock);
