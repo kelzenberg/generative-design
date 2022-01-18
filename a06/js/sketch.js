@@ -2,6 +2,7 @@ let f; // textFont
 let cWidth = 500; // canvas width
 let cHeight = 500; // canvas height
 let showHelp = false;
+console.log('Show the help by pressing "h" on your keyboard or by setting "showHelp = true" in the console.');
 
 const flock = [];
 

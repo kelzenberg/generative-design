@@ -63,7 +63,7 @@ function drawHelp() {
 
   fill(0, 0, 0, 200);
   noStroke();
-  rect(0, 0, 155, helpTexts.length * 15 + 5);
+  rect(0, 0, 155, helpTexts.length * 15 + 10);
 
   fill(127);
   helpTexts.forEach((v, idx) => text(v, 5, (idx + 1) * 15));
