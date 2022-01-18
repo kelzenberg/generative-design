@@ -11,9 +11,6 @@ class Boid extends p5.Vector {
     this.theta = PI / 2;
     this.lookAhead = 20;
     this.perceptionRadius = 50;
-
-    this.currentPath = [];
-    this.paths = [this.currentPath];
   }
 
   isFinished() {
@@ -136,36 +133,24 @@ class Boid extends p5.Vector {
   }
 
   bounceEdges() {
-    let hitEdge = false;
-
     if (this.y >= height - this.size) {
       // bottom border
       this.y = height - this.size;
       this.velocity.y *= -1;
-      hitEdge = true;
     } else if (this.y <= this.size) {
       // top border
       this.y = this.size;
       this.velocity.y *= -1;
-      hitEdge = true;
     }
 
     if (this.x >= width - this.size) {
       // right border
       this.x = width - this.size;
       this.velocity.x *= -1;
-      hitEdge = true;
     } else if (this.x <= this.size) {
       // left border
       this.x = this.size;
       this.velocity.x *= -1;
-      hitEdge = true;
-    }
-
-    if (hitEdge) {
-      // comment in if vehicle is not bouncing off wales but teleports
-      //   this.currentPath = [];
-      //   this.paths.push(this.currentPath);
     }
   }
 
