@@ -21,7 +21,7 @@ class Aquarium extends p5.Vector {
 
     // back wall
     push();
-    translate(0, 0, -this.depth / 2 + this.wallThickness / 2);
+    translate(0, 0, -this.depth / 2 - this.wallThickness / 2);
     box(this.width + this.wallThickness, this.height, this.wallThickness);
     pop();
 
@@ -51,6 +51,15 @@ class Aquarium extends p5.Vector {
     translate(0, this.height / 2 + this.wallThickness / 2, this.wallThickness / 2);
     rotate(radians(90), [1, 0, 0]);
     box(this.width + this.wallThickness * 2, this.depth + this.wallThickness * 2, this.wallThickness);
+    pop();
+
+    // water
+    push();
+    specularMaterial(30, 130, 175, 200);
+    shininess(5);
+    const offset = this.height * 0.2;
+    translate(0, offset - this.wallThickness * 2 + 2, 0);
+    box(this.width - this.wallThickness + 2, this.height - offset, this.depth + 2);
     pop();
   }
 }
