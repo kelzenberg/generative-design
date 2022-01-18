@@ -221,6 +221,23 @@ class Boid extends p5.Vector {
     return steeringForce;
   }
 
+  separationFrom(boids) {
+    const steeringForce = createVector();
+    const closestBoids = boids
+      .filter(boid => boid != this && dist(this.x, this.y, boid.x, boid.y) < this.perception)
+      .map(boid => steeringForce.add(boid.position));
+
+    if (closestBoids.length > 0) {
+      steeringForce.div(closestBoids.length);
+      steeringForce.sub(this.position);
+      steeringForce.setMag(this.maxSpeed);
+      steeringForce.sub(this.velocity);
+      steeringForce.limit(this.maxForce);
+    }
+
+    return steeringForce;
+  }
+
   flockWith(boids) {
     const alignment = this.alignWith(boids);
     const cohesion = this.cohesionWith(boids);
@@ -243,11 +260,12 @@ class Boid extends p5.Vector {
     strokeWeight(2);
     fill(255);
 
-    push();
-    translate(this.x, this.y);
-    rotate(this.velocity.heading());
-    triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
-    // circle(this.x, this.y, 16);
-    pop();
+    circle(this.x, this.y, 16);
+
+    // push();
+    // translate(this.x, this.y);
+    // rotate(this.velocity.heading());
+    // triangle(-this.size, -this.size / 2, -this.size, this.size / 2, this.size, 0);
+    // pop();
   }
 }
