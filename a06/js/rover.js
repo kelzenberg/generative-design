@@ -34,9 +34,12 @@ function createRover() {
   rover.setState({
     active: true,
     enableControl: true,
-    position: [0, 0, 200], // ➡️ ⬇️ ⤵️
-    rotation: [radians(-90), radians(0), 0], // pan, tilt, undefined
-    offset: [0, 0], // height, rotational
+    // position: [0, 0, 200], // ➡️ ⬇️ ⤵️
+    position: [-250, -25, 125], // ➡️ ⬇️ ⤵️
+    // rotation: [radians(-90), radians(0), 0], // pan, tilt, undefined
+    rotation: [radians(-30), radians(35), 0], // pan, tilt, undefined
+    // offset: [0, 0], // height, rotational
+    offset: [-120, 0], // height, rotational
     fov: 1, // default: 1
     speed: 0.5,
     sensitivity: 0.05,
