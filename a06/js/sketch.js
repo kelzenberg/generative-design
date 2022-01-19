@@ -59,14 +59,14 @@ function draw() {
   // sphere(25);
   // pop();
 
-  aquarium.show();
-
   for (const boid of flock) {
     boid.flockWith(flock);
     // boid.teleportEdges();
     boid.update();
     boid.show();
   }
+
+  aquarium.show();
 }
 
 // eslint-disable-next-line no-unused-vars

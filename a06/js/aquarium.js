@@ -58,8 +58,8 @@ class Aquarium extends p5.Vector {
     specularMaterial(30, 130, 175, 200);
     shininess(5);
     const offset = this.height * 0.2;
-    translate(0, offset - this.wallThickness * 2 + 2, 0);
-    box(this.width - this.wallThickness + 2, this.height - offset, this.depth + 2);
+    translate(0, -offset, 0);
+    box(this.width - this.wallThickness + 2, 2, this.depth + 2);
     pop();
   }
 }

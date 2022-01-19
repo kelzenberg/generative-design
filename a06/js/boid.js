@@ -189,18 +189,22 @@ class Boid extends p5.Vector {
 
     // eye left
     push();
+
+    fill(lerpColor(this.color, color(0), 0.5));
     translate(-5.5, 0, 1);
     sphere(0.5);
     pop();
 
     // eye right
     push();
+    fill(lerpColor(this.color, color(0), 0.5));
     translate(-5.5, 0, -1);
     sphere(0.5);
     pop();
 
     // fin left
     push();
+    fill(lerpColor(this.color, color(255), 0.5));
     translate(-2, 0, 2);
     rotate(radians(60), [0, 1, 0]);
     ellipsoid(this.size / 6, this.size / 10, this.size);
@@ -208,6 +212,7 @@ class Boid extends p5.Vector {
 
     // fin right
     push();
+    fill(lerpColor(this.color, color(255), 0.5));
     translate(-2, 0, -2);
     rotate(radians(-60), [0, 1, 0]);
     ellipsoid(this.size / 6, this.size / 10, this.size);
@@ -215,6 +220,7 @@ class Boid extends p5.Vector {
 
     // fin top
     push();
+    fill(lerpColor(this.color, color(255), 0.5));
     translate(0, -1, 0);
     rotate(radians(90), [1, 0, 0]);
     rotate(radians(70), [0, 1, 0]);
@@ -223,6 +229,7 @@ class Boid extends p5.Vector {
 
     // back fin top
     push();
+    fill(lerpColor(this.color, color(255), 0.5));
     translate(8, -1, 0);
     rotate(radians(90), [1, 0, 0]);
     rotate(radians(30), [0, 1, 0]);
@@ -231,6 +238,7 @@ class Boid extends p5.Vector {
 
     // back fin bottom
     push();
+    fill(lerpColor(this.color, color(255), 0.5));
     translate(8, 1, 0);
     rotate(radians(-90), [1, 0, 0]);
     rotate(radians(30), [0, 1, 0]);
