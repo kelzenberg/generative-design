@@ -34,13 +34,13 @@ class Rover {
       active: true,
       enableControl: true,
       // position: [0, -130, 130], // ➡️ ⬇️ ⤵️
-      // position: [-250, -25, 125], // ➡️ ⬇️ ⤵️
+      position: [-180, -120, 125], // ➡️ ⬇️ ⤵️
       // position: [-144, -19, 97], // ➡️ ⬇️ ⤵️
-      position: [-31, -13, -15], // ➡️ ⬇️ ⤵️
+      // position: [-31, -13, -15], // ➡️ ⬇️ ⤵️
       // rotation: [radians(-90), radians(45), 0], // pan, tilt, undefined
-      // rotation: [radians(-30), radians(35), 0], // pan, tilt, undefined
+      rotation: [radians(-30), radians(35), 0], // pan, tilt, undefined
       // rotation: [radians(-39), radians(15), 0], // pan, tilt, undefined
-      rotation: [radians(15), radians(15), 0], // pan, tilt, undefined
+      // rotation: [radians(15), radians(15), 0], // pan, tilt, undefined
       // offset: [0, 0], // height, rotational
       fov: 1.5, // default: 1
       speed: 0.5,

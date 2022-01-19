@@ -202,8 +202,8 @@ class Boid extends p5.Vector {
     rotate(radians(yRadian), [0, 1, 0]);
     rotate(radians(zRadian), [0, 0, 1]);
 
-    rotate(radians(45), [0, 0, 1]);
-    rotate(radians(180), [0, 1, 0]);
+    // rotate(radians(45), [0, 0, 1]);
+    // rotate(radians(180), [0, 1, 0]);
 
     const isShark = this.color.levels.join(',') == color(20).levels.join(',');
     scale(isShark ? this.size * 2 : this.size);
