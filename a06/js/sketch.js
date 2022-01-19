@@ -9,8 +9,8 @@ let aquarium;
 const flock = [];
 let shark;
 
-function convert2Dto3D(w, h) {
-  return (x, y) => ({ x: x - w / 2, y: y - h / 2 });
+function convertTo3D(w, h, d) {
+  return (x, y, z) => ({ x: x - w / 2, y: y - h / 2, z: z - d / 2 });
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -28,11 +28,15 @@ function setup() {
   rover = new Rover();
 
   aquarium = new Aquarium();
-  const convert = convert2Dto3D(aquarium.width, aquarium.height);
+  const convertPosition = convertTo3D(aquarium.width, aquarium.height, aquarium.depth);
 
   for (let idx = 0; idx < 50; idx++) {
-    const { x, y } = convert(random(aquarium.width), random(aquarium.height));
-    flock.push(new Boid(x, y, random(-aquarium.depth / 2, aquarium.depth / 2)));
+    const { x, z } = convertPosition(
+      random(aquarium.width - 30),
+      random(aquarium.height - 30),
+      random(aquarium.depth - 30)
+    );
+    flock.push(new Boid(x, random(-30, 40), z));
   }
 
   shark = new Boid(0, 0, 0, color(20));
@@ -74,20 +78,21 @@ function draw() {
   // shark.bounceWalls(aquariumDimensions);
   shark.update();
   shark.show();
-  // boid.evade(shark);
-  boid.avoidWalls(aquariumDimensions);
-  // boid.bounceWalls(aquariumDimensions);
-  boid.update();
-  boid.show();
 
-  // for (const boid of flock) {
-  //   // boid.flockWith(flock);
-  //   boid.evade(shark);
-  //   boid.avoidWalls(aquariumDimensions);
-  //   boid.bounceWalls(aquariumDimensions);
-  //   boid.update();
-  //   boid.show();
-  // }
+  // // boid.evade(shark);
+  // boid.avoidWalls(aquariumDimensions);
+  // // boid.bounceWalls(aquariumDimensions);
+  // boid.update();
+  // boid.show();
+
+  for (const boid of flock) {
+    boid.flockWith(flock);
+    // boid.evade(shark);
+    boid.avoidWalls(aquariumDimensions);
+    // boid.bounceWalls(aquariumDimensions);
+    boid.update();
+    boid.show();
+  }
 
   aquarium.show();
 }
