@@ -7,7 +7,7 @@ class Aquarium extends p5.Vector {
     this.height = 100;
     this.depth = 200;
     this.wallThickness = 5;
-    this.waterOffset = this.height * 0.2;
+    this.waterOffset = this.height * 0.3;
   }
 
   getDimensions() {
