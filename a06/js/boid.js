@@ -12,7 +12,7 @@ class Boid extends p5.Vector {
     this.size = 0.5; // default: 1
     this.theta = PI / 2;
     this.lookAhead = 20;
-    this.perceptionRadius = 50;
+    this.perceptionRadius = 25;
     this.color = colour;
   }
 
@@ -22,9 +22,7 @@ class Boid extends p5.Vector {
 
   seek(target) {
     const force = p5.Vector.sub(target, this);
-    let desiredSpeed = this.maxSpeed;
-
-    force.setMag(desiredSpeed);
+    force.setMag(this.maxSpeed);
     force.sub(this.velocity);
     force.limit(this.maxForce);
     return force;
@@ -41,7 +39,7 @@ class Boid extends p5.Vector {
 
   evade(boid) {
     let pursuit = this.pursue(boid);
-    this.applyForce(pursuit.mult(-1));
+    return pursuit.mult(-1);
   }
 
   alignWith(boids) {
@@ -104,13 +102,11 @@ class Boid extends p5.Vector {
     this.applyForce(this.separationFrom(closestBoids));
   }
 
-  resetPosition(width, height, depth) {
-    if (abs(this.x) > width / 2 || abs(this.y) > height / 2 || abs(this.z) > depth / 2) {
-      const { x, y, z } = createVector(0, 0, 0);
-      this.x = x;
-      this.y = y;
-      this.z = z;
-      this.velocity = p5.Vector.random3D().setMag(random(2, 4));
+  avoidBoid(boid) {
+    const distance = dist(this.x, this.y, this.z, boid.x, boid.y, boid.z);
+
+    if (distance < this.perceptionRadius / 2) {
+      this.applyForce(this.evade(boid).limit(this.maxForce));
     }
   }
 
@@ -145,7 +141,18 @@ class Boid extends p5.Vector {
 
     const fakeBoid = new Boid(nearestWall.x, nearestWall.y, nearestWall.z);
     fakeBoid.velocity = createVector(0, 0, 0);
-    this.evade(fakeBoid);
+
+    this.applyForce(this.evade(fakeBoid));
+  }
+
+  resetPosition(width, height, depth) {
+    if (abs(this.x) > width / 2 || abs(this.y) > height / 2 || abs(this.z) > depth / 2) {
+      const { x, y, z } = createVector(0, 0, 0);
+      this.x = x;
+      this.y = y;
+      this.z = z;
+      this.velocity = p5.Vector.random3D().setMag(random(2, 4));
+    }
   }
 
   update() {

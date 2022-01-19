@@ -30,7 +30,7 @@ function setup() {
   aquarium = new Aquarium();
   const convertPosition = convertTo3D(aquarium.width, aquarium.height, aquarium.depth);
 
-  for (let idx = 0; idx < 50; idx++) {
+  for (let idx = 0; idx < 100; idx++) {
     const { x, z } = convertPosition(
       random(aquarium.width - 30),
       random(aquarium.height - 30),
@@ -75,21 +75,13 @@ function draw() {
   }); */
 
   shark.avoidWalls(aquariumDimensions);
-  // shark.bounceWalls(aquariumDimensions);
   shark.update();
   shark.show();
 
-  // // boid.evade(shark);
-  // boid.avoidWalls(aquariumDimensions);
-  // // boid.bounceWalls(aquariumDimensions);
-  // boid.update();
-  // boid.show();
-
   for (const boid of flock) {
+    boid.avoidBoid(shark);
     boid.flockWith(flock);
-    // boid.evade(shark);
     boid.avoidWalls(aquariumDimensions);
-    // boid.bounceWalls(aquariumDimensions);
     boid.resetPosition(aquarium.width, aquarium.height, aquarium.depth);
     boid.update();
     boid.show();
