@@ -149,6 +149,7 @@ class Boid extends p5.Vector {
     this.acceleration.set(0, 0, 0);
   }
 
+  // credit to my brother Gerrit Ansorge because I have no clue about 3D heading calculations
   getHeadingDirection() {
     const { x: vx, y: vy, z: vz } = this.velocity;
     const { x: kx, y: ky, z: kz } = this.heading;
