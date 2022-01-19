@@ -8,6 +8,7 @@ let rover;
 let aquarium;
 const flock = [];
 let shark;
+let sharkTarget;
 
 function convertTo3D(w, h, d) {
   return (x, y, z) => ({ x: x - w / 2, y: y - h / 2, z: z - d / 2 });
@@ -40,7 +41,7 @@ function setup() {
   }
 
   shark = new Boid(0, 0, 0, color(20));
-  boid = new Boid(10, 0, -10);
+  sharkTarget = flock[floor(random(0, flock.length))];
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -74,6 +75,11 @@ function draw() {
     pop();
   }); */
 
+  if (second() % 30 === 0) {
+    console.log('change target');
+    sharkTarget = flock[floor(random(0, flock.length))];
+  }
+  shark.pursue(sharkTarget);
   shark.avoidWalls(aquariumDimensions);
   shark.update();
   shark.show();
