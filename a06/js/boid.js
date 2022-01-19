@@ -20,30 +20,6 @@ class Boid extends p5.Vector {
     this.acceleration.add(force);
   }
 
-  seek(target, arrive = false) {
-    const force = p5.Vector.sub(target, this);
-    let desiredSpeed = this.maxSpeed;
-
-    if (arrive) {
-      const distance = force.mag();
-      const threshold = 100;
-      desiredSpeed = map(distance, 0, threshold, 0, this.maxSpeed);
-    }
-
-    force.setMag(desiredSpeed);
-    force.sub(this.velocity);
-    force.limit(this.maxForce);
-    return force;
-  }
-
-  arrive(target) {
-    return this.seek(target, true);
-  }
-
-  flee(target) {
-    return this.seek(target).mult(-1);
-  }
-
   pursue(vehicle) {
     const target = vehicle.copy();
     const prediction = vehicle.velocity.copy();
