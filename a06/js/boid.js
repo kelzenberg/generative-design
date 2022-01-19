@@ -96,32 +96,34 @@ class Boid extends p5.Vector {
   }
 
   bounceWalls(walls) {
+    const bufferToWall = 6;
+
     walls.map(([min, max], idx) => {
       switch (idx) {
         case 0: // xRange
-          if (this.x >= max) {
-            this.x = max;
+          if (this.x >= max - bufferToWall) {
+            this.x = max - bufferToWall - 2;
             this.velocity.x *= -1;
-          } else if (this.x <= min) {
-            this.x = min;
+          } else if (this.x <= min + bufferToWall) {
+            this.x = min + bufferToWall + 2;
             this.velocity.x *= -1;
           }
           break;
         case 1: // yRange
-          if (this.y >= max) {
-            this.y = max;
+          if (this.y >= max - bufferToWall) {
+            this.y = max - bufferToWall - 2;
             this.velocity.y *= -1;
-          } else if (this.y <= min) {
-            this.y = min;
+          } else if (this.y <= min + bufferToWall) {
+            this.y = min + bufferToWall + 2;
             this.velocity.y *= -1;
           }
           break;
         case 2: // zRange
-          if (this.z >= max) {
-            this.z = max;
+          if (this.z >= max - bufferToWall) {
+            this.z = max - bufferToWall - 2;
             this.velocity.x *= -1;
-          } else if (this.z <= min) {
-            this.z = min;
+          } else if (this.z <= min + bufferToWall) {
+            this.z = min + bufferToWall + 2;
             this.velocity.x *= -1;
           }
           break;
