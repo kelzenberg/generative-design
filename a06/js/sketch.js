@@ -7,7 +7,7 @@ console.log('Show the help by pressing "h" on your keyboard or by setting "showH
 let rover;
 let aquarium;
 const flock = [];
-let boid;
+let shark;
 
 function convert2Dto3D(w, h) {
   return (x, y) => ({ x: x - w / 2, y: y - h / 2 });
@@ -34,6 +34,8 @@ function setup() {
     const { x, y } = convert(random(aquarium.width), random(aquarium.height));
     flock.push(new Boid(x, y, random(-aquarium.depth / 2, aquarium.depth / 2)));
   }
+
+  shark = new Boid(0, 0, 0, color(20));
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -66,6 +68,8 @@ function draw() {
     sphere(1);
     pop();
   });
+
+  shark.show();
 
   for (const boid of flock) {
     // boid.flockWith(flock);

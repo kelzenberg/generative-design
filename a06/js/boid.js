@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 class Boid extends p5.Vector {
-  constructor(x, y, z) {
+  constructor(x, y, z, colour = color(random(42, 255), random(42, 255), random(42, 255))) {
     super(x, y, z);
 
     this.velocity = p5.Vector.random3D().setMag(random(2, 4));
@@ -13,7 +13,7 @@ class Boid extends p5.Vector {
     this.theta = PI / 2;
     this.lookAhead = 20;
     this.perceptionRadius = 50;
-    this.color = color(random(255), random(255), random(255));
+    this.color = colour;
   }
 
   applyForce(force) {
@@ -162,17 +162,17 @@ class Boid extends p5.Vector {
     ellipsoid(this.size * 2, this.size / 2, this.size / 2);
     pop();
 
+    const isShark = this.color.levels.join(',') == color(20).levels.join(',');
     // eye left
     push();
-
-    fill(lerpColor(this.color, color(0), 0.5));
+    fill(isShark ? color(255, 100, 100) : lerpColor(this.color, color(0), 0.5));
     translate(-5.5, 0, 1);
     sphere(0.5);
     pop();
 
     // eye right
     push();
-    fill(lerpColor(this.color, color(0), 0.5));
+    fill(isShark ? color(255, 100, 100) : lerpColor(this.color, color(0), 0.5));
     translate(-5.5, 0, -1);
     sphere(0.5);
     pop();
