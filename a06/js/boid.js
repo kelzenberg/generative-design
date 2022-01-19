@@ -4,7 +4,6 @@ class Boid extends p5.Vector {
     super(x, y, z);
 
     this.velocity = p5.Vector.random3D().setMag(random(2, 4));
-    // this.velocity = createVector(-1, 1, 0).setMag(random(2, 4));
     this.acceleration = createVector(0, 0, 0);
     this.heading = createVector(1, 1, 0);
     this.maxSpeed = 0.5;
@@ -125,19 +124,6 @@ class Boid extends p5.Vector {
     const minDistance = Math.min(...distances);
     const nearestWall = wallVectors[distances.indexOf(minDistance)];
 
-    // debug:
-    // push();
-    // translate(nearestWall);
-    // normalMaterial();
-    // sphere(1);
-    // pop();
-
-    // push();
-    // stroke(0);
-    // strokeWeight(2);
-    // line(this.x, this.y, this.z, nearestWall.x, nearestWall.y, nearestWall.z);
-    // pop();
-
     if (this.perceptionRadius / (this.size * 16) < minDistance) return;
 
     const fakeBoid = new Boid(nearestWall.x, nearestWall.y, nearestWall.z);
@@ -167,6 +153,7 @@ class Boid extends p5.Vector {
     const { x: vx, y: vy, z: vz } = this.velocity;
     const { x: kx, y: ky, z: kz } = this.heading;
 
+    angleMode(DEGREES);
     const axOver = vy * ky + vz * kz;
     const axUnder = sqrt(sq(vy) + sq(vz)) * sqrt(sq(ky) + sq(kz));
     const ax = acos(axOver / axUnder);
@@ -187,6 +174,7 @@ class Boid extends p5.Vector {
     const yRadian = ry >= 0 ? -ay : ay;
     const zRadian = rz >= 0 ? -az : az;
 
+    angleMode(RADIANS);
     return { xRadian, yRadian, zRadian };
   }
 
@@ -201,9 +189,6 @@ class Boid extends p5.Vector {
     rotate(radians(xRadian), [1, 0, 0]);
     rotate(radians(yRadian), [0, 1, 0]);
     rotate(radians(zRadian), [0, 0, 1]);
-
-    // rotate(radians(45), [0, 0, 1]);
-    // rotate(radians(180), [0, 1, 0]);
 
     const isShark = this.color.levels.join(',') == color(20).levels.join(',');
     scale(isShark ? this.size * 2 : this.size);

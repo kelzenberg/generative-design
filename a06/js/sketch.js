@@ -64,21 +64,6 @@ function draw() {
 
   const aquariumDimensions = aquarium.getDimensions();
 
-  // debug:
-  /* aquariumDimensions.map(([min, max], idx) => {
-    push();
-    normalMaterial();
-    translate(idx == 0 ? min : 0, idx == 1 ? min : 0, idx == 2 ? min : 0);
-    sphere(1);
-    pop();
-
-    push();
-    normalMaterial();
-    translate(idx == 0 ? max : 0, idx == 1 ? max : 0, idx == 2 ? max : 0);
-    sphere(1);
-    pop();
-  }); */
-
   if (second() % 30 === 0) {
     sharkTarget = flock[floor(random(0, flock.length))];
   }
