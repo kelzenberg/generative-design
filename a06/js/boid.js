@@ -170,24 +170,24 @@ class Boid extends p5.Vector {
     rotate(radians(45), [0, 0, 1]);
     rotate(radians(180), [0, 1, 0]);
 
-    scale(this.size);
+    const isShark = this.color.levels.join(',') == color(20).levels.join(',');
+    scale(isShark ? this.size * 2 : this.size);
 
     // body
     push();
     ellipsoid(8, 2, 2);
     pop();
 
-    const isShark = this.color.levels.join(',') == color(20).levels.join(',');
     // eye left
     push();
-    fill(isShark ? color(255, 100, 100) : lerpColor(this.color, color(0), 0.5));
+    fill(isShark ? color(220, 50, 50) : lerpColor(this.color, color(0), 0.5));
     translate(-5.5, 0, 1);
     sphere(0.5);
     pop();
 
     // eye right
     push();
-    fill(isShark ? color(255, 100, 100) : lerpColor(this.color, color(0), 0.5));
+    fill(isShark ? color(220, 50, 50) : lerpColor(this.color, color(0), 0.5));
     translate(-5.5, 0, -1);
     sphere(0.5);
     pop();
@@ -210,10 +210,17 @@ class Boid extends p5.Vector {
 
     // fin top
     push();
-    fill(lerpColor(this.color, color(255), 0.5));
-    translate(0, -1, 0);
-    rotate(radians(90), [1, 0, 0]);
-    rotate(radians(70), [0, 1, 0]);
+    if (isShark) {
+      fill(lerpColor(this.color, color(255, 0, 0), 0.4));
+      translate(0, -1.5, 0);
+      rotate(radians(90), [1, 0, 0]);
+      rotate(radians(40), [0, 1, 0]);
+    } else {
+      fill(lerpColor(this.color, color(255), 0.5));
+      translate(0, -1, 0);
+      rotate(radians(90), [1, 0, 0]);
+      rotate(radians(70), [0, 1, 0]);
+    }
     ellipsoid(1.33, 0.4, 4);
     pop();
 
