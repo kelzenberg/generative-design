@@ -7,7 +7,7 @@ class Boid extends p5.Vector {
     // this.velocity = createVector(-1, 1, 0).setMag(random(2, 4));
     this.acceleration = createVector(0, 0, 0);
     this.heading = createVector(1, 1, 0);
-    this.maxSpeed = 4;
+    this.maxSpeed = 0.5;
     this.maxForce = 0.2; // limits magnitude of steering
     this.size = 4;
     this.theta = PI / 2;
@@ -20,20 +20,27 @@ class Boid extends p5.Vector {
     this.acceleration.add(force);
   }
 
-  pursue(object) {
-    const target = object.copy();
-    const prediction = object.velocity.copy();
+  seek(target) {
+    const force = p5.Vector.sub(target, this);
+    let desiredSpeed = this.maxSpeed;
+
+    force.setMag(desiredSpeed);
+    force.sub(this.velocity);
+    force.limit(this.maxForce);
+    return force;
+  }
+
+  pursue(boid) {
+    const target = boid.copy();
+    const prediction = boid.velocity.copy();
     prediction.mult(16);
     target.add(prediction);
-
-    fill(0, 255, 0);
-    circle(target.x, target.y, 16);
 
     return this.seek(target);
   }
 
-  evade(object) {
-    let pursuit = this.pursue(object);
+  evade(boid) {
+    let pursuit = this.pursue(boid);
     pursuit.mult(-1);
     return pursuit;
   }
