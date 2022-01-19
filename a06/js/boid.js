@@ -77,8 +77,11 @@ class Boid extends p5.Vector {
     boids.forEach(boid => {
       const difference = p5.Vector.sub(this, boid);
       const distance = dist(this.x, this.y, this.z, boid.x, boid.y, boid.z);
-      difference.div(distance);
-      steeringForce.add(difference);
+
+      if (distance != 0) {
+        difference.div(distance);
+        steeringForce.add(difference);
+      }
     });
 
     steeringForce.div(boids.length);
@@ -102,7 +105,6 @@ class Boid extends p5.Vector {
   }
 
   avoidWalls(walls) {
-    //aquariumDimensions.map(([min, max], idx) => {})
     const wallVectors = [
       createVector(walls[0][0], this.y, this.z), // left
       createVector(walls[0][1], this.y, this.z), // right
