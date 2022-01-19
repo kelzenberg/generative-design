@@ -41,8 +41,7 @@ class Boid extends p5.Vector {
 
   evade(boid) {
     let pursuit = this.pursue(boid);
-    pursuit.mult(-1);
-    return pursuit;
+    this.applyForce(pursuit.mult(-1));
   }
 
   alignWith(boids) {
@@ -123,34 +122,17 @@ class Boid extends p5.Vector {
     sphere(1);
     pop();
 
-    // for (const bar of wallVectors) {
-    //   push();
-    //   translate(bar);
-    //   normalMaterial();
-    //   sphere(2);
-    //   pop();
-    // }
-
     push();
     stroke(0);
     strokeWeight(2);
     line(this.x, this.y, this.z, nearestWall.x, nearestWall.y, nearestWall.z);
     pop();
 
-    if (this.perceptionRadius / 5 < minDistance) return;
+    if (this.perceptionRadius / (this.size * 16) < minDistance) return;
 
-    // this.acceleration.add(this.reflect(nearestWall));
-
-    const steeringForce = createVector();
-    const difference = p5.Vector.sub(this, nearestWall);
-    difference.div(minDistance);
-    steeringForce.add(difference);
-
-    // steeringForce.setMag(this.maxSpeed);
-    steeringForce.sub(this.velocity);
-    steeringForce.limit(this.maxForce);
-
-    this.applyForce(steeringForce);
+    const fakeBoid = new Boid(nearestWall.x, nearestWall.y, nearestWall.z);
+    fakeBoid.velocity = createVector(0, 0, 0);
+    this.evade(fakeBoid);
   }
 
   bounceWalls(walls) {

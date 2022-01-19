@@ -74,9 +74,9 @@ function draw() {
   // shark.bounceWalls(aquariumDimensions);
   shark.update();
   shark.show();
-  boid.evade(shark);
+  // boid.evade(shark);
   boid.avoidWalls(aquariumDimensions);
-  boid.bounceWalls(aquariumDimensions);
+  // boid.bounceWalls(aquariumDimensions);
   boid.update();
   boid.show();
 
