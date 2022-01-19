@@ -3,8 +3,8 @@ class Boid extends p5.Vector {
   constructor(x, y, z) {
     super(x, y, z);
 
-    // this.velocity = p5.Vector.random3D().setMag(random(2, 4));
-    this.velocity = createVector(-1, 1, 0).setMag(random(2, 4));
+    this.velocity = p5.Vector.random3D().setMag(random(2, 4));
+    // this.velocity = createVector(-1, 1, 0).setMag(random(2, 4));
     this.acceleration = createVector(0, 0, 0);
     this.heading = createVector(1, 1, 0);
     this.maxSpeed = 0.1;
@@ -62,44 +62,41 @@ class Boid extends p5.Vector {
     return pursuit;
   }
 
-  bounceEdges() {
-    if (this.y >= height - this.size) {
-      // bottom border
-      this.y = height - this.size;
-      this.velocity.y *= -1;
-    } else if (this.y <= this.size) {
-      // top border
-      this.y = this.size;
-      this.velocity.y *= -1;
-    }
+  bounceWalls(walls) {
+    walls.map(([min, max], idx) => {
+      switch (idx) {
+        case 0: // xRange
+          if (this.x >= max) {
+            this.x = max;
+            this.velocity.x *= -1;
+          } else if (this.x <= min) {
+            this.x = min;
+            this.velocity.x *= -1;
+          }
+          break;
+        case 1: // yRange
+          if (this.y >= max) {
+            this.y = max;
+            this.velocity.y *= -1;
+          } else if (this.y <= min) {
+            this.y = min;
+            this.velocity.y *= -1;
+          }
+          break;
+        case 2: // zRange
+          if (this.z >= max) {
+            this.z = max;
+            this.velocity.x *= -1;
+          } else if (this.z <= min) {
+            this.z = min;
+            this.velocity.x *= -1;
+          }
+          break;
 
-    if (this.x >= width - this.size) {
-      // right border
-      this.x = width - this.size;
-      this.velocity.x *= -1;
-    } else if (this.x <= this.size) {
-      // left border
-      this.x = this.size;
-      this.velocity.x *= -1;
-    }
-  }
-
-  teleportEdges() {
-    if (this.y >= height + this.size) {
-      // bottom border
-      this.y = 0 - this.size;
-    } else if (this.y <= 0 - this.size) {
-      // top border
-      this.y = height + this.size;
-    }
-
-    if (this.x >= width + this.size) {
-      // right border
-      this.x = 0 - this.size;
-    } else if (this.x <= 0 - this.size) {
-      // left border
-      this.x = width + this.size;
-    }
+        default:
+          break;
+      }
+    });
   }
 
   alignWith(boids) {

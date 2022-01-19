@@ -30,7 +30,7 @@ function setup() {
   aquarium = new Aquarium();
   const convert = convert2Dto3D(aquarium.width, aquarium.height);
 
-  for (let idx = 0; idx < 2; idx++) {
+  for (let idx = 0; idx < 50; idx++) {
     const { x, y } = convert(random(aquarium.width), random(aquarium.height));
     flock.push(new Boid(x, y, random(-aquarium.depth / 2, aquarium.depth / 2)));
   }
@@ -44,23 +44,16 @@ function keyPressed() {
 // eslint-disable-next-line no-unused-vars
 function draw() {
   background(215);
+  ambientLight(255, 255, 255);
 
   if (showHelp) {
     rover.drawHelp();
   }
 
-  ambientLight(255, 255, 255);
+  const aquariumDimensions = aquarium.getDimensions();
 
-  // push();
-  // noStroke();
-  // fill(255, 0, 0);
-  // rect(0, 0, 150, 150);
-  // normalMaterial();
-  // sphere(25);
-  // pop();
-
-  const ranges = aquarium.getDimensions();
-  ranges.map(([min, max], idx) => {
+  // debug:
+  aquariumDimensions.map(([min, max], idx) => {
     push();
     normalMaterial();
     translate(idx == 0 ? min : 0, idx == 1 ? min : 0, idx == 2 ? min : 0);
@@ -76,7 +69,7 @@ function draw() {
 
   for (const boid of flock) {
     boid.flockWith(flock);
-    // boid.bounceEdges();
+    boid.bounceWalls(aquariumDimensions);
     boid.update();
     boid.show();
   }
