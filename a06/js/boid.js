@@ -38,43 +38,6 @@ class Boid extends p5.Vector {
     return pursuit;
   }
 
-  bounceWalls(walls) {
-    walls.map(([min, max], idx) => {
-      switch (idx) {
-        case 0: // xRange
-          if (this.x >= max) {
-            this.x = max;
-            this.velocity.x *= -1;
-          } else if (this.x <= min) {
-            this.x = min;
-            this.velocity.x *= -1;
-          }
-          break;
-        case 1: // yRange
-          if (this.y >= max) {
-            this.y = max;
-            this.velocity.y *= -1;
-          } else if (this.y <= min) {
-            this.y = min;
-            this.velocity.y *= -1;
-          }
-          break;
-        case 2: // zRange
-          if (this.z >= max) {
-            this.z = max;
-            this.velocity.x *= -1;
-          } else if (this.z <= min) {
-            this.z = min;
-            this.velocity.x *= -1;
-          }
-          break;
-
-        default:
-          break;
-      }
-    });
-  }
-
   alignWith(boids) {
     const steeringForce = createVector();
 
@@ -130,6 +93,43 @@ class Boid extends p5.Vector {
     this.acceleration.add(this.alignWith(closestBoids));
     this.acceleration.add(this.cohesionWith(closestBoids));
     this.acceleration.add(this.separationFrom(closestBoids));
+  }
+
+  bounceWalls(walls) {
+    walls.map(([min, max], idx) => {
+      switch (idx) {
+        case 0: // xRange
+          if (this.x >= max) {
+            this.x = max;
+            this.velocity.x *= -1;
+          } else if (this.x <= min) {
+            this.x = min;
+            this.velocity.x *= -1;
+          }
+          break;
+        case 1: // yRange
+          if (this.y >= max) {
+            this.y = max;
+            this.velocity.y *= -1;
+          } else if (this.y <= min) {
+            this.y = min;
+            this.velocity.y *= -1;
+          }
+          break;
+        case 2: // zRange
+          if (this.z >= max) {
+            this.z = max;
+            this.velocity.x *= -1;
+          } else if (this.z <= min) {
+            this.z = min;
+            this.velocity.x *= -1;
+          }
+          break;
+
+        default:
+          break;
+      }
+    });
   }
 
   update() {

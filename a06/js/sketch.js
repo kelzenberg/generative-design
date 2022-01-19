@@ -68,7 +68,7 @@ function draw() {
   });
 
   for (const boid of flock) {
-    boid.flockWith(flock);
+    // boid.flockWith(flock);
     boid.bounceWalls(aquariumDimensions);
     boid.update();
     boid.show();
