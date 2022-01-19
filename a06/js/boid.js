@@ -128,17 +128,18 @@ class Boid extends p5.Vector {
     const minDistance = Math.min(...distances);
     const nearestWall = wallVectors[distances.indexOf(minDistance)];
 
-    push();
-    translate(nearestWall);
-    normalMaterial();
-    sphere(1);
-    pop();
+    // debug:
+    // push();
+    // translate(nearestWall);
+    // normalMaterial();
+    // sphere(1);
+    // pop();
 
-    push();
-    stroke(0);
-    strokeWeight(2);
-    line(this.x, this.y, this.z, nearestWall.x, nearestWall.y, nearestWall.z);
-    pop();
+    // push();
+    // stroke(0);
+    // strokeWeight(2);
+    // line(this.x, this.y, this.z, nearestWall.x, nearestWall.y, nearestWall.z);
+    // pop();
 
     if (this.perceptionRadius / (this.size * 16) < minDistance) return;
 
