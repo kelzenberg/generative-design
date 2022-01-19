@@ -102,6 +102,57 @@ class Boid extends p5.Vector {
     this.applyForce(this.separationFrom(closestBoids));
   }
 
+  avoidWalls(walls) {
+    //aquariumDimensions.map(([min, max], idx) => {})
+    const wallVectors = [
+      createVector(walls[0][0], this.y, this.z), // left
+      createVector(walls[0][1], this.y, this.z), // right
+      createVector(this.x, walls[1][0], this.z), // top
+      createVector(this.x, walls[1][1], this.z), // bottom
+      createVector(this.x, this.y, walls[2][0]), // back
+      createVector(this.x, this.y, walls[2][1]), // front
+    ];
+
+    const distances = wallVectors.map(v => dist(this.x, this.y, this.z, v.x, v.y, v.z));
+    const minDistance = Math.min(...distances);
+    const nearestWall = wallVectors[distances.indexOf(minDistance)];
+
+    push();
+    translate(nearestWall);
+    normalMaterial();
+    sphere(1);
+    pop();
+
+    // for (const bar of wallVectors) {
+    //   push();
+    //   translate(bar);
+    //   normalMaterial();
+    //   sphere(2);
+    //   pop();
+    // }
+
+    push();
+    stroke(0);
+    strokeWeight(2);
+    line(this.x, this.y, this.z, nearestWall.x, nearestWall.y, nearestWall.z);
+    pop();
+
+    if (this.perceptionRadius / 5 < minDistance) return;
+
+    // this.acceleration.add(this.reflect(nearestWall));
+
+    const steeringForce = createVector();
+    const difference = p5.Vector.sub(this, nearestWall);
+    difference.div(minDistance);
+    steeringForce.add(difference);
+
+    // steeringForce.setMag(this.maxSpeed);
+    steeringForce.sub(this.velocity);
+    steeringForce.limit(this.maxForce);
+
+    this.applyForce(steeringForce);
+  }
+
   bounceWalls(walls) {
     const bufferToWall = 6;
 

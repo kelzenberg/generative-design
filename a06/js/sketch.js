@@ -56,7 +56,7 @@ function draw() {
   const aquariumDimensions = aquarium.getDimensions();
 
   // debug:
-  aquariumDimensions.map(([min, max], idx) => {
+  /* aquariumDimensions.map(([min, max], idx) => {
     push();
     normalMaterial();
     translate(idx == 0 ? min : 0, idx == 1 ? min : 0, idx == 2 ? min : 0);
@@ -68,12 +68,14 @@ function draw() {
     translate(idx == 0 ? max : 0, idx == 1 ? max : 0, idx == 2 ? max : 0);
     sphere(1);
     pop();
-  });
+  }); */
 
-  shark.bounceWalls(aquariumDimensions);
+  shark.avoidWalls(aquariumDimensions);
+  // shark.bounceWalls(aquariumDimensions);
   shark.update();
   shark.show();
   boid.evade(shark);
+  boid.avoidWalls(aquariumDimensions);
   boid.bounceWalls(aquariumDimensions);
   boid.update();
   boid.show();
@@ -81,6 +83,7 @@ function draw() {
   // for (const boid of flock) {
   //   // boid.flockWith(flock);
   //   boid.evade(shark);
+  //   boid.avoidWalls(aquariumDimensions);
   //   boid.bounceWalls(aquariumDimensions);
   //   boid.update();
   //   boid.show();
