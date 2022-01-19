@@ -97,9 +97,9 @@ class Boid extends p5.Vector {
 
     if (closestBoids.length <= 0) return;
 
-    this.acceleration.add(this.alignWith(closestBoids));
-    this.acceleration.add(this.cohesionWith(closestBoids));
-    this.acceleration.add(this.separationFrom(closestBoids));
+    this.applyForce(this.alignWith(closestBoids));
+    this.applyForce(this.cohesionWith(closestBoids));
+    this.applyForce(this.separationFrom(closestBoids));
   }
 
   bounceWalls(walls) {
