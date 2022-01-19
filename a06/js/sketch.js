@@ -90,6 +90,7 @@ function draw() {
     // boid.evade(shark);
     boid.avoidWalls(aquariumDimensions);
     // boid.bounceWalls(aquariumDimensions);
+    boid.resetPosition(aquarium.width, aquarium.height, aquarium.depth);
     boid.update();
     boid.show();
   }

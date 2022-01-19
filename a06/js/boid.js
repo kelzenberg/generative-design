@@ -104,6 +104,16 @@ class Boid extends p5.Vector {
     this.applyForce(this.separationFrom(closestBoids));
   }
 
+  resetPosition(width, height, depth) {
+    if (abs(this.x) > width / 2 || abs(this.y) > height / 2 || abs(this.z) > depth / 2) {
+      const { x, y, z } = createVector(0, 0, 0);
+      this.x = x;
+      this.y = y;
+      this.z = z;
+      this.velocity = p5.Vector.random3D().setMag(random(2, 4));
+    }
+  }
+
   avoidWalls(walls) {
     const wallVectors = [
       createVector(walls[0][0], this.y, this.z), // left
