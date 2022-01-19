@@ -36,6 +36,7 @@ function setup() {
   }
 
   shark = new Boid(0, 0, 0, color(20));
+  boid = new Boid(10, 0, -10);
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -69,14 +70,21 @@ function draw() {
     pop();
   });
 
+  shark.bounceWalls(aquariumDimensions);
+  shark.update();
   shark.show();
+  boid.evade(shark);
+  boid.bounceWalls(aquariumDimensions);
+  boid.update();
+  boid.show();
 
-  for (const boid of flock) {
-    // boid.flockWith(flock);
-    boid.bounceWalls(aquariumDimensions);
-    boid.update();
-    boid.show();
-  }
+  // for (const boid of flock) {
+  //   // boid.flockWith(flock);
+  //   boid.evade(shark);
+  //   boid.bounceWalls(aquariumDimensions);
+  //   boid.update();
+  //   boid.show();
+  // }
 
   aquarium.show();
 }
