@@ -59,9 +59,24 @@ function draw() {
   // sphere(25);
   // pop();
 
+  const ranges = aquarium.getDimensions();
+  ranges.map(([min, max], idx) => {
+    push();
+    normalMaterial();
+    translate(idx == 0 ? min : 0, idx == 1 ? min : 0, idx == 2 ? min : 0);
+    sphere(1);
+    pop();
+
+    push();
+    normalMaterial();
+    translate(idx == 0 ? max : 0, idx == 1 ? max : 0, idx == 2 ? max : 0);
+    sphere(1);
+    pop();
+  });
+
   for (const boid of flock) {
     boid.flockWith(flock);
-    // boid.teleportEdges();
+    // boid.bounceEdges();
     boid.update();
     boid.show();
   }
