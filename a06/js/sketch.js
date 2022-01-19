@@ -1,7 +1,7 @@
 let f; // textFont
 let cWidth = 500; // canvas width
 let cHeight = 500; // canvas height
-let showHelp = false;
+let showHelp = true;
 console.log('Show the help by pressing "h" on your keyboard or by setting "showHelp = true" in the console.');
 
 let rover;
@@ -25,6 +25,10 @@ function setup() {
   cHeight = windowHeight;
   createCanvas(cWidth, cHeight, WEBGL);
   textFont(f);
+  const timeoutId = setTimeout(() => {
+    showHelp = false;
+    clearTimeout(timeoutId);
+  }, 15000);
 
   rover = new Rover();
 
@@ -76,11 +80,11 @@ function draw() {
   }); */
 
   if (second() % 30 === 0) {
-    console.log('change target');
     sharkTarget = flock[floor(random(0, flock.length))];
   }
   shark.pursue(sharkTarget);
   shark.avoidWalls(aquariumDimensions);
+  shark.resetPosition(aquarium.width, aquarium.height, aquarium.depth);
   shark.update();
   shark.show();
 
