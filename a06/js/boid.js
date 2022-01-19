@@ -7,7 +7,7 @@ class Boid extends p5.Vector {
     // this.velocity = createVector(-1, 1, 0).setMag(random(2, 4));
     this.acceleration = createVector(0, 0, 0);
     this.heading = createVector(1, 1, 0);
-    this.maxSpeed = 0.1;
+    this.maxSpeed = 4;
     this.maxForce = 0.2; // limits magnitude of steering
     this.size = 4;
     this.theta = PI / 2;
