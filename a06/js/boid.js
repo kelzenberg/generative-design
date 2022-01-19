@@ -5,41 +5,35 @@ class Boid extends p5.Vector {
 
     this.velocity = p5.Vector.random3D().setMag(random(2, 4));
     this.acceleration = createVector(0, 0, 0);
-    this.heading = createVector(1, 1, 0);
-    this.maxSpeed = 0.5;
+    this.direction = createVector(0, 0, 0);
+    this.heading = createVector(-1, 0, 0);
+    this.maxSpeed = 0.05;
     this.maxForce = 0.2; // limits magnitude of steering
     this.size = 0.5; // default: 1
     this.theta = PI / 2;
     this.lookAhead = 20;
     this.perceptionRadius = 25;
     this.color = colour;
-    this.previousRotation = [0, 0, 0];
   }
 
   applyForce(force) {
     this.acceleration.add(force);
   }
 
-  seek(target) {
-    const force = p5.Vector.sub(target, this);
-    force.setMag(this.maxSpeed);
-    force.sub(this.velocity);
-    force.limit(this.maxForce);
-    return force;
-  }
-
   pursue(boid) {
     const target = boid.copy();
-    const prediction = boid.velocity.copy();
-    prediction.mult(16);
+    const prediction = boid.velocity.copy().mult(16);
     target.add(prediction);
 
-    return this.seek(target);
+    const difference = p5.Vector.sub(target, this);
+    difference.setMag(this.maxSpeed);
+    difference.sub(this.velocity);
+    difference.limit(this.maxForce);
+    return difference;
   }
 
   evade(boid) {
-    let pursuit = this.pursue(boid);
-    return pursuit.mult(-1);
+    return this.pursue(boid).mult(-1);
   }
 
   alignWith(boids) {
@@ -120,16 +114,40 @@ class Boid extends p5.Vector {
       createVector(this.x, this.y, walls[2][1]), // front
     ];
 
-    const distances = wallVectors.map(v => dist(this.x, this.y, this.z, v.x, v.y, v.z));
+    const distances = wallVectors.map(wall => dist(this.x, this.y, this.z, wall.x, wall.y, wall.z));
     const minDistance = Math.min(...distances);
     const nearestWall = wallVectors[distances.indexOf(minDistance)];
 
-    if (this.perceptionRadius / (this.size * 16) < minDistance) return;
+    push();
+    stroke(0);
+    strokeWeight(5);
+    line(this.x, this.y, this.z, nearestWall.x, nearestWall.y, nearestWall.z);
+
+    noStroke();
+    translate(nearestWall.x, nearestWall.y, nearestWall.z);
+    normalMaterial();
+    sphere(1);
+    pop();
 
     const fakeBoid = new Boid(nearestWall.x, nearestWall.y, nearestWall.z);
     fakeBoid.velocity = createVector(0, 0, 0);
+    const evadeForce = this.evade(fakeBoid);
 
-    this.applyForce(this.evade(fakeBoid));
+    const foo = p5.Vector.sub(nearestWall, evadeForce).add(nearestWall);
+
+    push();
+    stroke(0, 255, 0);
+    strokeWeight(5);
+    line(nearestWall.x, nearestWall.y, nearestWall.z, foo.x, foo.y, foo.z);
+
+    noStroke();
+    translate(foo.x, foo.y, foo.z);
+    fill(0, 255, 0);
+    // sphere(1);
+    pop();
+
+    if (this.perceptionRadius / (this.size * 16) < minDistance) return;
+    this.applyForce(evadeForce);
   }
 
   resetPosition(width, height, depth) {
@@ -143,40 +161,56 @@ class Boid extends p5.Vector {
   }
 
   update() {
+    const oldPosition = this.copy();
+    this.add(this.velocity);
+
+    this.direction = p5.Vector.sub(this, oldPosition);
+    const dirLocal = this.direction.copy().mult(500).add(this);
+
+    push();
+    stroke(0, 200, 255);
+    strokeWeight(12);
+    line(this.x, this.y, this.z, dirLocal.x, dirLocal.y, dirLocal.z);
+
+    noStroke();
+    translate(dirLocal.x, dirLocal.y, dirLocal.z);
+    fill(0, 200, 255);
+    sphere(1);
+    pop();
+
     this.velocity.add(this.acceleration);
     this.velocity.limit(this.maxSpeed);
-    this.add(this.velocity);
     this.acceleration.set(0, 0, 0);
   }
 
   // credit to my brother Gerrit Ansorge because I have no clue about 3D heading calculations
-  getHeadingDirection() {
-    const { x: vx, y: vy, z: vz } = this.velocity;
-    const { x: kx, y: ky, z: kz } = this.heading;
+  rotateToHeading() {
+    const { x: dx, y: dy, z: dz } = this.direction;
+    const { x: hx, y: hy, z: hz } = this.heading;
 
-    angleMode(DEGREES);
-    const axOver = vy * ky + vz * kz;
-    const axUnder = sqrt(sq(vy) + sq(vz)) * sqrt(sq(ky) + sq(kz));
-    const ax = acos(axOver / axUnder);
+    const axOver = dy * hy + dz * hz;
+    const axUnder = sqrt(sq(dy) + sq(dz)) * sqrt(sq(hy) + sq(hz));
+    const ax = axUnder === 0 ? 0 : acos(axOver / axUnder);
 
-    const ayOver = vx * kx + vz * kz;
-    const ayUnder = sqrt(sq(vx) + sq(vz)) * sqrt(sq(kx) + sq(kz));
-    const ay = acos(ayOver / ayUnder);
+    const ayOver = dx * hx + dz * hz;
+    const ayUnder = sqrt(sq(dx) + sq(dz)) * sqrt(sq(hx) + sq(hz));
+    const ay = ayUnder === 0 ? 0 : acos(ayOver / ayUnder);
 
-    const azOver = vx * kx + vy * ky;
-    const azUnder = sqrt(sq(vx) + sq(vy)) * sqrt(sq(kx) + sq(ky));
-    const az = acos(azOver / azUnder);
+    const azOver = dx * hx + dy * hy;
+    const azUnder = sqrt(sq(dx) + sq(dy)) * sqrt(sq(hx) + sq(hy));
+    const az = azUnder === 0 ? 0 : acos(azOver / azUnder);
 
-    const rx = ky * vz - kz * vy;
-    const ry = kz * vx - kx * vz;
-    const rz = kx * vy - ky * vx;
+    const rx = hy * dz - hz * dy;
+    const ry = hz * dx - hx * dz;
+    const rz = hx * dy - hy * dx;
 
-    const xRadian = rx >= 0 ? -ax : ax;
-    const yRadian = ry >= 0 ? -ay : ay;
-    const zRadian = rz >= 0 ? -az : az;
+    const xRadian = rx <= 0 ? ax * -1 : ax;
+    const yRadian = ry <= 0 ? ay * -1 : ay;
+    const zRadian = rz <= 0 ? az * -1 : az;
 
-    angleMode(RADIANS);
-    return { xRadian, yRadian, zRadian };
+    rotate(xRadian, [1, 0, 0]);
+    rotate(yRadian, [0, 1, 0]);
+    rotate(zRadian, [0, 0, 1]);
   }
 
   show() {
@@ -185,11 +219,32 @@ class Boid extends p5.Vector {
 
     translate(this.x, this.y, this.z);
 
-    const { xRadian, yRadian, zRadian } = this.getHeadingDirection();
+    this.rotateToHeading();
 
-    rotate(radians(xRadian), [1, 0, 0]);
-    rotate(radians(yRadian), [0, 1, 0]);
-    rotate(radians(zRadian), [0, 0, 1]);
+    // rotate(radians(45), [0, 0, 1]);
+    // rotate(radians(180), [0, 1, 0]);
+
+    const xAxis = createVector(10, 0, 0);
+    const yAxis = createVector(0, 10, 0);
+    const zAxis = createVector(0, 0, 10);
+
+    push();
+    strokeWeight(10);
+    stroke(255, 0, 0); // red = x
+    line(0, 0, 0, xAxis.x, xAxis.y, xAxis.z);
+    stroke(0, 255, 0); // green = y
+    line(0, 0, 0, yAxis.x, yAxis.y, yAxis.z);
+    stroke(0, 0, 255); // blue = z
+    line(0, 0, 0, zAxis.x, zAxis.y, zAxis.z);
+    pop();
+
+    push();
+    rotateZ(-millis() / 1000);
+    noFill();
+    stroke(255);
+    strokeWeight(5);
+    box(5, 5, 5);
+    pop();
 
     const isShark = this.color.levels.join(',') == color(20).levels.join(',');
     scale(isShark ? this.size * 2 : this.size);

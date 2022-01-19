@@ -34,13 +34,15 @@ class Rover {
       active: true,
       enableControl: true,
       // position: [0, -130, 130], // ➡️ ⬇️ ⤵️
-      position: [-180, -120, 125], // ➡️ ⬇️ ⤵️
+      // position: [-180, -120, 125], // ➡️ ⬇️ ⤵️
       // position: [-144, -19, 97], // ➡️ ⬇️ ⤵️
       // position: [-31, -13, -15], // ➡️ ⬇️ ⤵️
+      position: [5, 2, 16], // ➡️ ⬇️ ⤵️
       // rotation: [radians(-90), radians(45), 0], // pan, tilt, undefined
-      rotation: [radians(-30), radians(35), 0], // pan, tilt, undefined
+      // rotation: [radians(-30), radians(35), 0], // pan, tilt, undefined
       // rotation: [radians(-39), radians(15), 0], // pan, tilt, undefined
       // rotation: [radians(15), radians(15), 0], // pan, tilt, undefined
+      rotation: [radians(257), radians(3.5), 0], // pan, tilt, undefined
       // offset: [0, 0], // height, rotational
       fov: 1.5, // default: 1
       speed: 0.5,
@@ -53,6 +55,20 @@ class Rover {
   }
 
   drawHelp() {
+    const xAxis = createVector(2, 0, 0);
+    const yAxis = createVector(0, 2, 0);
+    const zAxis = createVector(0, 0, 2);
+
+    push();
+    strokeWeight(10);
+    stroke(255, 0, 0); // red = x
+    line(0, 0, 0, xAxis.x, xAxis.y, xAxis.z);
+    stroke(0, 255, 0); // green = y
+    line(0, 0, 0, yAxis.x, yAxis.y, yAxis.z);
+    stroke(0, 0, 255); // blue = z
+    line(0, 0, 0, zAxis.x, zAxis.y, zAxis.z);
+    pop();
+
     push();
 
     // taken & modified from https://editor.p5js.org/jwdunn1/sketches/iI-2XX0Hw

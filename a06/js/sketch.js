@@ -26,7 +26,7 @@ function setup() {
   createCanvas(cWidth, cHeight, WEBGL);
   textFont(f);
   const timeoutId = setTimeout(() => {
-    showHelp = false;
+    // showHelp = false;
     clearTimeout(timeoutId);
   }, 15000);
 
@@ -35,7 +35,7 @@ function setup() {
   aquarium = new Aquarium();
   const convertPosition = convertTo3D(aquarium.width, aquarium.height, aquarium.depth);
 
-  for (let idx = 0; idx < 100; idx++) {
+  for (let idx = 0; idx < 10; idx++) {
     const { x, z } = convertPosition(
       random(aquarium.width - 30),
       random(aquarium.height - 30),
@@ -44,7 +44,7 @@ function setup() {
     flock.push(new Boid(x, random(-30, 40), z));
   }
 
-  shark = new Boid(0, 0, 0, color(20));
+  shark = new Boid(0, 10, 0, color(20));
   sharkTarget = flock[floor(random(0, flock.length))];
 }
 
@@ -64,23 +64,23 @@ function draw() {
 
   const aquariumDimensions = aquarium.getDimensions();
 
-  if (second() % 30 === 0) {
-    sharkTarget = flock[floor(random(0, flock.length))];
-  }
-  shark.pursue(sharkTarget);
+  // if (second() % 30 === 0) {
+  //   sharkTarget = flock[floor(random(0, flock.length))];
+  // }
+  // shark.pursue(sharkTarget);
   shark.avoidWalls(aquariumDimensions);
-  shark.resetPosition(aquarium.width, aquarium.height, aquarium.depth);
+  // shark.resetPosition(aquarium.width, aquarium.height, aquarium.depth);
   shark.update();
   shark.show();
 
-  for (const boid of flock) {
-    boid.avoidBoid(shark);
-    boid.flockWith(flock);
-    boid.avoidWalls(aquariumDimensions);
-    boid.resetPosition(aquarium.width, aquarium.height, aquarium.depth);
-    boid.update();
-    boid.show();
-  }
+  // for (const boid of flock) {
+  //   boid.avoidBoid(shark);
+  //   boid.flockWith(flock);
+  //   boid.avoidWalls(aquariumDimensions);
+  //   boid.resetPosition(aquarium.width, aquarium.height, aquarium.depth);
+  //   boid.update();
+  //   boid.show();
+  // }
 
   aquarium.show();
 }
