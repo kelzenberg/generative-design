@@ -30,12 +30,10 @@ function setup() {
   aquarium = new Aquarium();
   const convert = convert2Dto3D(aquarium.width, aquarium.height);
 
-  // for (let idx = 0; idx < 2; idx++) {
-  //   const { x, y } = convert(random(aquarium.width), random(aquarium.height));
-  //   flock.push(new Boid(x, y, random(-aquarium.depth / 2, aquarium.depth / 2)));
-  // }
-
-  boid = new Boid(-125, -10, 85);
+  for (let idx = 0; idx < 2; idx++) {
+    const { x, y } = convert(random(aquarium.width), random(aquarium.height));
+    flock.push(new Boid(x, y, random(-aquarium.depth / 2, aquarium.depth / 2)));
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -69,9 +67,6 @@ function draw() {
     boid.update();
     boid.show();
   }
-
-  // boid.update();
-  boid.show();
 }
 
 // eslint-disable-next-line no-unused-vars
