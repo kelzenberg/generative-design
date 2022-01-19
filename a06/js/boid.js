@@ -20,9 +20,9 @@ class Boid extends p5.Vector {
     this.acceleration.add(force);
   }
 
-  pursue(vehicle) {
-    const target = vehicle.copy();
-    const prediction = vehicle.velocity.copy();
+  pursue(object) {
+    const target = object.copy();
+    const prediction = object.velocity.copy();
     prediction.mult(16);
     target.add(prediction);
 
@@ -32,8 +32,8 @@ class Boid extends p5.Vector {
     return this.seek(target);
   }
 
-  evade(vehicle) {
-    let pursuit = this.pursue(vehicle);
+  evade(object) {
+    let pursuit = this.pursue(object);
     pursuit.mult(-1);
     return pursuit;
   }
