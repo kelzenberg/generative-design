@@ -9,7 +9,7 @@ class Boid extends p5.Vector {
     this.heading = createVector(1, 1, 0);
     this.maxSpeed = 0.5;
     this.maxForce = 0.2; // limits magnitude of steering
-    this.size = 4;
+    this.size = 0.5; // default: 1
     this.theta = PI / 2;
     this.lookAhead = 20;
     this.perceptionRadius = 50;
@@ -202,22 +202,16 @@ class Boid extends p5.Vector {
   show() {
     push();
     fill(this.color);
+
     translate(this.x, this.y, this.z);
-
-    // sphere(0.1);
-    // stroke(0);
-    // strokeWeight(3);
-    // line(0, 0, 0, this.heading.x, this.heading.y, this.heading.z);
-
-    // translate(this.heading);
-    // sphere(0.1);
-
     rotate(radians(45), [0, 0, 1]);
     rotate(radians(180), [0, 1, 0]);
 
+    scale(this.size);
+
     // body
     push();
-    ellipsoid(this.size * 2, this.size / 2, this.size / 2);
+    ellipsoid(8, 2, 2);
     pop();
 
     const isShark = this.color.levels.join(',') == color(20).levels.join(',');
@@ -240,7 +234,7 @@ class Boid extends p5.Vector {
     fill(lerpColor(this.color, color(255), 0.5));
     translate(-2, 0, 2);
     rotate(radians(60), [0, 1, 0]);
-    ellipsoid(this.size / 6, this.size / 10, this.size);
+    ellipsoid(0.66, 0.4, 4);
     pop();
 
     // fin right
@@ -248,7 +242,7 @@ class Boid extends p5.Vector {
     fill(lerpColor(this.color, color(255), 0.5));
     translate(-2, 0, -2);
     rotate(radians(-60), [0, 1, 0]);
-    ellipsoid(this.size / 6, this.size / 10, this.size);
+    ellipsoid(0.66, 0.4, 4);
     pop();
 
     // fin top
@@ -257,7 +251,7 @@ class Boid extends p5.Vector {
     translate(0, -1, 0);
     rotate(radians(90), [1, 0, 0]);
     rotate(radians(70), [0, 1, 0]);
-    ellipsoid(this.size / 3, this.size / 10, this.size);
+    ellipsoid(1.33, 0.4, 4);
     pop();
 
     // back fin top
@@ -266,7 +260,7 @@ class Boid extends p5.Vector {
     translate(8, -1, 0);
     rotate(radians(90), [1, 0, 0]);
     rotate(radians(30), [0, 1, 0]);
-    ellipsoid(this.size / 5, this.size / 10, this.size / 2);
+    ellipsoid(0.8, 0.4, 2);
     pop();
 
     // back fin bottom
@@ -275,7 +269,7 @@ class Boid extends p5.Vector {
     translate(8, 1, 0);
     rotate(radians(-90), [1, 0, 0]);
     rotate(radians(30), [0, 1, 0]);
-    ellipsoid(this.size / 5, this.size / 10, this.size / 2);
+    ellipsoid(0.8, 0.4, 2);
     pop();
 
     pop();
