@@ -14,6 +14,7 @@ class Boid extends p5.Vector {
     this.lookAhead = 20;
     this.perceptionRadius = 25;
     this.color = colour;
+    this.previousRotation = [0, 0, 0];
   }
 
   applyForce(force) {
@@ -156,10 +157,37 @@ class Boid extends p5.Vector {
   }
 
   update() {
-    this.add(this.velocity);
     this.velocity.add(this.acceleration);
     this.velocity.limit(this.maxSpeed);
+    this.add(this.velocity);
     this.acceleration.set(0, 0, 0);
+  }
+
+  getHeadingDirection() {
+    const { x: vx, y: vy, z: vz } = this.velocity;
+    const { x: kx, y: ky, z: kz } = this.heading;
+
+    const axOver = vy * ky + vz * kz;
+    const axUnder = sqrt(sq(vy) + sq(vz)) * sqrt(sq(ky) + sq(kz));
+    const ax = acos(axOver / axUnder);
+
+    const ayOver = vx * kx + vz * kz;
+    const ayUnder = sqrt(sq(vx) + sq(vz)) * sqrt(sq(kx) + sq(kz));
+    const ay = acos(ayOver / ayUnder);
+
+    const azOver = vx * kx + vy * ky;
+    const azUnder = sqrt(sq(vx) + sq(vy)) * sqrt(sq(kx) + sq(ky));
+    const az = acos(azOver / azUnder);
+
+    const rx = ky * vz - kz * vy;
+    const ry = kz * vx - kx * vz;
+    const rz = kx * vy - ky * vx;
+
+    const xRadian = rx >= 0 ? -ax : ax;
+    const yRadian = ry >= 0 ? -ay : ay;
+    const zRadian = rz >= 0 ? -az : az;
+
+    return { xRadian, yRadian, zRadian };
   }
 
   show() {
@@ -167,6 +195,13 @@ class Boid extends p5.Vector {
     fill(this.color);
 
     translate(this.x, this.y, this.z);
+
+    const { xRadian, yRadian, zRadian } = this.getHeadingDirection();
+
+    rotate(radians(xRadian), [1, 0, 0]);
+    rotate(radians(yRadian), [0, 1, 0]);
+    rotate(radians(zRadian), [0, 0, 1]);
+
     rotate(radians(45), [0, 0, 1]);
     rotate(radians(180), [0, 1, 0]);
 
