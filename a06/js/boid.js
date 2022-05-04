@@ -220,6 +220,7 @@ class Boid extends p5.Vector {
     translate(this.x, this.y, this.z);
 
     this.rotateToHeading();
+    // TODO: only rotation on Z-axis
 
     // rotate(radians(45), [0, 0, 1]);
     // rotate(radians(180), [0, 1, 0]);
